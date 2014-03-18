@@ -1,0 +1,17 @@
+<!DOCTYPE TRACLabsControllers [ 
+    <!ELEMENT TRACLabsControllers (SerialPort?,Controller+)>
+    <!ELEMENT SerialPort EMPTY>
+    <!ATTLIST SerialPort port CDATA #REQUIRED>
+    <!ATTLIST SerialPort baud CDATA "9600">
+    <!ATTLIST SerialPort stopBits CDATA "1">
+    <!ATTLIST SerialPort parity (noParity|evenParity|oddParity) "noParity">
+    <!ELEMENT Controller (SerialPort?, Axis+)>
+    <!ATTLIST Controller busAddress CDATA "0">
+    <!ELEMENT Axis (Motor,Encoder,Homing,Profile?,ServoFilter?)>
+    <!ATTLIST Axis axisID CDATA "0">
+    <!ELEMENT Motor EMPTY>
+    <!ATTLIST Motor ampType  (PWMSignMag | PWM5050) "PWMSignMag"
+                    hasBrake (false|true) "false">
+                    motorType (brushed,brushless) "brushed"
+                    poleCount CDATA "3">
+]>

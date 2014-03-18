@@ -1,0 +1,202 @@
+#ifndef PMD_OPCodes
+#define PMD_OPCodes
+
+//  Navigator command code declarations
+//
+//  Performance Motion Devices, Inc.
+//
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+enum {
+
+	PMDOPNoOperation=				0x00,
+	PMDOPSetMotorLimit=				0x06,
+	PMDOPGetMotorLimit=				0x07,
+	PMDOPSetMotorBias=				0x0F,
+
+	PMDOPSetPosition=				0x10,
+	PMDOPSetVelocity=				0x11,
+	PMDOPSetJerk=					0x13,
+	PMDOPSetGearRatio=				0x14,
+	PMDOPUpdate=					0x1A,
+	PMDOPGetCommandedPosition=		0x1D,
+	PMDOPGetCommandedVelocity=		0x1E,
+
+	PMDOPSetKp=						0x25,
+	PMDOPSetKi=						0x26,
+	PMDOPSetKd=						0x27,
+	PMDOPSetKvff=					0x2B,
+	PMDOPGetPhaseAngle=				0x2C,
+	PMDOPGetMotorBias=				0x2D,
+	PMDOPSetInterruptMask=			0x2F,
+
+	PMDOPGetEventStatus=			0x31,
+	PMDOPResetEventStatus=			0x34,
+	PMDOPGetCaptureValue=			0x36,
+	PMDOPGetActualPosition=			0x37,
+	PMDOPSetSampleTime=				0x38,
+	PMDOPReset=						0x39,
+	PMDOPGetCurrentMotorCommand=	0x3A,
+	PMDOPGetTime=					0x3E,
+
+	PMDOPClearPositionError=		0x47,
+	PMDOPGetPosition=				0x4A,
+	PMDOPGetVelocity=				0x4B,
+	PMDOPGetAcceleration=			0x4C,
+	PMDOPSetActualPosition=			0x4D,
+
+	PMDOPGetKp=						0x50,
+	PMDOPGetKi=						0x51,
+	PMDOPGetKd=						0x52,
+	PMDOPGetKvff=					0x54,
+	PMDOPGetInterruptMask=			0x56,
+	PMDOPGetJerk=					0x58,
+	PMDOPGetGearRatio=				0x59,
+	PMDOPMultiUpdate=				0x5B,
+
+	PMDOPGetSampleTime=				0x61,
+	PMDOPGetMotorCommand=			0x69,
+	PMDOPSetStartVelocity=			0x6A,
+	PMDOPGetStartVelocity=			0x6B,
+	PMDOPGetOutputMode=				0x6E,
+
+	PMDOPSetPhaseInitializeTime=	0x72,
+	PMDOPSetPhaseCounts=			0x75,
+	PMDOPSetPhaseOffset=			0x76,
+	PMDOPSetMotorCommand=			0x77,
+	PMDOPInitializePhase=			0x7A,
+	PMDOPGetPhaseOffset=			0x7B,
+	PMDOPGetPhaseInitializeTime=	0x7C,
+	PMDOPGetPhaseCounts=			0x7D,
+
+	PMDOPSetLimitSwitchMode=		0x80,
+	PMDOPGetLimitSwitchMode=		0x81,
+	PMDOPWriteIO=					0x82,
+	PMDOPReadIO=					0x83,
+	PMDOPSetPhaseAngle=				0x84,
+	PMDOPSetNumberPhases=			0x85,
+	PMDOPGetNumberPhases=			0x86,
+	PMDOPSetAxisMode=				0x87,
+	PMDOPGetAxisMode=				0x88,
+	PMDOPSetDiagnosticPortMode=		0x89,
+	PMDOPGetDiagnosticPortMode=		0x8A,
+	PMDOPSetSerialPortMode=			0x8B,
+	PMDOPGetSerialPortMode=			0x8C,
+	PMDOPSetEncoderModulus=			0x8D,
+	PMDOPGetEncoderModulus=			0x8E,
+	PMDOPGetVersion=				0x8F,
+
+	PMDOPSetAcceleration=			0x90,
+	PMDOPSetDeceleration=			0x91,
+	PMDOPGetDeceleration=			0x92,
+	PMDOPSetKaff=					0x93,
+	PMDOPGetKaff=					0x94,
+	PMDOPSetIntegrationLimit=		0x95,
+	PMDOPGetIntegrationLimit=		0x96,
+	PMDOPSetPositionErrorLimit=		0x97,
+	PMDOPGetPositionErrorLimit=		0x98,
+	PMDOPGetPositionError=			0x99,
+	PMDOPGetIntegral=				0x9A,
+	PMDOPGetDerivative=				0x9B,
+	PMDOPSetDerivativeTime=			0x9C,
+	PMDOPGetDerivativeTime=			0x9D,
+	PMDOPSetKout=					0x9E,
+	PMDOPGetKout=					0x9F,
+
+	PMDOPSetProfileMode=			0xA0,
+	PMDOPGetProfileMode=			0xA1,
+	PMDOPSetSignalSense=			0xA2,
+	PMDOPGetSignalSense=			0xA3,
+	PMDOPGetSignalStatus=			0xA4,
+	PMDOPGetHostIOError=			0xA5,
+	PMDOPGetActivityStatus=			0xA6,
+	PMDOPGetCommandedAcceleration=	0xA7,
+	PMDOPSetTrackingWindow=			0xA8,
+	PMDOPGetTrackingWindow=			0xA9,
+	PMDOPSetSettleTime=				0xAA,
+	PMDOPGetSettleTime=				0xAB,
+	PMDOPClearInterrupt=			0xAC,
+	PMDOPGetActualVelocity=			0xAD,
+	PMDOPSetGearMaster=				0xAE,
+	PMDOPGetGearMaster=				0xAF,
+
+	PMDOPSetTraceMode=				0xB0,
+	PMDOPGetTraceMode=				0xB1,
+	PMDOPSetTraceStart=				0xB2,
+	PMDOPGetTraceStart=				0xB3,
+	PMDOPSetTraceStop=				0xB4,
+	PMDOPGetTraceStop=				0xB5,
+	PMDOPSetTraceVariable=			0xB6,
+	PMDOPGetTraceVariable=			0xB7,
+	PMDOPSetTracePeriod=			0xB8,
+	PMDOPGetTracePeriod=			0xB9,
+	PMDOPGetTraceStatus=			0xBA,
+	PMDOPGetTraceCount=				0xBB,
+	PMDOPSetSettleWindow=			0xBC,
+	PMDOPGetSettleWindow=			0xBD,
+	PMDOPSetActualPositionUnits=	0xBE,
+	PMDOPGetActualPositionUnits=	0xBF,
+
+	PMDOPSetBufferStart=			0xC0,
+	PMDOPGetBufferStart=			0xC1,
+	PMDOPSetBufferLength=			0xC2,
+	PMDOPGetBufferLength=			0xC3,
+	PMDOPSetBufferWriteIndex=		0xC4,
+	PMDOPGetBufferWriteIndex=		0xC5,
+	PMDOPSetBufferReadIndex=		0xC6,
+	PMDOPGetBufferReadIndex=		0xC7,
+	PMDOPWriteBuffer=				0xC8,
+	PMDOPReadBuffer=				0xC9,
+	PMDOPSetBufferFunction=			0xCA,
+	PMDOPGetBufferFunction=			0xCB,
+	PMDOPGetStepRange=				0xCE,
+	PMDOPSetStepRange=				0xCF,
+
+	PMDOPSetStopMode=				0xD0,
+	PMDOPGetStopMode=				0xD1,
+	PMDOPSetAutoStopMode=			0xD2,
+	PMDOPGetAutoStopMode=			0xD3,
+	PMDOPSetBreakpoint=				0xD4,
+	PMDOPGetBreakpoint=				0xD5,
+	PMDOPSetBreakpointValue=		0xD6,
+	PMDOPGetBreakpointValue=		0xD7,
+	PMDOPSetCaptureSource=			0xD8,
+	PMDOPGetCaptureSource=			0xD9,
+	PMDOPSetEncoderSource=			0xDA,
+	PMDOPGetEncoderSource=			0xDB,
+	PMDOPSetMotorMode=				0xDC,
+	PMDOPGetMotorMode=				0xDD,
+	PMDOPSetEncoderToStepRatio=		0xDE,
+	PMDOPGetEncoderToStepRatio=		0xDF,
+
+	PMDOPSetOutputMode=				0xE0,
+	PMDOPGetInterruptAxis=			0xE1,
+	PMDOPSetCommutationMode=		0xE2,
+	PMDOPGetCommutationMode=		0xE3,
+	PMDOPSetPhaseInitializeMode=	0xE4,
+	PMDOPGetPhaseInitializeMode=	0xE5,
+	PMDOPSetPhasePrescale=			0xE6,
+	PMDOPGetPhasePrescale=			0xE7,
+	PMDOPSetPhaseCorrectionMode=	0xE8,
+	PMDOPGetPhaseCorrectionMode=	0xE9,
+	PMDOPGetPhaseCommand=			0xEA,
+	PMDOPSetMotionCompleteMode=		0xEB,
+	PMDOPGetMotionCompleteMode=		0xEC,
+	PMDOPSetAxisOutSource=			0xED,
+	PMDOPGetAxisOutSource=			0xEE,
+	PMDOPReadAnalog=				0xEF,
+
+	PMDOPAdjustActualPosition=		0xF5,
+	PMDOPGetChecksum=				0xF8
+
+};
+
+#if defined(__cplusplus)
+}
+#endif
+
+#endif
+
