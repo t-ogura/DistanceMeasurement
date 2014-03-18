@@ -4,10 +4,12 @@ View::View(std::string windowName, int windowPlace_x, int windowPlace_y){
 	this->myWindowName = windowName;
 	cv::namedWindow(this->myWindowName);
 	cv::moveWindow(this->myWindowName, windowPlace_x, windowPlace_y);
-	cv::setMouseCallback(this->myWindowName,onMouse);
+	cv::setMouseCallback(this->myWindowName,this->onMouse);
 }
 
-void onMouse(int event, int x, int y, int flags){
+View::~View(){}
+
+void View::onMouse(int event, int x, int y, int flags, void* param){
 	if (event == CV_EVENT_MOUSEMOVE){
 
 	}

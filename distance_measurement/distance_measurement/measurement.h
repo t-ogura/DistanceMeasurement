@@ -18,6 +18,7 @@ public:
 	void tracking(const char* biclopsConfigFilePath);
 	void threadTracking(const char* biclopsConfigFilePath);
 	void measure();
+	void threadTrackingJoin();
 
 	Camera *camera_L;
 	Camera *camera_R;
@@ -26,17 +27,29 @@ public:
 	VCC *vcc_L;
 	VCC *vcc_R;
 
-	bool trakingLoopFlag;
+	bool trackingLoopFlag;
+	struct Distances{
+		double original;
+		double mid;
+		double theta;
+		double kf;
+	}distance;
+
+	struct PanTilt{
+		double pan;
+		double tilt;
+	};
+	PanTilt trackingAngle;
+	PanTilt angle_L;
+	PanTilt angle_R;
+
+	PanTilt angleCalculation(VCC *vcc);
 
 private:
 	double pixelSize;
 	double focalLength;
 	double baselineLength;
 
-	struct TrackingAxes{
-		double pan;
-		double tilt;
-	}trakingAxes;
 
 	void kalmanInitialize();
 	cv::KalmanFilter *KF;
@@ -44,6 +57,7 @@ private:
 	cv::Mat *KF_ProcessNoise;
 	cv::Mat_<float> *KF_Measurement;
 
+	std::thread trackingThread;
 	std::mutex mtx;
 };
 

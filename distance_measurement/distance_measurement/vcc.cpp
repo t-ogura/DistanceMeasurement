@@ -109,7 +109,7 @@ void VCC::templateMatching(){
 	unsigned short* matchingPosition;//McPs マッチング箇所
 	unsigned short inputVectorCodeSeekArea[VCC_SEEK_AREA_SIZE_X*VCC_SEEK_AREA_SIZE];//VcCdImg 領域探索用マッチング格納配列
 	unsigned short inputVectorCodeAllArea[(VCC_INPUT_IMAGE_SIZE_X - 5)*(VCC_INPUT_IMAGE_SIZE_Y - 2)];//McSt 全探索用マッチング格納配列
-	unsigned short* matchingCoordinate;//McXY マッチング座標値保存ポインタ
+	unsigned short* matchingCoordinate = nullptr;//McXY マッチング座標値保存ポインタ
 	char* correlationMap = VCC_CorrelationMap;//CrrMp 相関値計算用テーブルアクセスポインタ
 	int* matchingParameterPointer=this->matchingParameters;//MPrm パラメータアクセスポインタ
 	int correlationMinimam = 2048;//CrrMin 相関値の最小
@@ -178,7 +178,7 @@ void VCC::templateMatching(){
 						if (i<0 || VCC_DATABASE_SIZE - 1<i) continue;
 
 						unsigned short* tempMatchingPosition = inputVectorCodeSeekArea;
-						unsigned short* tempMatchingCoordinate;
+						unsigned short* tempMatchingCoordinate = nullptr;
 						tempCorrelationMinimum = 2048;
 
 						/*相関計算----------------------------------------------------------*/
@@ -220,7 +220,7 @@ void VCC::templateMatching(){
 
 
 						unsigned short* tempMatchingPosition = inputVectorCodeSeekArea;
-						unsigned short* tempMatchingCoordinate;
+						unsigned short* tempMatchingCoordinate = nullptr;
 						tempCorrelationMinimum = 2048;
 
 						/*相関計算----------------------------------------------------------*/
