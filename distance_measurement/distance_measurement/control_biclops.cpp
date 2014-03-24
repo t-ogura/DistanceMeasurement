@@ -7,7 +7,7 @@
 //---------------------------------------------------------------------------
 //コンストラクタ/////////////////////////////////////////////////////////////
 //---------------------------------------------------------------------------
-ControlBiclops::ControlBiclops(const TCHAR *p){
+ControlBiclops::ControlBiclops(const char *p){
 	//biclopsの初期化
 	this->biclops.Initialize(p);
 	this->panAxis = biclops.GetAxis(Biclops::Pan);

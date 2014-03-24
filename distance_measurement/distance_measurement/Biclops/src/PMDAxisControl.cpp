@@ -796,7 +796,7 @@ bool PMDAxisControl::FindHomeWithLimits() {
         // is surpassed so that either a hard limit is reached or the reverse
         // limit switch is reached. This is done by moving the specified 
         // range of motion PLUS twice the error limit.
-        countsProfile.pos = -(signed)rangeOfMotion - 2*homingFilter.errorLimit;
+        countsProfile.pos = -rangeOfMotion - 2*homingFilter.errorLimit;
         ifDbgCout << "Attempting to move the entire range of motion (" 
                   << countsProfile.pos
                   << ") towards the -limit in expectation of hitting the limit\n";
@@ -1530,11 +1530,11 @@ bool PMDAxisControl::ReadParameters(FILE *file, char *token) {
     do {
         if (!strcmp(token,PMDUtils::TokenUniqueID)) {
             PMDUtils::ReadToken(file,token);
-            strcpy_s(uniqueID,token);
+            strcpy(uniqueID,token);
             PMDUtils::ReadToken(file,token);
         } else if (!strcmp(token,TokenDebugLevel)) {
             PMDUtils::ReadToken(file,token);
-            if (sscanf_s(token,"%u",&uval) == 1) {
+            if (sscanf(token,"%u",&uval) == 1) {
                 SetDebugLevel(uval);
             } else tokenRecognized = false;
             PMDUtils::ReadToken(file,token);
@@ -1570,7 +1570,7 @@ bool PMDAxisControl::ReadParameters(FILE *file, char *token) {
             ReadFilter(file,token,runFilter);
         } else if (!strcmp(token,AxisToken)) {
             PMDUtils::ReadToken(file,token);
-            if (sscanf_s(token,"%u",&uval) == 1 && 
+            if (sscanf(token,"%u",&uval) == 1 && 
                 uval >= PMDAxis1 && uval <= PMDAxis4) {
                 SetAxis(uval);
                 PMDUtils::ReadToken(file,token);
@@ -1613,23 +1613,23 @@ bool PMDAxisControl::ReadAngle(FILE *file, char *token, double &angle) {
     // Get the numeric value and save it in a local buffer.
     PMDUtils::ReadToken(file,token);
     char valToken[10];
-    strcpy_s(valToken,token);
+    strcpy(valToken,token);
 
     // Get the units of measure for the angle value and convert it to revolutions.
     float fangle;
     PMDUtils::ReadToken(file,token);
     if (strcmp(token,PMDUtils::TokenDegrees) == 0) {
-        sscanf_s(valToken,"%f",&fangle);
+        sscanf(valToken,"%f",&fangle);
         angle = PMDUtils::DegsToRevs((double)fangle);
     } else if (strcmp(token,PMDUtils::TokenRadians) == 0) {
-        sscanf_s(valToken,"%f",&fangle);
+        sscanf(valToken,"%f",&fangle);
         angle = PMDUtils::RadsToRevs((double)fangle);
     } else if (strcmp(token,PMDUtils::TokenRevolutions) == 0) {
-        sscanf_s(valToken,"%f",&fangle);
+        sscanf(valToken,"%f",&fangle);
         angle = (double)fangle;
     } else if (strcmp(token,TokenCounts) == 0) {
         int countAngle;
-        sscanf_s(valToken,"%d",&countAngle);
+        sscanf(valToken,"%d",&countAngle);
         angle = CountsToUnits(countAngle);
     } else
         tokenRecognized = false;
@@ -1669,7 +1669,7 @@ void PMDAxisControl::ReadMotorParameters(FILE *file, char *token) {
         } else if (!strcmp(token,TokenPoleCount)) {
             PMDUtils::ReadToken(file,token);
             unsigned int ui;
-            tokenRecognized = sscanf_s(token,"%u",&ui) == 1;
+            tokenRecognized = sscanf(token,"%u",&ui) == 1;
             poleCount = (unsigned short) ui;
         } else if (!strcmp(token,TokenAmpType)) {
             PMDUtils::ReadToken(file,token);
@@ -1721,14 +1721,14 @@ void PMDAxisControl::ReadEncoderParameters(FILE *file, char *token) {
     do {
         if (!strcmp(token,TokenCountsPerEncoderCycle)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%lu",&countsPerEncoderCycle) == 1;
+            tokenRecognized = sscanf(token,"%lu",&countsPerEncoderCycle) == 1;
         } else if (!strcmp(token,TokenEncoderCyclesPerAxisCycle)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%f",&ftemp) == 1;
+            tokenRecognized = sscanf(token,"%f",&ftemp) == 1;
             encoderCyclesPerAxisCycle = (double)ftemp;
         } else if (!strcmp(token,TokenMotorCyclesPerEncoderCycle)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%f",&ftemp) == 1;
+            tokenRecognized = sscanf(token,"%f",&ftemp) == 1;
             motorCyclesPerEncoderCycle = (double)ftemp;
         } else tokenRecognized = false;
         if (tokenRecognized) PMDUtils::ReadToken(file,token);
@@ -1765,7 +1765,7 @@ void PMDAxisControl::ReadHomingParameters(FILE *file, char *token) {
             tokenRecognized = ReadAngle(file,token,angle);
             if (tokenRecognized) homeCountsOffset = UnitsToCounts(angle);
 //            PMDUtils::ReadToken(file,token);
-//            tokenRecognized = sscanf_s(token,"%d",&homeCountsOffset) == 1;
+//            tokenRecognized = sscanf(token,"%d",&homeCountsOffset) == 1;
         } else if (!strcmp(token,TokenRangeOfMotion)) {
             double angle; 
             tokenRecognized = ReadAngle(file,token,angle);
@@ -1838,38 +1838,38 @@ void PMDAxisControl::ReadFilter(FILE *file, char *token, ServoFilter &filter) {
     do {
         if (!strcmp(token,TokenKp)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             filter.kP = val;
         } else if (!strcmp(token,TokenKd)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             filter.kD = val;
         } else if (!strcmp(token,TokenKi)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             filter.kI = val;
         } else if (!strcmp(token,TokenKvff)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             filter.kVFF = val;
         } else if (!strcmp(token,TokenKaff)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             filter.kAFF = val;
         } else if (!strcmp(token,TokenKout)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             filter.kOut = val;
         } else if (!strcmp(token,TokenIl)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%lu",&filter.integrationLimit) == 1;
+            tokenRecognized = sscanf(token,"%lu",&filter.integrationLimit) == 1;
         } else if (!strcmp(token,TokenOl)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             filter.motorLimit = val;
         } else if (!strcmp(token,TokenBias)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             filter.motorBias = val;
         } else if (!strcmp(token,TokenElim)) {
             double elim;

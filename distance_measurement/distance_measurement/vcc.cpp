@@ -116,7 +116,7 @@ void VCC::templateMatching(){
 
 
 	/*********************しきい値以下の場合(領域探索)*******************************/
-	if (*(matchingParameterPointer + 8) < 1000){
+	if (*(matchingParameterPointer + 8) < 1000 && 0){
 		/*---------------------ベクトル符号化-------------------------------------------*/
 		input = inputImage + (*(matchingParameterPointer + 6) - VCC_SEEK_AREA_HALF_SIZE) + (*(matchingParameterPointer + 7) - VCC_SEEK_AREA_HALF_SIZE)*VCC_INPUT_IMAGE_SIZE_X;	//探索領域の先頭アドレスの入力
 		vectorCode = inputVectorCodeSeekArea;

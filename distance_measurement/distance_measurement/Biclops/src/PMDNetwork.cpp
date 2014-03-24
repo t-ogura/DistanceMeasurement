@@ -12,7 +12,7 @@ const char PMDNetwork::StopToken[] = "[/network]";
 
 //----------------------------------------------------------------------------
 PMDNetwork::PMDNetwork(const char *uniqueID, PortableSerial *comm) {
-    strcpy_s(this->uniqueID,uniqueID);
+    strcpy(this->uniqueID,uniqueID);
     this->comm = comm;
     controllers = new ControllerCollection;
     compasses = new CompassCollection;
@@ -79,17 +79,17 @@ void PMDNetwork::ReadConfig(FILE *file, char *token) {
     do {
         if (!strcmp(token,PMDUtils::TokenUniqueID)) {
             PMDUtils::ReadToken(file,token);
-            strcpy_s(uniqueID,token);
+            strcpy(uniqueID,token);
         } else if (!strcmp(token,TokenPort)) {
             PMDUtils::ReadToken(file,token);
-            strcpy_s(portName,token);
+            strcpy(portName,token);
         } else if (!strcmp(token,TokenBaud)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             baud = val;
         } else if (!strcmp(token,TokenStopBits)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             if (val == 1) stopBits = PortableSerial::OneStopBit;
             else if (val == 2) stopBits = PortableSerial::TwoStopBits;
             else tokenRecognized = false;

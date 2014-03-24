@@ -16,8 +16,8 @@ Camera::Camera(int cameraID, bool cameraIsColor){
 		this->cameraImage = cv::Mat(cv::Size(CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT), CV_8UC1);
 		cameraInitialize = EWC_Open(this->ID, CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT, CAMERA_FPS, this->ID,MEDIASUBTYPE_RGB8);
 	}
-	this->colorImage = cv::Mat(cv::Size(CAMERA_RESIZE_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT), CV_8UC3);
-	this->grayImage = cv::Mat(cv::Size(CAMERA_RESIZE_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT), CV_8UC1);
+	this->colorImage = cv::Mat(cv::Size(CAMERA_RESIZE_IMAGE_WIDTH, CAMERA_RESIZE_IMAGE_HEIGHT), CV_8UC3);
+	this->grayImage = cv::Mat(cv::Size(CAMERA_RESIZE_IMAGE_WIDTH, CAMERA_RESIZE_IMAGE_HEIGHT), CV_8UC1);
 	if (cameraInitialize){
 		std::cerr << "Camera initialization failed   ID:"<< this->ID << std::endl;
 		std::cin.get();
@@ -34,8 +34,8 @@ Camera::~Camera(){
 }
 
 void Camera::getImage(){
-	while (1){	
-		EWC_IsCaptured(this->ID);
+	while (1){
+		if (EWC_IsCaptured(this->ID))break;
 	}
 	if (this->cameraColorFlag){
 		cv::resize(this->cameraImage, this->colorImage,this->colorImage.size());

@@ -52,7 +52,7 @@ Compass::Compass(FILE *file, char *token) {
     do {
         if (!strcmp(token,PMDUtils::TokenUniqueID)) {
             PMDUtils::ReadToken(file,token);
-            strcpy_s(uniqueID,token);
+            strcpy(uniqueID,token);
         } else if (!strcmp(token,TokenController)) {
 
             // Get the name of the controller
@@ -212,7 +212,7 @@ bool Compass::QueryData(float &val1, float &val2, float &val3) {
     serial->FlushRecv();
     SendCommand("*q");
     if (!GetResponse(response)) return false;
-    sscanf_s(response,"%f,%f,%f",&val1,&val2,&val3);
+    sscanf(response,"%f,%f,%f",&val1,&val2,&val3);
     return true;
 }
 
@@ -231,7 +231,7 @@ bool Compass::QueryAveragedData(float &val1, float &val2, float &val3) {
     char response[32];
     SendCommand("*A");
     if (!GetResponse(response)) return false;
-    sscanf_s(response,"%f,%f,%f",&val1,&val2,&val3);
+    sscanf(response,"%f,%f,%f",&val1,&val2,&val3);
     return true;
 }
 
@@ -272,7 +272,7 @@ void Compass::SetUserMagneticOffset(int x, int y, int z) {
 //----------------------------------------------------------------------------
 void Compass::SetBaudRate(int baud) {
     char cmd[10];
-    sprintf_s(cmd,"#BAU=%d",baud);
+    sprintf(cmd,"#BAU=%d",baud);
     SendCommand(cmd);
 
     // The device must be reset after changing baud for the new baud to 
@@ -283,14 +283,14 @@ void Compass::SetBaudRate(int baud) {
 //----------------------------------------------------------------------------
 void Compass::SetSystemFilter(int filterValue) {
     char cmd[10];
-    sprintf_s(cmd,"#SFL=%d",filterValue);
+    sprintf(cmd,"#SFL=%d",filterValue);
     SendCommand(cmd);
 }
 
 //----------------------------------------------------------------------------
 void Compass::SetMagneticFilter(int filterValue) {
     char cmd[10];
-    sprintf_s(cmd,"#MFL=%d",filterValue);
+    sprintf(cmd,"#MFL=%d",filterValue);
     SendCommand(cmd);
 }
 
@@ -310,7 +310,7 @@ void Compass::GetConfiguration( bool &magneticOutputSentenceSelected,
     SendCommand("#CON?");
     GetResponse(response);
     int respWord;
-    sscanf_s(response,"%d",&respWord);
+    sscanf(response,"%d",&respWord);
     magneticOutputSentenceSelected  = 
         (respWord & magneticOutputSentenceSelectedMask) > 0;
     headingOutputSentenceSelected   = 

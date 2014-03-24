@@ -343,7 +343,7 @@ bool PMDUtils::ReadToken(FILE *file, char *token, bool returnComments){
                 // but I don't have time to figure it out right now (BTW).
             } else if (isspace(ch)) {
                 // Skip white space
-                fscanf_s(file," ");
+                fscanf(file," ");
             } else if (ch == '[') {
                 // Consume bracketed parameter
                 char* bptr = buf;
@@ -367,7 +367,7 @@ bool PMDUtils::ReadToken(FILE *file, char *token, bool returnComments){
         }
     }
 
-	if (gotToken) strcpy_s(token, sizeof(token) / sizeof(token[0]), buf);
+    if (gotToken) strcpy(token,buf);
     return gotToken;
 }
 
@@ -392,19 +392,19 @@ bool PMDUtils::ReadAngle(FILE *file, char *token, double &angle) {
     // Get the numeric value and save it in a local buffer.
     PMDUtils::ReadToken(file,token);
     char valToken[10];
-    strcpy_s(valToken,token);
+    strcpy(valToken,token);
 
     // Get the units of measure for the angle value and convert it to revolutions.
     float fangle;
     PMDUtils::ReadToken(file,token);
     if (strcmp(token,TokenDegrees) == 0) {
-        sscanf_s(valToken,"%f",&fangle);
+        sscanf(valToken,"%f",&fangle);
         angle = PMDUtils::DegsToRevs((double)fangle);
     } else if (strcmp(token,TokenRadians) == 0) {
-        sscanf_s(valToken,"%f",&fangle);
+        sscanf(valToken,"%f",&fangle);
         angle = PMDUtils::RadsToRevs((double)fangle);
     } else if (strcmp(token,TokenRevolutions) == 0) {
-        sscanf_s(valToken,"%f",&fangle);
+        sscanf(valToken,"%f",&fangle);
         angle = (double)fangle;
     } else
         tokenRecognized = false;
@@ -418,16 +418,16 @@ bool PMDUtils::ReadLength(FILE *file, char *token, double &length) {
     // Get the numeric value and save it in a local buffer.
     PMDUtils::ReadToken(file,token);
     char valToken[10];
-    strcpy_s(valToken,token);
+    strcpy(valToken,token);
 
     // Get the units of measure for the angle value and convert it to revolutions.
     float f;
     PMDUtils::ReadToken(file,token);
     if (strcmp(token,TokenInches) == 0) {
-        sscanf_s(valToken,"%f",&f);
+        sscanf(valToken,"%f",&f);
         length = PMDUtils::InchesToMeters((double)f);
     } else if (strcmp(token,TokenMeters) == 0) {
-        sscanf_s(valToken,"%f",&f);
+        sscanf(valToken,"%f",&f);
         length = (double)f;
     } else
         tokenRecognized = false;
@@ -458,8 +458,7 @@ bool PMDUtils::LoadConfiguration(const char *fileName) {
     bool tokenRecognized = true;
     char token[200];
 
-	FILE *file;
-	fopen_s(&file,fileName, "r");
+    FILE *file = fopen(fileName, "r");
     if (file == NULL) {
         cout << "Could not open file " << fileName << endl;
         return false;
@@ -582,7 +581,7 @@ bool PMDUtils::LoadConfiguration(const char *fileName) {
             // followed by the upper corner (most positive).
             ReadToken(file,token);
             char obstacleName[50];
-            strcpy_s(obstacleName,token);
+            strcpy(obstacleName,token);
             Vec3_t vertecies[2];
             for (int j = 0; j<2;j++) for (int i=0;i<3;i++)
                 ReadLength(file,token,vertecies[j].val[i]);
@@ -624,9 +623,9 @@ bool PMDUtils::LoadConfiguration(const char *fileName) {
 
             // Create the new file name
             char *newFileName = new char[pathEnd + strlen(token) + 1];
-			strncpy_s(newFileName, pathEnd + strlen(token) + 1, fileName, pathEnd);
+            strncpy(newFileName,fileName,pathEnd);
             newFileName[pathEnd] = 0;
-			strcat_s(newFileName, pathEnd + strlen(token) + 1, token);
+            strcat(newFileName,token);
 
             tokenRecognized = LoadConfiguration(newFileName);
 

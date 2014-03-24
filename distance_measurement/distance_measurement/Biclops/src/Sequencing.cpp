@@ -74,7 +74,7 @@ SequenceAction(FILE *file, char *token) {
     do {
         if (!strcmp(token,TokenWaitPeriod)) {
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             period = val;
         } else if (!strcmp(token,TokenCoordinated)) {
             tokenRecognized = 
@@ -120,7 +120,7 @@ SequenceAction(FILE *file, char *token) {
                 // Store the goal position for this axis.
                 double angle;
                 char axisToken[40];
-                strcpy_s(axisToken,token);
+                strcpy(axisToken,token);
                 tokenRecognized = axIt->second->ReadAngle(file,token,angle);
                 if (tokenRecognized) coordinates[axisToken] = angle;
 
@@ -241,11 +241,11 @@ Sequence(FILE *file, char *token) {
     do {
         if (!strcmp(token,PMDUtils::TokenUniqueID)) {
             PMDUtils::ReadToken(file,token);
-            strcpy_s(uniqueID,token);
+            strcpy(uniqueID,token);
         } else if (!strcmp(token,SequenceAction::TokenPause)) {
             // Get the pause duration and create the action.
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             action = new SequenceAction(val);
             sequence.push_back(action);
         } else if (!strcmp(token,SequenceAction::TokenHome)) {
@@ -263,7 +263,7 @@ Sequence(FILE *file, char *token) {
             PMDUtils::ReadToken(file,token);
             Sequence *repeatSequence = (*sequences)[token];
             PMDUtils::ReadToken(file,token);
-            tokenRecognized = sscanf_s(token,"%u",&val) == 1;
+            tokenRecognized = sscanf(token,"%u",&val) == 1;
             if (repeatSequence != NULL) {
                 action = new SequenceAction(repeatSequence,val);
                 sequence.push_back(action);

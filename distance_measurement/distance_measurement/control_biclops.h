@@ -40,7 +40,7 @@ public:
 	void  deviceTurn(double pan, double tilt); //カメラの回転に使用する関数
 
 	//コンストラクタ
-	ControlBiclops(const TCHAR *p);	//pにはBiclopsの設定ファイルのパスを入れる
+	ControlBiclops(const char *p);	//pにはBiclopsの設定ファイルのパスを入れる
 	//デコンストラクタ
 	~ControlBiclops();
 

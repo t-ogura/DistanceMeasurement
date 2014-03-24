@@ -57,7 +57,7 @@ bool PortableSerial::Open(
     const char* portName, int baud, Parity parity, StopBits stopBits) {
 
     // Record the communication parameters
-    strcpy_s(this->portName,portName);
+    strcpy(this->portName,portName);
     this->baud   = baud;
 	this->parity = parity;
 	this->stopBits = stopBits;
@@ -257,7 +257,7 @@ void PortableSerial::Close() {
 // ------------------------------------------------------------------------
 void PortableSerial::SetConfig(const char* portName, int baud, Parity parity, 
                                StopBits stopBits) {
-    strcpy_s(this->portName,portName);
+    strcpy(this->portName,portName);
     this->baud = baud;
     this->parity = parity;
     this->stopBits = stopBits;
@@ -266,7 +266,7 @@ void PortableSerial::SetConfig(const char* portName, int baud, Parity parity,
 // ------------------------------------------------------------------------
 void PortableSerial::GetConfig(char* portName, int &baud, 
         Parity &parity, StopBits &stopBits) {
-	strcpy_s(portName, sizeof(portName) / sizeof(portName[0]), this->portName);
+    strcpy(portName, this->portName);
     baud = this->baud;
     parity = this->parity;
     stopBits = this->stopBits;

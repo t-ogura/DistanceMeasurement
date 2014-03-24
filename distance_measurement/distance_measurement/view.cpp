@@ -31,11 +31,11 @@ void View::show(cv::Mat image,int x,int y, bool isColor){
 	}
 	cv::rectangle(showImage, cv::Point(x - VCC_SEEK_AREA_HALF_SIZE, y - VCC_SEEK_AREA_HALF_SIZE),
 		                     cv::Point(x + VCC_SEEK_AREA_HALF_SIZE, y + VCC_SEEK_AREA_HALF_SIZE),
-		                     cv::Scalar(255, 0, 0),
+		                     cv::Scalar(0, 0, 255),
 		                     VIEW_DROW_RECTANGLE_THICKNESS);
-	cv::rectangle(showImage, cv::Point(x - VCC_SEEK_AREA_HALF_SIZE, y - VCC_SEEK_AREA_HALF_SIZE),
-		                     cv::Point(x + VCC_SEEK_AREA_HALF_SIZE, y + VCC_SEEK_AREA_HALF_SIZE),
-		                     cv::Scalar(255, 255, 0),
+	cv::rectangle(showImage, cv::Point(x - VCC_TEMPLATE_SIZE, y - VCC_TEMPLATE_SIZE),
+		                     cv::Point(x + VCC_TEMPLATE_SIZE, y + VCC_TEMPLATE_SIZE),
+		                     cv::Scalar(0, 255, 255),
 		                     VIEW_DROW_RECTANGLE_THICKNESS);
-
+	cv::imshow(this->myWindowName, showImage);
 }

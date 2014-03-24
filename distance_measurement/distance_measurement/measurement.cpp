@@ -52,7 +52,7 @@ void Measurement::tracking(const char* path){
 		this->mtx.lock();
 		pt = this->trackingAngle;
 		this->mtx.unlock();
-		cb.deviceTurn(pt.pan, pt.tilt);
+		//cb.deviceTurn(pt.pan, pt.tilt);
 	}
 }
 

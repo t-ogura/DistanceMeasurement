@@ -680,7 +680,7 @@ void PMDSerial::ReadParameters(FILE *file, char *token) {
             } else tokenRecognized = false;
             if (doGetAddress) {
                 PMDUtils::ReadToken(file,token);
-                if (sscanf_s(token,"%u",&val) == 1) {
+                if (sscanf(token,"%u",&val) == 1) {
                     multiDropID = val;
                 } else tokenRecognized = false;
             }

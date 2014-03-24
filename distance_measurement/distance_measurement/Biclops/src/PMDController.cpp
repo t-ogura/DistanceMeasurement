@@ -4,7 +4,7 @@
 
 #include <iostream>         // for cout
 using namespace std;
-#include <string.h>         // for strcpy_s
+#include <string.h>         // for strcpy
 #include <cstdio>          // For sccanf definition
 //#include <stdio.h>          // For sccanf definition
 #include <typeinfo>
@@ -132,10 +132,10 @@ void PMDController::ReadParameters(FILE *file, char *token) {
     do {
         if (!strcmp(token,PMDUtils::TokenUniqueID)) {
             PMDUtils::ReadToken(file,token);
-            strcpy_s(uniqueID,token);
+            strcpy(uniqueID,token);
         } else if (!strcmp(token,TokenDebugLevel)) {
             PMDUtils::ReadToken(file,token);
-            if (sscanf_s(token,"%u",&val) == 1) {
+            if (sscanf(token,"%u",&val) == 1) {
                 SetDebugLevel(val);
             } else tokenRecognized = false;
         } else if (!strcmp(token,PMDSerial::StartToken)) {
