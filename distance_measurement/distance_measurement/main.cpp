@@ -1,9 +1,13 @@
 #include "measurement.h"
 #include "view.h"
+#include <fstream>
+
 
 #define MAIN_PIXEL_SIZE       0.0075
 #define MAIN_FOCAL_LENGTH     50.0
 #define MAIN_BASELINE_LENGTH  178
+#define OUTFILE "../param_files/send.param"
+#define INFILE "../param_files/receive.param"
 
 int main(){
 	Measurement measurement(MAIN_PIXEL_SIZE,MAIN_FOCAL_LENGTH,MAIN_BASELINE_LENGTH);
@@ -19,6 +23,10 @@ int main(){
 		int *param_R = measurement.vcc_R->matchingParameters;
 		view_L.show(measurement.camera_L->colorImage, *(param_L + 2), *(param_L + 3), true);
 		view_R.show(measurement.camera_R->colorImage, *(param_R + 2), *(param_R + 3), true);
+
+		std::ofstream out(OUTFILE);
+		out << measurement.distance.original << std::endl;
+		out.close();
 	}
 	measurement.trackingLoopFlag = false;
 	measurement.threadTrackingJoin();

@@ -300,12 +300,12 @@ void VCC::templateMatching(){
 		*(matchingParameterPointer + 1) = *(matchingParameterPointer + 3);
 
 		//今回の検出位置（中心座標）
-		*(matchingParameterPointer + 2) = ((int)matchingCoordinate - (int)inputVectorCodeSeekArea) / 2 % VCC_SEEK_AREA_SIZE_X + *(matchingParameterPointer + 6) - VCC_SEEK_AREA_VECTOR_CODE_HALF_SIZE + this->subpixelResult_x;
-		*(matchingParameterPointer + 3) = ((int)matchingCoordinate - (int)inputVectorCodeSeekArea) / 2 / VCC_SEEK_AREA_SIZE_X + *(matchingParameterPointer + 7) - VCC_SEEK_AREA_VECTOR_CODE_HALF_SIZE + this->subpixelResult_y;
+		//*(matchingParameterPointer + 2) = ((int)matchingCoordinate - (int)inputVectorCodeSeekArea) / 2 % VCC_SEEK_AREA_SIZE_X + *(matchingParameterPointer + 6) - VCC_SEEK_AREA_VECTOR_CODE_HALF_SIZE + this->subpixelResult_x;
+		//*(matchingParameterPointer + 3) = ((int)matchingCoordinate - (int)inputVectorCodeSeekArea) / 2 / VCC_SEEK_AREA_SIZE_X + *(matchingParameterPointer + 7) - VCC_SEEK_AREA_VECTOR_CODE_HALF_SIZE + this->subpixelResult_y;
 
 		////今回の検出位置（中心座標）カルマンフィルターあり
-		//*(matchingParameterPointer+2)=kalmanx;
-		//*(matchingParameterPointer+3)=kalmany;
+		*(matchingParameterPointer+2)=kalmanx;
+		*(matchingParameterPointer+3)=kalmany;
 
 		//対象の予測位置(中心座標）
 		*(matchingParameterPointer + 4) = (std::max)((std::min)(*(matchingParameterPointer + 2), VCC_INPUT_IMAGE_SIZE_X - VCC_TEMPLATE_HALF_X), VCC_TEMPLATE_HALF_X);
@@ -367,7 +367,45 @@ void VCC::templateMatching(){
 				correlationMinimam -= correlationScore;
 				matchingCoordinate = matchingPosition;
 			}
+		}		
+		/*---------------------サブピクセル推定法------------------------------------------*/
+		if (this->subpixelFlag){
+			int Crrpm1[4] = { VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD };
+			for (int i = 0; i <4; i++)
+			{
+				//X+1の相違度
+				//WORD* TmpB=TmpBImg;
+				unsigned short* templateVC;
+				templateVC = this->templateImageVectorCode[this->targetDB_x][this->targetDB_y];
+
+				int correlationScore = VCC_CORRELATION_THRESHOLD;
+				switch (i){
+				case 0: vectorCode = matchingCoordinate + 1; break;    //X+1のアドレス
+				case 1: vectorCode = matchingCoordinate - 1; break;    //X-1のアドレス
+				case 2: vectorCode = matchingCoordinate + VCC_SEEK_AREA_SIZE_X; break;//Y+1のアドレス
+				case 3: vectorCode = matchingCoordinate - VCC_SEEK_AREA_SIZE_X; break;//Y-1のアドレス
+				}
+
+				for (int y = VCC_TEMPLATE_SIZE; y&&correlationScore>0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
+				for (int x = VCC_TEMPLATE_QUARTER_SIZE; x; x--, vectorCode += 4, templateVC++)
+					correlationScore += *(correlationMap + (*vectorCode^*templateVC));
+				Crrpm1[i] -= correlationScore;
+			}
+
+			subpixelResult_x = (double)(Crrpm1[1] - Crrpm1[0]) / (Crrpm1[0] + Crrpm1[1] - 2 * correlationMinimam) / 2.0;
+			subpixelResult_y = (double)(Crrpm1[3] - Crrpm1[2]) / (Crrpm1[2] + Crrpm1[3] - 2 * correlationMinimam) / 2.0;
 		}
+		/*--------------------カルマンフィルタ処理-------------------------------------*/
+
+		cv::Mat prediction = this->KF->predict();
+		cv::Point predictPt(prediction.at<float>(0), prediction.at<float>(1));
+
+		(*measurement)(0) = ((int)matchingCoordinate - (int)inputVectorCodeAllArea) / 2 % (VCC_INPUT_IMAGE_SIZE_X - 5) + VCC_TEMPLATE_SIZE / 2;
+		(*measurement)(1) = ((int)matchingCoordinate - (int)inputVectorCodeAllArea) / 2 / (VCC_INPUT_IMAGE_SIZE_X - 5) + VCC_TEMPLATE_SIZE / 2;
+
+		cv::Mat estimated = KF->correct((*measurement));
+		kalmanx = estimated.at<float>(0);
+		kalmany = estimated.at<float>(1);
 
 		/*---------------------検出結果の計算処理---------------------------------------*/
 		//前回の検出位置
@@ -375,12 +413,12 @@ void VCC::templateMatching(){
 		*(matchingParameterPointer + 1) = *(matchingParameterPointer + 3);
 
 		//今回の検出位置（中心座標）
-		*(matchingParameterPointer + 2) = ((int)matchingCoordinate - (int)inputVectorCodeAllArea) / 2 % (VCC_INPUT_IMAGE_SIZE_X - 5) + VCC_TEMPLATE_SIZE / 2;
-		*(matchingParameterPointer + 3) = ((int)matchingCoordinate - (int)inputVectorCodeAllArea) / 2 / (VCC_INPUT_IMAGE_SIZE_X - 5) + VCC_TEMPLATE_SIZE / 2;
+		//*(matchingParameterPointer + 2) = ((int)matchingCoordinate - (int)inputVectorCodeAllArea) / 2 % (VCC_INPUT_IMAGE_SIZE_X - 5) + VCC_TEMPLATE_SIZE / 2;
+		//*(matchingParameterPointer + 3) = ((int)matchingCoordinate - (int)inputVectorCodeAllArea) / 2 / (VCC_INPUT_IMAGE_SIZE_X - 5) + VCC_TEMPLATE_SIZE / 2;
 
 		////今回の検出位置（中心座標）カルマンフィルターあり
-		//*(matchingParameterPointer+2)=kalmanx;
-		//*(matchingParameterPointer+3)=kalmany;
+		*(matchingParameterPointer+2)=kalmanx;
+		*(matchingParameterPointer+3)=kalmany;
 
 		//対象の予測位置(中心座標）
 		*(matchingParameterPointer + 4) = (std::max)((std::min)(*(matchingParameterPointer + 2), VCC_INPUT_IMAGE_SIZE_X - VCC_TEMPLATE_HALF_X), VCC_TEMPLATE_HALF_X);
