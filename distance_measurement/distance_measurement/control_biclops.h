@@ -37,6 +37,7 @@ public:
 	PMDAxisControl::Profile profile;//軸情報格納変数
 	PMDint32 pan_pos, tilt_pos, past_pan, past_tilt; //回転台の現在位置(カウント数）
 	PMDint32 pan_pos_init;	//回転台の初期化の際の位置
+	double pan_angle_rad, tilt_angle_rad;
 	void  deviceTurn(double pan, double tilt); //カメラの回転に使用する関数
 
 	//コンストラクタ

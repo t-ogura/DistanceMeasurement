@@ -22,6 +22,7 @@
 #define VCC_DISSIMILARITY_THRESHOLD 500
 #define VCC_CORRELATION_THRESHOLD 2048
 #define VCC_TEMPLATE_HALF_X (VCC_TEMPLATE_SIZE/2+1)
+#define VCC_ALL_SEEK_THRESHOLD 800
 
 class VCC{
 private:
@@ -52,6 +53,9 @@ public:
 	bool subpixelFlag;
 	bool databaseClearFlag;
 	bool databaseAllSearchFlag;
+	bool kalmanFlag;
+	bool allSeekFlag;
+	int allSeekThreshold;
 	int targetDB_x;//DB_LTrgt_Row
 	int targetDB_y;//DB_LTrgt_Col
 	void setInputImage(cv::Mat inputImage_Gray);

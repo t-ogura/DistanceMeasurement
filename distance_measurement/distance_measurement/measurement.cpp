@@ -19,7 +19,9 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 
 	this->kalmanInitialize();
 
+	this->correctParallel = 0.0;
 	this->trackingLoopFlag = false;
+	this->trackingState = "–¢‰Ò“­";
 }
 
 Measurement::~Measurement(){}
@@ -45,14 +47,19 @@ void Measurement::kalmanInitialize(){
 }
 
 void Measurement::tracking(const char* path){
+	this->trackingState = "‰Šú‰»’†";
 	ControlBiclops cb(path);
+	this->trackingState = "‰Ò“­’†";
 	while (this->trackingLoopFlag){
 		cb.getPosition();
-		PanTilt pt;
+		PanTilt pt,my;
+		my.pan = cb.pan_angle_rad;
+		my.tilt = cb.tilt_angle_rad;
 		this->mtx.lock();
+		this->platformState = my;
 		pt = this->trackingAngle;
 		this->mtx.unlock();
-		//cb.deviceTurn(pt.pan, pt.tilt);
+		cb.deviceTurn(pt.pan, pt.tilt);
 	}
 }
 
@@ -86,9 +93,10 @@ void Measurement::measure(){
 	vccThread_R.join();
 	this->angle_L = angleCalculation(vcc_L);
 	this->angle_R = angleCalculation(vcc_R);
-	this->distance.original = this->baselineLength / (tan(angle_L.pan) - tan(angle_R.pan));
+	this->distance.original = this->baselineLength / (tan(this->angle_L.pan+this->correctParallel/2.0) - tan(this->angle_R.pan-this->correctParallel/2.0));
 	this->distance.mid = sqrt(pow(this->distance.original, 2)*(pow(tan(angle_L.pan), 2) + pow(tan(angle_R.pan), 2) + 2) / 2 - pow((double)this->baselineLength, 2) / 4);
-	this->distance.theta = 1 / cos(this->distance.original / this->distance.mid);
+	this->distance.theta = acos(this->distance.original / this->distance.mid);
+	if (angle_L.pan + angle_R.pan < 0) this->distance.theta *= -1;
 	cv::Mat prediction = this->KF->predict();
 	double predictDist = prediction.at<float>(0);
 	(*this->KF_Measurement)(0) = this->distance.mid;

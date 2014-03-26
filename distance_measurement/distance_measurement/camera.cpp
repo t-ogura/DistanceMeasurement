@@ -2,6 +2,7 @@
 
 //【DirectShow関係（USBカメラにアクセスするのに必要）】
 #include "ewclib21/ewclib.h"     //cv.hより後でインクルードする
+#include <fstream>
 
 Camera::Camera(int cameraID, bool cameraIsColor){
 	this->ID = cameraID;
@@ -25,8 +26,10 @@ Camera::Camera(int cameraID, bool cameraIsColor){
 	std::cout << "Number of found camera :" << EWC_GetCamera() << std::endl;
 
 	EWC_SetBuffer(this->ID, cameraImage.data);
-	
-	EWC_SetAuto(this->ID, EWC_EXPOSURE);
+
+	EWC_SetValue(this->ID, EWC_EXPOSURE, CAMERA_EXPOSURE);
+	//EWC_SetAuto(this->ID, EWC_EXPOSURE);
+	this->writeCameraParam();
 }
 
 Camera::~Camera(){
@@ -45,4 +48,30 @@ void Camera::getImage(){
 		cv::resize(this->cameraImage, this->grayImage, this->grayImage.size());
 		cv::cvtColor(this->grayImage, this->colorImage, CV_GRAY2BGR);
 	}
+}
+
+void Camera::writeCameraParam(){
+	std::ofstream ofs;
+	char filename[50];
+	sprintf_s(filename, "Camera[%0d].txt", this->ID);
+	ofs.open(filename);
+	ofs << filename << std::endl;
+	ofs << "EWC_BRIGHTNESS				" << EWC_GetValue(this->ID, EWC_BRIGHTNESS) << std::endl;
+	ofs << "EWC_CONTRAST				" << EWC_GetValue(this->ID, EWC_CONTRAST) << std::endl;
+	ofs << "EWC_HUE						" << EWC_GetValue(this->ID, EWC_HUE) << std::endl;
+	ofs << "EWC_SATURATION				" << EWC_GetValue(this->ID, EWC_SATURATION) << std::endl;
+	ofs << "EWC_SHARPNESS				" << EWC_GetValue(this->ID, EWC_SHARPNESS) << std::endl;
+	ofs << "EWC_GAMMA					" << EWC_GetValue(this->ID, EWC_GAMMA) << std::endl;
+	ofs << "EWC_COLORENABLE				" << EWC_GetValue(this->ID, EWC_COLORENABLE) << std::endl;
+	ofs << "EWC_WHITEBALANCE			" << EWC_GetValue(this->ID, EWC_WHITEBALANCE) << std::endl;
+	ofs << "EWC_BACKLIGHTCOMPENSATION	" << EWC_GetValue(this->ID, EWC_BACKLIGHTCOMPENSATION) << std::endl;
+	ofs << "EWC_GAIN					" << EWC_GetValue(this->ID, EWC_GAIN) << std::endl;
+	ofs << "EWC_PAN						" << EWC_GetValue(this->ID, EWC_PAN) << std::endl;
+	ofs << "EWC_TILT					" << EWC_GetValue(this->ID, EWC_TILT) << std::endl;
+	ofs << "EWC_ROLL					" << EWC_GetValue(this->ID, EWC_ROLL) << std::endl;
+	ofs << "EWC_ZOOM					" << EWC_GetValue(this->ID, EWC_ZOOM) << std::endl;
+	ofs << "EWC_EXPOSURE				" << EWC_GetValue(this->ID, EWC_EXPOSURE) << std::endl;
+	ofs << "EWC_IRIS					" << EWC_GetValue(this->ID, EWC_IRIS) << std::endl;
+	ofs << "EWC_FOCUS					" << EWC_GetValue(this->ID, EWC_FOCUS) << std::endl;
+	ofs.close();
 }

@@ -21,7 +21,7 @@ void View::onMouse(int event, int x, int y, int flags, void* param){
 	}
 }
 
-void View::show(cv::Mat image,int x,int y, bool isColor){
+void View::show(cv::Mat image, int vcc_x, int vcc_y, int area_x, int area_y, bool isColor){
 	cv::Mat showImage;
 	if (isColor){
 		showImage = image.clone();
@@ -29,12 +29,12 @@ void View::show(cv::Mat image,int x,int y, bool isColor){
 	else{
 		cv::cvtColor(image, showImage, CV_GRAY2BGR);
 	}
-	cv::rectangle(showImage, cv::Point(x - VCC_SEEK_AREA_HALF_SIZE, y - VCC_SEEK_AREA_HALF_SIZE),
-		                     cv::Point(x + VCC_SEEK_AREA_HALF_SIZE, y + VCC_SEEK_AREA_HALF_SIZE),
+	cv::rectangle(showImage, cv::Point(area_x - VCC_SEEK_AREA_HALF_SIZE, area_y - VCC_SEEK_AREA_HALF_SIZE),
+		                     cv::Point(area_x + VCC_SEEK_AREA_HALF_SIZE, area_y + VCC_SEEK_AREA_HALF_SIZE),
 		                     cv::Scalar(0, 0, 255),
 		                     VIEW_DROW_RECTANGLE_THICKNESS);
-	cv::rectangle(showImage, cv::Point(x - VCC_TEMPLATE_SIZE, y - VCC_TEMPLATE_SIZE),
-		                     cv::Point(x + VCC_TEMPLATE_SIZE, y + VCC_TEMPLATE_SIZE),
+	cv::rectangle(showImage, cv::Point(vcc_x - VCC_TEMPLATE_SIZE, vcc_y - VCC_TEMPLATE_SIZE),
+		                     cv::Point(vcc_x + VCC_TEMPLATE_SIZE, vcc_y + VCC_TEMPLATE_SIZE),
 		                     cv::Scalar(0, 255, 255),
 		                     VIEW_DROW_RECTANGLE_THICKNESS);
 	cv::imshow(this->myWindowName, showImage);

@@ -35,6 +35,8 @@ void ControlBiclops::getPosition()
 	past_tilt = tilt_pos;	//‘O‰ñˆÊ’u‚Ì•Û‘¶
 	panAxis->GetActualPosition(pan_pos);
 	tiltAxis->GetActualPosition(tilt_pos);
+	this->pan_angle_rad = (pan_pos / 33.33) / 180.0*M_PI;
+	this->tilt_angle_rad = (tilt_pos / 33.33) / 180.0*M_PI;
 }
 
 //---------------------------------------------------------------------------

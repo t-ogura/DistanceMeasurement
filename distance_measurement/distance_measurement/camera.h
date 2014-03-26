@@ -9,6 +9,7 @@
 #define CAMERA_RESIZE_IMAGE_WIDTH 640
 #define CAMERA_RESIZE_IMAGE_HEIGHT 480
 #define CAMERA_FPS 79.60
+#define CAMERA_EXPOSURE 41
 
 class Camera{
 private:
@@ -24,6 +25,7 @@ public:
 	cv::Mat grayImage;
 
 	void getImage();
+	void writeCameraParam();
 };
 
 #endif _CAMERA_H_

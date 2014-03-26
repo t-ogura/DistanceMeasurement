@@ -73,6 +73,7 @@
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="control_biclops.h" />
+    <ClInclude Include="form_connection.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="measurement.h" />
     <ClInclude Include="vcc.h" />

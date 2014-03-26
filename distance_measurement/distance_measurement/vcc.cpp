@@ -73,8 +73,11 @@ VCC::VCC(int thres){
 	this->targetDB_y = 4;
 	this->databaseFlag = true;
 	this->subpixelFlag = true;
+	this->kalmanFlag = true;
+	this->allSeekFlag = true;
 	this->databaseClearFlag = false;
 	this->databaseAllSearchFlag = true;
+	this->allSeekThreshold = 800;
 }
 
 VCC::~VCC()
@@ -109,14 +112,14 @@ void VCC::templateMatching(){
 	unsigned short* matchingPosition;//McPs マッチング箇所
 	unsigned short inputVectorCodeSeekArea[VCC_SEEK_AREA_SIZE_X*VCC_SEEK_AREA_SIZE];//VcCdImg 領域探索用マッチング格納配列
 	unsigned short inputVectorCodeAllArea[(VCC_INPUT_IMAGE_SIZE_X - 5)*(VCC_INPUT_IMAGE_SIZE_Y - 2)];//McSt 全探索用マッチング格納配列
-	unsigned short* matchingCoordinate = nullptr;//McXY マッチング座標値保存ポインタ
+	unsigned short* matchingCoordinate;//McXY マッチング座標値保存ポインタ
 	char* correlationMap = VCC_CorrelationMap;//CrrMp 相関値計算用テーブルアクセスポインタ
-	int* matchingParameterPointer=this->matchingParameters;//MPrm パラメータアクセスポインタ
+	int* matchingParameterPointer = this->matchingParameters;//MPrm パラメータアクセスポインタ
 	int correlationMinimam = 2048;//CrrMin 相関値の最小
 
 
 	/*********************しきい値以下の場合(領域探索)*******************************/
-	if (*(matchingParameterPointer + 8) < 1000 && 0){
+	if (*(matchingParameterPointer + 8) < this->allSeekThreshold || !this->allSeekFlag){
 		/*---------------------ベクトル符号化-------------------------------------------*/
 		input = inputImage + (*(matchingParameterPointer + 6) - VCC_SEEK_AREA_HALF_SIZE) + (*(matchingParameterPointer + 7) - VCC_SEEK_AREA_HALF_SIZE)*VCC_INPUT_IMAGE_SIZE_X;	//探索領域の先頭アドレスの入力
 		vectorCode = inputVectorCodeSeekArea;
@@ -128,8 +131,8 @@ void VCC::templateMatching(){
 				VC <<= 4;
 				int VCX = *(input + VCC_INPUT_IMAGE_SIZE_X + 1) + *(input + 1) + *(input - VCC_INPUT_IMAGE_SIZE_X + 1) - *(input + VCC_INPUT_IMAGE_SIZE_X - 1) - *(input - 1) - *(input - VCC_INPUT_IMAGE_SIZE_X - 1);
 				int VCY = *(input + VCC_INPUT_IMAGE_SIZE_X + 1) + *(input + VCC_INPUT_IMAGE_SIZE_X) + *(input + VCC_INPUT_IMAGE_SIZE_X - 1) - *(input - VCC_INPUT_IMAGE_SIZE_X + 1) - *(input - VCC_INPUT_IMAGE_SIZE_X) - *(input - VCC_INPUT_IMAGE_SIZE_X - 1);
-				if (VCX>VCC_VECTOR_CODE_THRESHOLD)VC += 1; else if (VCX<-VCC_VECTOR_CODE_THRESHOLD)VC += 2;
-				if (VCY>VCC_VECTOR_CODE_THRESHOLD)VC += 4; else if (VCY<-VCC_VECTOR_CODE_THRESHOLD)VC += 8;
+				if (VCX > VCC_VECTOR_CODE_THRESHOLD)VC += 1; else if (VCX < -VCC_VECTOR_CODE_THRESHOLD)VC += 2;
+				if (VCY > VCC_VECTOR_CODE_THRESHOLD)VC += 4; else if (VCY < -VCC_VECTOR_CODE_THRESHOLD)VC += 8;
 			}
 			for (int x = VCC_SEEK_AREA_SIZE_X; x; x--, input++, vectorCode++)
 			{
@@ -137,7 +140,7 @@ void VCC::templateMatching(){
 				int VCX = *(input + VCC_INPUT_IMAGE_SIZE_X + 1) + *(input + 1) + *(input - VCC_INPUT_IMAGE_SIZE_X + 1) - *(input + VCC_INPUT_IMAGE_SIZE_X - 1) - *(input - 1) - *(input - VCC_INPUT_IMAGE_SIZE_X - 1);
 				int VCY = *(input + VCC_INPUT_IMAGE_SIZE_X + 1) + *(input + VCC_INPUT_IMAGE_SIZE_X) + *(input + VCC_INPUT_IMAGE_SIZE_X - 1) - *(input - VCC_INPUT_IMAGE_SIZE_X + 1) - *(input - VCC_INPUT_IMAGE_SIZE_X) - *(input - VCC_INPUT_IMAGE_SIZE_X - 1);
 				if (VCX>VCC_VECTOR_CODE_THRESHOLD)VC += 1; else if (VCX<-VCC_VECTOR_CODE_THRESHOLD)VC += 2;
-				if (VCY>VCC_VECTOR_CODE_THRESHOLD)VC += 4; else if (VCY<-VCC_VECTOR_CODE_THRESHOLD)VC += 8;
+				if (VCY>VCC_VECTOR_CODE_THRESHOLD)VC += 4; else if (VCY < -VCC_VECTOR_CODE_THRESHOLD)VC += 8;
 				*vectorCode = VC;
 			}
 		}
@@ -151,7 +154,7 @@ void VCC::templateMatching(){
 
 				int correlationScore = correlationMinimam;
 				vectorCode = matchingPosition;
-				for (int y = VCC_TEMPLATE_SIZE; y&&correlationScore>0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
+				for (int y = VCC_TEMPLATE_SIZE/4; y&&correlationScore > 0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
 				for (int x = VCC_TEMPLATE_QUARTER_SIZE; x; x--, vectorCode += 4, templateVC++)
 					correlationScore += *(correlationMap + (*vectorCode^*templateVC));
 				if (correlationScore <= 0)continue;
@@ -174,11 +177,11 @@ void VCC::templateMatching(){
 			if (this->databaseAllSearchFlag){
 				for (int j = this->targetDB_x - 8; j <= this->targetDB_x + 8; j++){
 					for (int i = this->targetDB_y - 8; i <= this->targetDB_y + 8; i++){
-						if (j<0 || VCC_DATABASE_SIZE - 1<j) continue;	//データベースの範囲外を探索しない
-						if (i<0 || VCC_DATABASE_SIZE - 1<i) continue;
+						if (j < 0 || VCC_DATABASE_SIZE - 1 < j) continue;	//データベースの範囲外を探索しない
+						if (i < 0 || VCC_DATABASE_SIZE - 1 < i) continue;
 
 						unsigned short* tempMatchingPosition = inputVectorCodeSeekArea;
-						unsigned short* tempMatchingCoordinate = nullptr;
+						unsigned short* tempMatchingCoordinate;
 						tempCorrelationMinimum = 2048;
 
 						/*相関計算----------------------------------------------------------*/
@@ -189,7 +192,7 @@ void VCC::templateMatching(){
 
 								int correlationScore = tempCorrelationMinimum;
 								vectorCode = tempMatchingPosition;
-								for (int y = VCC_TEMPLATE_SIZE; y&&correlationScore>0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
+								for (int y = VCC_TEMPLATE_SIZE; y&&correlationScore > 0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
 								for (int x = VCC_TEMPLATE_QUARTER_SIZE; x; x--, vectorCode += 4, templateVC++)
 									correlationScore += *(correlationMap + (*vectorCode^*templateVC));
 								if (correlationScore <= 0)continue;
@@ -199,7 +202,7 @@ void VCC::templateMatching(){
 						}
 						//printf("[%d,%d][correlationMinimam=%d]\n", j,i,tempCorrelationMinimum);
 						/*相関値計算ここまで------------------------------------------------------*/
-						if (tempCorrelationMinimum<correlationMinimam){
+						if (tempCorrelationMinimum < correlationMinimam){
 							correlationMinimam = tempCorrelationMinimum;
 							matchingCoordinate = tempMatchingCoordinate;
 							targetDB_x_min = j;
@@ -214,13 +217,13 @@ void VCC::templateMatching(){
 			else{
 				for (int j = this->targetDB_x - 1; j <= this->targetDB_x + 1; j++){
 					for (int i = this->targetDB_y - 1; i <= this->targetDB_y + 1; i++){
-						if (j<0 || VCC_DATABASE_SIZE - 1<j) continue;	//データベースの範囲外を探索しない
-						if (i<0 || VCC_DATABASE_SIZE - 1<i) continue;
+						if (j < 0 || VCC_DATABASE_SIZE - 1 < j) continue;	//データベースの範囲外を探索しない
+						if (i < 0 || VCC_DATABASE_SIZE - 1 < i) continue;
 						//if (!(j == this->targetDB_x || i == this->targetDB_y)) continue;
 
 
 						unsigned short* tempMatchingPosition = inputVectorCodeSeekArea;
-						unsigned short* tempMatchingCoordinate = nullptr;
+						unsigned short* tempMatchingCoordinate;
 						tempCorrelationMinimum = 2048;
 
 						/*相関計算----------------------------------------------------------*/
@@ -232,7 +235,7 @@ void VCC::templateMatching(){
 
 								int correlationScore = tempCorrelationMinimum;
 								vectorCode = tempMatchingPosition;
-								for (int y = VCC_TEMPLATE_SIZE; y&&correlationScore>0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
+								for (int y = VCC_TEMPLATE_SIZE; y&&correlationScore > 0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
 								for (int x = VCC_TEMPLATE_QUARTER_SIZE; x; x--, vectorCode += 4, templateVC++)
 									correlationScore += *(correlationMap + (*vectorCode^*templateVC));
 								if (correlationScore <= 0)continue;
@@ -242,7 +245,7 @@ void VCC::templateMatching(){
 						}
 						//printf("[%d,%d][correlationMinimam=%d]\n", j,i,tempCorrelationMinimum);
 						/*相関値計算ここまで------------------------------------------------------*/
-						if (tempCorrelationMinimum<correlationMinimam){
+						if (tempCorrelationMinimum < correlationMinimam){
 							correlationMinimam = tempCorrelationMinimum;
 							matchingCoordinate = tempMatchingCoordinate;
 							targetDB_x_min = j;
@@ -258,7 +261,7 @@ void VCC::templateMatching(){
 		/*---------------------サブピクセル推定法------------------------------------------*/
 		if (this->subpixelFlag){
 			int Crrpm1[4] = { VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD };
-			for (int i = 0; i <4; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				//X+1の相違度
 				//WORD* TmpB=TmpBImg;
@@ -273,7 +276,7 @@ void VCC::templateMatching(){
 				case 3: vectorCode = matchingCoordinate - VCC_SEEK_AREA_SIZE_X; break;//Y-1のアドレス
 				}
 
-				for (int y = VCC_TEMPLATE_SIZE; y&&correlationScore>0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
+				for (int y = VCC_TEMPLATE_SIZE; y&&correlationScore > 0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
 				for (int x = VCC_TEMPLATE_QUARTER_SIZE; x; x--, vectorCode += 4, templateVC++)
 					correlationScore += *(correlationMap + (*vectorCode^*templateVC));
 				Crrpm1[i] -= correlationScore;
@@ -299,13 +302,16 @@ void VCC::templateMatching(){
 		* matchingParameterPointer = *(matchingParameterPointer + 2);
 		*(matchingParameterPointer + 1) = *(matchingParameterPointer + 3);
 
-		//今回の検出位置（中心座標）
-		//*(matchingParameterPointer + 2) = ((int)matchingCoordinate - (int)inputVectorCodeSeekArea) / 2 % VCC_SEEK_AREA_SIZE_X + *(matchingParameterPointer + 6) - VCC_SEEK_AREA_VECTOR_CODE_HALF_SIZE + this->subpixelResult_x;
-		//*(matchingParameterPointer + 3) = ((int)matchingCoordinate - (int)inputVectorCodeSeekArea) / 2 / VCC_SEEK_AREA_SIZE_X + *(matchingParameterPointer + 7) - VCC_SEEK_AREA_VECTOR_CODE_HALF_SIZE + this->subpixelResult_y;
-
-		////今回の検出位置（中心座標）カルマンフィルターあり
-		*(matchingParameterPointer+2)=kalmanx;
-		*(matchingParameterPointer+3)=kalmany;
+		if (this->kalmanFlag){
+			////今回の検出位置（中心座標）カルマンフィルターあり
+			*(matchingParameterPointer + 2) = kalmanx;
+			*(matchingParameterPointer + 3) = kalmany;
+		}
+		else{
+			//今回の検出位置（中心座標）
+			*(matchingParameterPointer + 2) = ((int)matchingCoordinate - (int)inputVectorCodeSeekArea) / 2 % VCC_SEEK_AREA_SIZE_X + *(matchingParameterPointer + 6) - VCC_SEEK_AREA_VECTOR_CODE_HALF_SIZE + this->subpixelResult_x;
+			*(matchingParameterPointer + 3) = ((int)matchingCoordinate - (int)inputVectorCodeSeekArea) / 2 / VCC_SEEK_AREA_SIZE_X + *(matchingParameterPointer + 7) - VCC_SEEK_AREA_VECTOR_CODE_HALF_SIZE + this->subpixelResult_y;
+		}
 
 		//対象の予測位置(中心座標）
 		*(matchingParameterPointer + 4) = (std::max)((std::min)(*(matchingParameterPointer + 2), VCC_INPUT_IMAGE_SIZE_X - VCC_TEMPLATE_HALF_X), VCC_TEMPLATE_HALF_X);
@@ -334,7 +340,7 @@ void VCC::templateMatching(){
 				VC <<= 4;
 				int VCX = *(input + VCC_INPUT_IMAGE_SIZE_X + 1) + *(input + 1) + *(input - VCC_INPUT_IMAGE_SIZE_X + 1) - *(input + VCC_INPUT_IMAGE_SIZE_X - 1) - *(input - 1) - *(input - VCC_INPUT_IMAGE_SIZE_X - 1);
 				int VCY = *(input + VCC_INPUT_IMAGE_SIZE_X + 1) + *(input + VCC_INPUT_IMAGE_SIZE_X) + *(input + VCC_INPUT_IMAGE_SIZE_X - 1) - *(input - VCC_INPUT_IMAGE_SIZE_X + 1) - *(input - VCC_INPUT_IMAGE_SIZE_X) - *(input - VCC_INPUT_IMAGE_SIZE_X - 1);
-				if (VCX>VCC_VECTOR_CODE_THRESHOLD)VC += 1; else if (VCX<-VCC_VECTOR_CODE_THRESHOLD)VC += 2;
+				if (VCX > VCC_VECTOR_CODE_THRESHOLD)VC += 1; else if (VCX<-VCC_VECTOR_CODE_THRESHOLD)VC += 2;
 				if (VCY>VCC_VECTOR_CODE_THRESHOLD)VC += 4; else if (VCY<-VCC_VECTOR_CODE_THRESHOLD)VC += 8;
 			}
 			for (int x = VCC_INPUT_IMAGE_SIZE_X - 5; x; x--, input++, vectorCode++)
@@ -343,7 +349,7 @@ void VCC::templateMatching(){
 				int VCX = *(input + VCC_INPUT_IMAGE_SIZE_X + 1) + *(input + 1) + *(input - VCC_INPUT_IMAGE_SIZE_X + 1) - *(input + VCC_INPUT_IMAGE_SIZE_X - 1) - *(input - 1) - *(input - VCC_INPUT_IMAGE_SIZE_X - 1);
 				int VCY = *(input + VCC_INPUT_IMAGE_SIZE_X + 1) + *(input + VCC_INPUT_IMAGE_SIZE_X) + *(input + VCC_INPUT_IMAGE_SIZE_X - 1) - *(input - VCC_INPUT_IMAGE_SIZE_X + 1) - *(input - VCC_INPUT_IMAGE_SIZE_X) - *(input - VCC_INPUT_IMAGE_SIZE_X - 1);
 				if (VCX>VCC_VECTOR_CODE_THRESHOLD)VC += 1; else if (VCX<-VCC_VECTOR_CODE_THRESHOLD)VC += 2;
-				if (VCY>VCC_VECTOR_CODE_THRESHOLD)VC += 4; else if (VCY<-VCC_VECTOR_CODE_THRESHOLD)VC += 8;
+				if (VCY>VCC_VECTOR_CODE_THRESHOLD)VC += 4; else if (VCY < -VCC_VECTOR_CODE_THRESHOLD)VC += 8;
 				*vectorCode = VC;
 			}
 		}
@@ -360,18 +366,18 @@ void VCC::templateMatching(){
 
 				int correlationScore = correlationMinimam;
 				vectorCode = matchingPosition;
-				for (int y = VCC_TEMPLATE_SIZE / 4; y&&correlationScore>0; y--, vectorCode += (VCC_INPUT_IMAGE_SIZE_X - 5) - VCC_TEMPLATE_SIZE)
+				for (int y = VCC_TEMPLATE_SIZE / 4; y&&correlationScore > 0; y--, vectorCode += (VCC_INPUT_IMAGE_SIZE_X - 5) - VCC_TEMPLATE_SIZE)
 				for (int x = VCC_TEMPLATE_QUARTER_SIZE; x; x--, vectorCode += 4, templateVC++)
 					correlationScore += *(correlationMap + (*vectorCode^*templateVC));
 				if (correlationScore <= 0)continue;
 				correlationMinimam -= correlationScore;
 				matchingCoordinate = matchingPosition;
 			}
-		}		
-		/*---------------------サブピクセル推定法------------------------------------------*/
+		}
+		///*---------------------サブピクセル推定法------------------------------------------*/
 		if (this->subpixelFlag){
 			int Crrpm1[4] = { VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD };
-			for (int i = 0; i <4; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				//X+1の相違度
 				//WORD* TmpB=TmpBImg;
@@ -382,11 +388,11 @@ void VCC::templateMatching(){
 				switch (i){
 				case 0: vectorCode = matchingCoordinate + 1; break;    //X+1のアドレス
 				case 1: vectorCode = matchingCoordinate - 1; break;    //X-1のアドレス
-				case 2: vectorCode = matchingCoordinate + VCC_SEEK_AREA_SIZE_X; break;//Y+1のアドレス
-				case 3: vectorCode = matchingCoordinate - VCC_SEEK_AREA_SIZE_X; break;//Y-1のアドレス
+				case 2: vectorCode = matchingCoordinate + VCC_INPUT_IMAGE_SIZE_X; break;//Y+1のアドレス
+				case 3: vectorCode = matchingCoordinate - VCC_INPUT_IMAGE_SIZE_X; break;//Y-1のアドレス
 				}
 
-				for (int y = VCC_TEMPLATE_SIZE; y&&correlationScore>0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
+				for (int y = VCC_TEMPLATE_SIZE / 4; y&&correlationScore > 0; y--, vectorCode += (VCC_INPUT_IMAGE_SIZE_X - 5) - VCC_TEMPLATE_SIZE)
 				for (int x = VCC_TEMPLATE_QUARTER_SIZE; x; x--, vectorCode += 4, templateVC++)
 					correlationScore += *(correlationMap + (*vectorCode^*templateVC));
 				Crrpm1[i] -= correlationScore;
@@ -412,13 +418,16 @@ void VCC::templateMatching(){
 		* matchingParameterPointer = *(matchingParameterPointer + 2);
 		*(matchingParameterPointer + 1) = *(matchingParameterPointer + 3);
 
-		//今回の検出位置（中心座標）
-		//*(matchingParameterPointer + 2) = ((int)matchingCoordinate - (int)inputVectorCodeAllArea) / 2 % (VCC_INPUT_IMAGE_SIZE_X - 5) + VCC_TEMPLATE_SIZE / 2;
-		//*(matchingParameterPointer + 3) = ((int)matchingCoordinate - (int)inputVectorCodeAllArea) / 2 / (VCC_INPUT_IMAGE_SIZE_X - 5) + VCC_TEMPLATE_SIZE / 2;
-
-		////今回の検出位置（中心座標）カルマンフィルターあり
-		*(matchingParameterPointer+2)=kalmanx;
-		*(matchingParameterPointer+3)=kalmany;
+		if (this->kalmanFlag){
+			//今回の検出位置（中心座標）カルマンフィルターあり
+			*(matchingParameterPointer + 2) = kalmanx;
+			*(matchingParameterPointer + 3) = kalmany;
+		}
+		else{
+			//今回の検出位置（中心座標）
+			*(matchingParameterPointer + 2) = ((int)matchingCoordinate - (int)inputVectorCodeAllArea) / 2 % (VCC_INPUT_IMAGE_SIZE_X - 5) + VCC_TEMPLATE_SIZE / 2;
+			*(matchingParameterPointer + 3) = ((int)matchingCoordinate - (int)inputVectorCodeAllArea) / 2 / (VCC_INPUT_IMAGE_SIZE_X - 5) + VCC_TEMPLATE_SIZE / 2;
+		}
 
 		//対象の予測位置(中心座標）
 		*(matchingParameterPointer + 4) = (std::max)((std::min)(*(matchingParameterPointer + 2), VCC_INPUT_IMAGE_SIZE_X - VCC_TEMPLATE_HALF_X), VCC_TEMPLATE_HALF_X);

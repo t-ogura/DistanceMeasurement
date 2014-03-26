@@ -27,6 +27,10 @@ public:
 	VCC *vcc_L;
 	VCC *vcc_R;
 
+	//ï‚ê≥íl
+	double correctParallel;
+
+	std::string trackingState;
 	bool trackingLoopFlag;
 	struct Distances{
 		double original;
@@ -39,6 +43,7 @@ public:
 		double pan;
 		double tilt;
 	};
+	PanTilt platformState;
 	PanTilt trackingAngle;
 	PanTilt angle_L;
 	PanTilt angle_R;
