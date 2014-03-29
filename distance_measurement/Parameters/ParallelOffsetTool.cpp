@@ -9,7 +9,7 @@ System::Void ParallelOffsetTool::get_distance_button_Click(System::Object^  send
 	if (this->Owner != nullptr){
 		//親のフォームクラス
 		ps = static_cast<ParamShow^>(this->Owner);
-		this->measure_vaule_box->Text = ps->label1->Text;
+		this->measure_vaule_box->Text = ps->label3->Text;
 	}
 
 }

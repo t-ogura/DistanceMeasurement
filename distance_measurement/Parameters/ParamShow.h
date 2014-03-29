@@ -54,10 +54,10 @@ namespace Parameters {
 				delete components;
 			}
 		}
-	public: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Timer^  timer1;
 	private: System::Windows::Forms::Label^  label2;
-	private: System::Windows::Forms::Label^  label3;
+	public: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::Label^  theta;
 
 	private: System::Windows::Forms::Label^  pan_label;
@@ -201,6 +201,7 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(ParamShow::typeid));
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->label2 = (gcnew System::Windows::Forms::Label());
@@ -631,7 +632,7 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				31.31313F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				35)));
+				37)));
 			this->tableLayoutPanel1->Controls->Add(this->xl, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->yl, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->coodinatel, 0, 1);
@@ -655,9 +656,9 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 			this->xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->xl->AutoSize = true;
-			this->xl->Location = System::Drawing::Point(68, 0);
+			this->xl->Location = System::Drawing::Point(67, 0);
 			this->xl->Name = L"xl";
-			this->xl->Size = System::Drawing::Size(24, 12);
+			this->xl->Size = System::Drawing::Size(23, 12);
 			this->xl->TabIndex = 0;
 			this->xl->Text = L"x";
 			this->xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -667,9 +668,9 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 			this->yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->yl->AutoSize = true;
-			this->yl->Location = System::Drawing::Point(98, 0);
+			this->yl->Location = System::Drawing::Point(96, 0);
 			this->yl->Name = L"yl";
-			this->yl->Size = System::Drawing::Size(30, 12);
+			this->yl->Size = System::Drawing::Size(32, 12);
 			this->yl->TabIndex = 1;
 			this->yl->Text = L"y";
 			this->yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -681,7 +682,7 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 			this->coodinatel->AutoSize = true;
 			this->coodinatel->Location = System::Drawing::Point(3, 19);
 			this->coodinatel->Name = L"coodinatel";
-			this->coodinatel->Size = System::Drawing::Size(59, 12);
+			this->coodinatel->Size = System::Drawing::Size(58, 12);
 			this->coodinatel->TabIndex = 2;
 			this->coodinatel->Text = L"ŒŸoÀ•W";
 			this->coodinatel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -693,7 +694,7 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 			this->databasel->AutoSize = true;
 			this->databasel->Location = System::Drawing::Point(3, 38);
 			this->databasel->Name = L"databasel";
-			this->databasel->Size = System::Drawing::Size(59, 12);
+			this->databasel->Size = System::Drawing::Size(58, 12);
 			this->databasel->TabIndex = 3;
 			this->databasel->Text = L"Database";
 			this->databasel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -704,9 +705,9 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_xl->AutoSize = true;
 			this->coor_xl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_xl->Location = System::Drawing::Point(68, 19);
+			this->coor_xl->Location = System::Drawing::Point(67, 19);
 			this->coor_xl->Name = L"coor_xl";
-			this->coor_xl->Size = System::Drawing::Size(24, 12);
+			this->coor_xl->Size = System::Drawing::Size(23, 12);
 			this->coor_xl->TabIndex = 4;
 			this->coor_xl->Text = L"000";
 			this->coor_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -717,9 +718,9 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_yl->AutoSize = true;
 			this->coor_yl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_yl->Location = System::Drawing::Point(98, 19);
+			this->coor_yl->Location = System::Drawing::Point(96, 19);
 			this->coor_yl->Name = L"coor_yl";
-			this->coor_yl->Size = System::Drawing::Size(30, 12);
+			this->coor_yl->Size = System::Drawing::Size(32, 12);
 			this->coor_yl->TabIndex = 5;
 			this->coor_yl->Text = L"000";
 			this->coor_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -729,9 +730,9 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 			this->db_xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_xl->AutoSize = true;
-			this->db_xl->Location = System::Drawing::Point(68, 38);
+			this->db_xl->Location = System::Drawing::Point(67, 38);
 			this->db_xl->Name = L"db_xl";
-			this->db_xl->Size = System::Drawing::Size(24, 12);
+			this->db_xl->Size = System::Drawing::Size(23, 12);
 			this->db_xl->TabIndex = 6;
 			this->db_xl->Text = L"4";
 			this->db_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -741,9 +742,9 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 			this->db_yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_yl->AutoSize = true;
-			this->db_yl->Location = System::Drawing::Point(98, 38);
+			this->db_yl->Location = System::Drawing::Point(96, 38);
 			this->db_yl->Name = L"db_yl";
-			this->db_yl->Size = System::Drawing::Size(30, 12);
+			this->db_yl->Size = System::Drawing::Size(32, 12);
 			this->db_yl->TabIndex = 7;
 			this->db_yl->Text = L"4";
 			this->db_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -1491,6 +1492,7 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 			this->reset_button->TabIndex = 2;
 			this->reset_button->Text = L"‰Šú‰»";
 			this->reset_button->UseVisualStyleBackColor = true;
+			this->reset_button->Click += gcnew System::EventHandler(this, &ParamShow::reset_button_Click);
 			// 
 			// output_button
 			// 
@@ -1527,6 +1529,7 @@ private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 			this->Controls->Add(this->leftcamera);
 			this->Controls->Add(this->measurement_box);
 			this->Controls->Add(this->pan_tilt_unit_group);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
 			this->MaximumSize = System::Drawing::Size(331, 698);
 			this->MinimumSize = System::Drawing::Size(331, 698);
@@ -1787,7 +1790,69 @@ private: System::Void read_button_Click(System::Object^  sender, System::EventAr
 			 if (ofdlg->ShowDialog() != Windows::Forms::DialogResult::OK) return;
 			 fname = ofdlg->FileName;
 			 StreamReader^ sreader = gcnew StreamReader(fname);
+			 int i = 0;
 			 while (sreader->Peek() > -1){
+				 i++;
+				 if (i == 1){ if (sreader->ReadLine() == "T") this->ofset_check->Checked = true; else this->ofset_check->Checked = false; }
+				 if (i == 2){ this->ofset->Text = sreader->ReadLine(); }
+				 if (i == 3){ if (sreader->ReadLine() == "T") this->roll_flag_l->Checked = true; else this->roll_flag_l->Checked = false; }
+				 if (i == 4){ this->roll_box_l->Text = sreader->ReadLine(); }
+				 if (i == 5){ if (sreader->ReadLine() == "T") this->all_flag_l->Checked = true; else this->all_flag_l->Checked = false; }
+				 if (i == 6){ this->th_box_l->Text = sreader->ReadLine(); }
+				 if (i == 7){ if (sreader->ReadLine() == "T") this->db_flag_l->Checked = true; else this->db_flag_l->Checked = false; }
+				 if (i == 8){ this->db_th_box_l->Text = sreader->ReadLine(); }
+				 if (i == 9){ if (sreader->ReadLine() == "T") this->sub_flag_l->Checked = true; else this->sub_flag_l->Checked = false; }
+				 if (i == 10){ if (sreader->ReadLine() == "T") this->kalman_flag_l->Checked = true; else this->kalman_flag_l->Checked = false; }
+
+				 if (i == 11){ if (sreader->ReadLine() == "T") this->roll_flag_r->Checked = true; else this->roll_flag_r->Checked = false; }
+				 if (i == 12){ this->roll_box_r->Text = sreader->ReadLine(); }
+				 if (i == 13){ if (sreader->ReadLine() == "T") this->all_flag_r->Checked = true; else this->all_flag_r->Checked = false; }
+				 if (i == 14){ this->th_box_r->Text = sreader->ReadLine(); }
+				 if (i == 15){ if (sreader->ReadLine() == "T") this->db_flag_r->Checked = true; else this->db_flag_r->Checked = false; }
+				 if (i == 16){ this->db_th_box_r->Text = sreader->ReadLine(); }
+				 if (i == 17){ if (sreader->ReadLine() == "T") this->sub_flag_r->Checked = true; else this->sub_flag_r->Checked = false; }
+				 if (i == 18){ if (sreader->ReadLine() == "T") this->kalman_flag_r->Checked = true; else this->kalman_flag_r->Checked = false; }
+				 
+				 if (i == 19){ this->plat_th_box->Text = sreader->ReadLine(); }
+				 if (i == 20){ this->filename_box->Text = sreader->ReadLine(); }
+				 if (i == 21){ this->flame_num->Text = sreader->ReadLine(); }
+				 if (i == 22){ this->comboBox1->Text = sreader->ReadLine(); }
+				 if (i == 23){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
+			 }			   
+			 sreader->Close();
+			 Invalidate();
+}
+private: System::Void reset_button_Click(System::Object^  sender, System::EventArgs^  e) {
+			 fname = "main.cfg\\Defalt.cfg";
+			 StreamReader^ sreader = gcnew StreamReader(fname);
+			 int i = 0;
+			 while (sreader->Peek() > -1){
+				 i++;
+				 if (i == 1){ if (sreader->ReadLine() == "T") this->ofset_check->Checked = true; else this->ofset_check->Checked = false; }
+				 if (i == 2){ this->ofset->Text = sreader->ReadLine(); }
+				 if (i == 3){ if (sreader->ReadLine() == "T") this->roll_flag_l->Checked = true; else this->roll_flag_l->Checked = false; }
+				 if (i == 4){ this->roll_box_l->Text = sreader->ReadLine(); }
+				 if (i == 5){ if (sreader->ReadLine() == "T") this->all_flag_l->Checked = true; else this->all_flag_l->Checked = false; }
+				 if (i == 6){ this->th_box_l->Text = sreader->ReadLine(); }
+				 if (i == 7){ if (sreader->ReadLine() == "T") this->db_flag_l->Checked = true; else this->db_flag_l->Checked = false; }
+				 if (i == 8){ this->db_th_box_l->Text = sreader->ReadLine(); }
+				 if (i == 9){ if (sreader->ReadLine() == "T") this->sub_flag_l->Checked = true; else this->sub_flag_l->Checked = false; }
+				 if (i == 10){ if (sreader->ReadLine() == "T") this->kalman_flag_l->Checked = true; else this->kalman_flag_l->Checked = false; }
+
+				 if (i == 11){ if (sreader->ReadLine() == "T") this->roll_flag_r->Checked = true; else this->roll_flag_r->Checked = false; }
+				 if (i == 12){ this->roll_box_r->Text = sreader->ReadLine(); }
+				 if (i == 13){ if (sreader->ReadLine() == "T") this->all_flag_r->Checked = true; else this->all_flag_r->Checked = false; }
+				 if (i == 14){ this->th_box_r->Text = sreader->ReadLine(); }
+				 if (i == 15){ if (sreader->ReadLine() == "T") this->db_flag_r->Checked = true; else this->db_flag_r->Checked = false; }
+				 if (i == 16){ this->db_th_box_r->Text = sreader->ReadLine(); }
+				 if (i == 17){ if (sreader->ReadLine() == "T") this->sub_flag_r->Checked = true; else this->sub_flag_r->Checked = false; }
+				 if (i == 18){ if (sreader->ReadLine() == "T") this->kalman_flag_r->Checked = true; else this->kalman_flag_r->Checked = false; }
+
+				 if (i == 19){ this->plat_th_box->Text = sreader->ReadLine(); }
+				 if (i == 20){ this->filename_box->Text = sreader->ReadLine(); }
+				 if (i == 21){ this->flame_num->Text = sreader->ReadLine(); }
+				 if (i == 22){ this->comboBox1->Text = sreader->ReadLine(); }
+				 if (i == 23){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
 			 }
 			 sreader->Close();
 			 Invalidate();

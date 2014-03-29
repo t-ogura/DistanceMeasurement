@@ -94,6 +94,10 @@ namespace Parameters {
 	private: System::Windows::Forms::Label^  mm_label;
 	private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
+	private: System::Windows::Forms::StatusStrip^  statusStrip1;
+	private: System::Windows::Forms::ToolStripStatusLabel^  toolStripStatusLabel1;
+
+
 
 
 
@@ -142,6 +146,9 @@ namespace Parameters {
 			this->mm_label = (gcnew System::Windows::Forms::Label());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
+			this->toolStripStatusLabel1 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+			this->statusStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// ofset_label
@@ -377,12 +384,30 @@ namespace Parameters {
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			this->openFileDialog1->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &ParallelOffsetTool::openFileDialog1_FileOk);
 			// 
+			// statusStrip1
+			// 
+			this->statusStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->toolStripStatusLabel1 });
+			this->statusStrip1->Location = System::Drawing::Point(0, 271);
+			this->statusStrip1->Name = L"statusStrip1";
+			this->statusStrip1->Size = System::Drawing::Size(284, 23);
+			this->statusStrip1->SizingGrip = false;
+			this->statusStrip1->TabIndex = 22;
+			this->statusStrip1->Text = L"statusStrip1";
+			// 
+			// toolStripStatusLabel1
+			// 
+			this->toolStripStatusLabel1->Name = L"toolStripStatusLabel1";
+			this->toolStripStatusLabel1->Size = System::Drawing::Size(260, 18);
+			this->toolStripStatusLabel1->Text = L"補正値の算出には４組以上のデータが必要です";
+			this->toolStripStatusLabel1->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::toolStripStatusLabel1_Click);
+			// 
 			// ParallelOffsetTool
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(284, 276);
+			this->ClientSize = System::Drawing::Size(284, 294);
 			this->ControlBox = false;
+			this->Controls->Add(this->statusStrip1);
 			this->Controls->Add(this->mm_label);
 			this->Controls->Add(this->base_length);
 			this->Controls->Add(this->base_length_label);
@@ -403,9 +428,13 @@ namespace Parameters {
 			this->Controls->Add(this->copy_button);
 			this->Controls->Add(this->ofset_box);
 			this->Controls->Add(this->ofset_label);
+			this->MaximumSize = System::Drawing::Size(300, 332);
+			this->MinimumSize = System::Drawing::Size(300, 332);
 			this->Name = L"ParallelOffsetTool";
 			this->Text = L"ParallelOffsetTool";
 			this->Load += gcnew System::EventHandler(this, &ParallelOffsetTool::ParallelOffsetTool_Load);
+			this->statusStrip1->ResumeLayout(false);
+			this->statusStrip1->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -492,6 +521,7 @@ namespace Parameters {
 	}
 					  
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+				 this->time_count++;
 				 linearApprox la;
 				 std::vector<double> correct;
 				 std::vector<double> measure;
@@ -509,9 +539,13 @@ namespace Parameters {
 					 ss >> d;
 					 measure.push_back(d);
 				 }
-				 if (correct.size() < 4) return;
+				 if (correct.size() < 4){
+					 if (this->time_count > 100){
+						 this->toolStripStatusLabel1->Text = "補正値の算出には４組以上のデータが必要です";
+					 }
+					 return;
+				 }
 				 for (int i = 0; i<correct.size(); i++){
-					 std::cout << correct[i] << "\t" << measure[i] << std::endl;
 					 la.add(correct[i], (measure[i] - correct[i]) / correct[i]);
 				 }	
 				 double angle_error = 0.0;
@@ -568,6 +602,7 @@ private: System::Void ofset_box_Click(System::Object^  sender, System::EventArgs
 			 this->ofset_box->SelectAll();
 }
 		 private: String ^fname;
+				  private: int time_count;
 private: System::Void output_Click(System::Object^  sender, System::EventArgs^  e) {
 
 			 SaveFileDialog^ sfdlg = gcnew SaveFileDialog();
@@ -583,6 +618,16 @@ private: System::Void output_Click(System::Object^  sender, System::EventArgs^  
 				 swriter->WriteLine(this->measure_list->Items[i]);
 			 }
 			 swriter->Close();
+			 this->time_count = 0;
+			 String ^notice;
+			 String ^split = "\\";
+			 array<Char>^ splitchar = split->ToCharArray();
+			 array<String^>^ words;
+			 words = fname->Split(splitchar);
+			 notice = "[";
+			 notice += words[words->Length - 1];
+			 notice += "]を書き込みました";
+			 this->toolStripStatusLabel1->Text = notice;
 }
 private: System::Void saveFileDialog1_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 }
@@ -607,6 +652,18 @@ private: System::Void import_Click(System::Object^  sender, System::EventArgs^  
 			 }
 			 sreader->Close();
 			 Invalidate();
+			 this->time_count = 0;
+			 String ^notice;
+			 String ^split = "\\";
+			 array<Char>^ splitchar = split->ToCharArray();
+			 array<String^>^ words;
+			 words = fname->Split(splitchar);
+			 notice = "[";
+			 notice += words[words->Length-1];
+			 notice += "]を読み込みました";
+			 this->toolStripStatusLabel1->Text = notice;
+}
+private: System::Void toolStripStatusLabel1_Click(System::Object^  sender, System::EventArgs^  e) {
 }
 };
 }
