@@ -64,7 +64,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>NotSet</SubSystem>
       <NoEntryPoint>
       </NoEntryPoint>
       <EntryPointSymbol>main</EntryPointSymbol>
@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ParallelOffsetTool.cpp" />
     <ClCompile Include="ParamShow.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -98,11 +99,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="approx.h" />
+    <ClInclude Include="load_path_list.h" />
+    <ClInclude Include="ParallelOffsetTool.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="ParamShow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ParallelOffsetTool.resx">
+      <DependentUpon>ParallelOffsetTool.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ParamShow.resx">
       <DependentUpon>ParamShow.h</DependentUpon>
     </EmbeddedResource>

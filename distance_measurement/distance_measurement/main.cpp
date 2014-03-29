@@ -17,7 +17,7 @@ int main(){
 	View view_L("LEFT",0,300);
 	View view_R("RIGHT", 670, 300);
 	FormConnection connect;
-	//measurement.threadTracking("Biclops/data/BiclopsDefaultRight.cfg");
+	measurement.threadTracking("Biclops/data/BiclopsDefaultRight.cfg");
 	while (1){
 		int key = cv::waitKey(1);
 		if (key == 0x1b || key == 'q'){
@@ -30,6 +30,7 @@ int main(){
 		view_L.show(measurement.camera_L->colorImage, *(param_L + 2), *(param_L + 3), *(param_L + 6), *(param_L + 7), true);
 		view_R.show(measurement.camera_R->colorImage, *(param_R + 2), *(param_R + 3), *(param_R + 6), *(param_R + 7), true);
 		connect.doSave(&measurement);
+		cv::imshow("test", measurement.vcc_L->templateImage[measurement.vcc_L->targetDB_x][measurement.vcc_L->targetDB_y]);
 	}
 	measurement.trackingLoopFlag = false;
 	measurement.threadTrackingJoin();

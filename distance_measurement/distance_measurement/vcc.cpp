@@ -78,6 +78,7 @@ VCC::VCC(int thres){
 	this->databaseClearFlag = false;
 	this->databaseAllSearchFlag = true;
 	this->allSeekThreshold = 800;
+	this->databaseSearchThreshold = 800;
 }
 
 VCC::~VCC()
@@ -164,7 +165,7 @@ void VCC::templateMatching(){
 		}
 
 		/*---------------------DB探索（相違度が大きかったら実行）---必要ない場合はここをコメントアウト----*/
-		if ((correlationMinimam >= VCC_DISSIMILARITY_THRESHOLD) && this->databaseFlag){
+		if ((correlationMinimam >= this->databaseSearchThreshold) && this->databaseFlag){
 			//テンプレートデータベース探索の際の一時保管用変数
 			int tempCorrelationMinimum;//tmpCrrMin
 			int targetDB_x_min, targetDB_y_min;
@@ -235,7 +236,7 @@ void VCC::templateMatching(){
 
 								int correlationScore = tempCorrelationMinimum;
 								vectorCode = tempMatchingPosition;
-								for (int y = VCC_TEMPLATE_SIZE; y&&correlationScore > 0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
+								for (int y = VCC_TEMPLATE_SIZE/4; y&&correlationScore > 0; y--, vectorCode += VCC_SEEK_AREA_SIZE_X - VCC_TEMPLATE_SIZE)
 								for (int x = VCC_TEMPLATE_QUARTER_SIZE; x; x--, vectorCode += 4, templateVC++)
 									correlationScore += *(correlationMap + (*vectorCode^*templateVC));
 								if (correlationScore <= 0)continue;
@@ -375,7 +376,7 @@ void VCC::templateMatching(){
 			}
 		}
 		///*---------------------サブピクセル推定法------------------------------------------*/
-		if (this->subpixelFlag){
+		if (this->subpixelFlag && matchingCoordinate + VCC_INPUT_IMAGE_SIZE_X + 1 < &(inputVectorCodeAllArea[303530-1])){
 			int Crrpm1[4] = { VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD, VCC_CORRELATION_THRESHOLD };
 			for (int i = 0; i < 4; i++)
 			{
@@ -388,8 +389,8 @@ void VCC::templateMatching(){
 				switch (i){
 				case 0: vectorCode = matchingCoordinate + 1; break;    //X+1のアドレス
 				case 1: vectorCode = matchingCoordinate - 1; break;    //X-1のアドレス
-				case 2: vectorCode = matchingCoordinate + VCC_INPUT_IMAGE_SIZE_X; break;//Y+1のアドレス
-				case 3: vectorCode = matchingCoordinate - VCC_INPUT_IMAGE_SIZE_X; break;//Y-1のアドレス
+				case 2: vectorCode = matchingCoordinate + VCC_INPUT_IMAGE_SIZE_X -5; break;//Y+1のアドレス
+				case 3: vectorCode = matchingCoordinate - VCC_INPUT_IMAGE_SIZE_X -5; break;//Y-1のアドレス
 				}
 
 				for (int y = VCC_TEMPLATE_SIZE / 4; y&&correlationScore > 0; y--, vectorCode += (VCC_INPUT_IMAGE_SIZE_X - 5) - VCC_TEMPLATE_SIZE)

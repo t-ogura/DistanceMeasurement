@@ -22,6 +22,9 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	this->correctParallel = 0.0;
 	this->trackingLoopFlag = false;
 	this->trackingState = "–¢‰Ò“­";
+	this->trackingThreshold = 170;
+	this->trackingHomeFlag = false;
+	this->trackingMoveFlag = true;
 }
 
 Measurement::~Measurement(){}
@@ -51,6 +54,13 @@ void Measurement::tracking(const char* path){
 	ControlBiclops cb(path);
 	this->trackingState = "‰Ò“­’†";
 	while (this->trackingLoopFlag){
+		if (this->trackingHomeFlag){
+			this->trackingState = "ƒz[ƒ€‚Ö";
+			cb.turnHome();
+			Sleep(2000);
+			this->trackingHomeFlag = false;
+			this->trackingState = "‰Ò“­’†";
+		}
 		cb.getPosition();
 		PanTilt pt,my;
 		my.pan = cb.pan_angle_rad;
@@ -59,7 +69,15 @@ void Measurement::tracking(const char* path){
 		this->platformState = my;
 		pt = this->trackingAngle;
 		this->mtx.unlock();
-		cb.deviceTurn(pt.pan, pt.tilt);
+		if (this->trackingMoveFlag){
+			this->trackingState = "‰Ò“­’†";
+			if (this->vcc_L->matchingParameters[8] < this->trackingThreshold && this->vcc_R->matchingParameters[8] < this->trackingThreshold){
+				cb.deviceTurn(pt.pan, pt.tilt);
+			}
+		}
+		else{
+			this->trackingState = "’âŽ~’†";
+		}
 	}
 }
 
@@ -105,7 +123,7 @@ void Measurement::measure(){
 	if (vcc_L->matchingParameters[8] < 850 && vcc_R->matchingParameters[8] < 850){
 		PanTilt pt;
 		pt.pan = this->distance.theta;
-		pt.tilt = (angle_L.tilt + angle_R.tilt) / 2;
+		pt.tilt = (angle_L.tilt + angle_R.tilt) / 2.0;
 		this->mtx.lock();
 		this->trackingAngle = pt;
 		this->mtx.unlock();

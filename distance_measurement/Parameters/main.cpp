@@ -3,6 +3,7 @@
 
 using namespace Parameters;
 
+[STAThreadAttribute]
 int main(){
 	ParamShow ^ps = gcnew ParamShow();
 	ps->ShowDialog();

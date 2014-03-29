@@ -51,6 +51,7 @@ public:
 	double kalmanx, kalmany;
 	bool databaseFlag;
 	bool subpixelFlag;
+	int databaseSearchThreshold;
 	bool databaseClearFlag;
 	bool databaseAllSearchFlag;
 	bool kalmanFlag;

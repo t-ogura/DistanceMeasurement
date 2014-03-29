@@ -30,6 +30,10 @@ public:
 	//ï‚ê≥íl
 	double correctParallel;
 
+	bool trackingHomeFlag;
+	bool trackingMoveFlag;
+
+	int trackingThreshold;
 	std::string trackingState;
 	bool trackingLoopFlag;
 	struct Distances{
