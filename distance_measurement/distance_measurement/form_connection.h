@@ -88,9 +88,9 @@ int FormConnection::input(Measurement *m, std::string filename){
 		if (i == 18){ if (str == "T") m->vcc_R->subpixelFlag = true; else m->vcc_R->subpixelFlag = false; }
 		if (i == 19){ if (str == "T") m->vcc_R->kalmanFlag = true; else m->vcc_R->kalmanFlag = false; }
 		if (i == 20){ std::stringstream ss; ss << str; ss >> m->correctParallel; }
-		if (i == 21){ std::stringstream ss; ss << str; ss >> m->trackingThreshold; }
-		if (i == 22){ std::stringstream ss; ss << str; ss >> m->linear_a; }
-		if (i == 23){ std::stringstream ss; ss << str; ss >> m->linear_b; }
+		if (i == 21){ std::stringstream ss; ss << str; ss >> m->linear_a; }
+		if (i == 22){ std::stringstream ss; ss << str; ss >> m->linear_b; }
+		if (i == 23){ std::stringstream ss; ss << str; ss >> m->trackingThreshold; }
 		if (i == 24){ if (str == "T") { m->trackingHomeFlag = true; this->plat_home_ack = true; } }
 		if (i == 25){ if (str == "T") { m->trackingMoveFlag = true; this->plat_move_ack = true; } }
 		if (i == 26){ if (str == "T") { m->trackingMoveFlag = false; this->plat_stop_ack = true; } }
