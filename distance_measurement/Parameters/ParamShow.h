@@ -202,6 +202,10 @@ public:
 
 private: System::Windows::Forms::Label^  origin_measure_before;
 private: System::Windows::Forms::Label^  label5;
+private: System::Windows::Forms::TabControl^  tabControl1;
+private: System::Windows::Forms::TabPage^  tabPage1;
+private: System::Windows::Forms::TabPage^  tabPage2;
+private: System::Windows::Forms::TabPage^  tabPage3;
 
 
 private:
@@ -345,6 +349,10 @@ private:
 			this->focal_box = (gcnew System::Windows::Forms::TextBox());
 			this->focal_label = (gcnew System::Windows::Forms::Label());
 			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
+			this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
+			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
+			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
+			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
 			this->leftcamera->SuspendLayout();
 			this->tableLayoutPanel3->SuspendLayout();
 			this->tableLayoutPanel1->SuspendLayout();
@@ -364,6 +372,10 @@ private:
 			this->groupBox2->SuspendLayout();
 			this->groupBox3->SuspendLayout();
 			this->groupBox4->SuspendLayout();
+			this->tabControl1->SuspendLayout();
+			this->tabPage1->SuspendLayout();
+			this->tabPage2->SuspendLayout();
+			this->tabPage3->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// label1
@@ -457,7 +469,7 @@ private:
 			this->leftcamera->Controls->Add(this->db_flag_l);
 			this->leftcamera->Controls->Add(this->tableLayoutPanel3);
 			this->leftcamera->Controls->Add(this->tableLayoutPanel1);
-			this->leftcamera->Location = System::Drawing::Point(13, 261);
+			this->leftcamera->Location = System::Drawing::Point(3, 6);
 			this->leftcamera->Name = L"leftcamera";
 			this->leftcamera->Size = System::Drawing::Size(143, 286);
 			this->leftcamera->TabIndex = 8;
@@ -619,7 +631,7 @@ private:
 			this->tableLayoutPanel3->RowCount = 1;
 			this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
 			this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 19)));
-			this->tableLayoutPanel3->Size = System::Drawing::Size(116, 19);
+			this->tableLayoutPanel3->Size = System::Drawing::Size(113, 19);
 			this->tableLayoutPanel3->TabIndex = 10;
 			// 
 			// corr_l
@@ -628,9 +640,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->corr_l->AutoSize = true;
 			this->corr_l->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->corr_l->Location = System::Drawing::Point(72, 0);
+			this->corr_l->Location = System::Drawing::Point(70, 0);
 			this->corr_l->Name = L"corr_l";
-			this->corr_l->Size = System::Drawing::Size(41, 12);
+			this->corr_l->Size = System::Drawing::Size(40, 12);
 			this->corr_l->TabIndex = 5;
 			this->corr_l->Text = L"000";
 			this->corr_l->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
@@ -642,7 +654,7 @@ private:
 			this->correlatel->AutoSize = true;
 			this->correlatel->Location = System::Drawing::Point(3, 0);
 			this->correlatel->Name = L"correlatel";
-			this->correlatel->Size = System::Drawing::Size(63, 12);
+			this->correlatel->Size = System::Drawing::Size(61, 12);
 			this->correlatel->TabIndex = 3;
 			this->correlatel->Text = L"相関値";
 			this->correlatel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -655,7 +667,7 @@ private:
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				31.31313F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				31)));
+				32)));
 			this->tableLayoutPanel1->Controls->Add(this->xl, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->yl, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->coodinatel, 0, 1);
@@ -679,9 +691,9 @@ private:
 			this->xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->xl->AutoSize = true;
-			this->xl->Location = System::Drawing::Point(71, 0);
+			this->xl->Location = System::Drawing::Point(70, 0);
 			this->xl->Name = L"xl";
-			this->xl->Size = System::Drawing::Size(25, 12);
+			this->xl->Size = System::Drawing::Size(24, 12);
 			this->xl->TabIndex = 0;
 			this->xl->Text = L"x";
 			this->xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -691,9 +703,9 @@ private:
 			this->yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->yl->AutoSize = true;
-			this->yl->Location = System::Drawing::Point(102, 0);
+			this->yl->Location = System::Drawing::Point(100, 0);
 			this->yl->Name = L"yl";
-			this->yl->Size = System::Drawing::Size(26, 12);
+			this->yl->Size = System::Drawing::Size(28, 12);
 			this->yl->TabIndex = 1;
 			this->yl->Text = L"y";
 			this->yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -705,7 +717,7 @@ private:
 			this->coodinatel->AutoSize = true;
 			this->coodinatel->Location = System::Drawing::Point(3, 19);
 			this->coodinatel->Name = L"coodinatel";
-			this->coodinatel->Size = System::Drawing::Size(62, 12);
+			this->coodinatel->Size = System::Drawing::Size(61, 12);
 			this->coodinatel->TabIndex = 2;
 			this->coodinatel->Text = L"検出座標";
 			this->coodinatel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -717,7 +729,7 @@ private:
 			this->databasel->AutoSize = true;
 			this->databasel->Location = System::Drawing::Point(3, 38);
 			this->databasel->Name = L"databasel";
-			this->databasel->Size = System::Drawing::Size(62, 12);
+			this->databasel->Size = System::Drawing::Size(61, 12);
 			this->databasel->TabIndex = 3;
 			this->databasel->Text = L"Database";
 			this->databasel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -728,9 +740,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_xl->AutoSize = true;
 			this->coor_xl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_xl->Location = System::Drawing::Point(71, 19);
+			this->coor_xl->Location = System::Drawing::Point(70, 19);
 			this->coor_xl->Name = L"coor_xl";
-			this->coor_xl->Size = System::Drawing::Size(25, 12);
+			this->coor_xl->Size = System::Drawing::Size(24, 12);
 			this->coor_xl->TabIndex = 4;
 			this->coor_xl->Text = L"000";
 			this->coor_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -741,9 +753,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_yl->AutoSize = true;
 			this->coor_yl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_yl->Location = System::Drawing::Point(102, 19);
+			this->coor_yl->Location = System::Drawing::Point(100, 19);
 			this->coor_yl->Name = L"coor_yl";
-			this->coor_yl->Size = System::Drawing::Size(26, 12);
+			this->coor_yl->Size = System::Drawing::Size(28, 12);
 			this->coor_yl->TabIndex = 5;
 			this->coor_yl->Text = L"000";
 			this->coor_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -753,9 +765,9 @@ private:
 			this->db_xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_xl->AutoSize = true;
-			this->db_xl->Location = System::Drawing::Point(71, 38);
+			this->db_xl->Location = System::Drawing::Point(70, 38);
 			this->db_xl->Name = L"db_xl";
-			this->db_xl->Size = System::Drawing::Size(25, 12);
+			this->db_xl->Size = System::Drawing::Size(24, 12);
 			this->db_xl->TabIndex = 6;
 			this->db_xl->Text = L"4";
 			this->db_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -765,9 +777,9 @@ private:
 			this->db_yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_yl->AutoSize = true;
-			this->db_yl->Location = System::Drawing::Point(102, 38);
+			this->db_yl->Location = System::Drawing::Point(100, 38);
 			this->db_yl->Name = L"db_yl";
-			this->db_yl->Size = System::Drawing::Size(26, 12);
+			this->db_yl->Size = System::Drawing::Size(28, 12);
 			this->db_yl->TabIndex = 7;
 			this->db_yl->Text = L"4";
 			this->db_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -789,7 +801,7 @@ private:
 			this->rightcamera->Controls->Add(this->db_all_r);
 			this->rightcamera->Controls->Add(this->th_box_r);
 			this->rightcamera->Controls->Add(this->db_reset_r);
-			this->rightcamera->Location = System::Drawing::Point(162, 261);
+			this->rightcamera->Location = System::Drawing::Point(152, 6);
 			this->rightcamera->Name = L"rightcamera";
 			this->rightcamera->Size = System::Drawing::Size(143, 286);
 			this->rightcamera->TabIndex = 9;
@@ -1111,7 +1123,7 @@ private:
 			this->ofset_group->Controls->Add(this->linear_flag);
 			this->ofset_group->Controls->Add(this->tool_button);
 			this->ofset_group->Controls->Add(this->ofset_check);
-			this->ofset_group->Location = System::Drawing::Point(13, 102);
+			this->ofset_group->Location = System::Drawing::Point(3, 95);
 			this->ofset_group->Name = L"ofset_group";
 			this->ofset_group->Size = System::Drawing::Size(216, 107);
 			this->ofset_group->TabIndex = 10;
@@ -1275,7 +1287,7 @@ private:
 			this->pan_tilt_unit_group->Controls->Add(this->plat_stop_button);
 			this->pan_tilt_unit_group->Controls->Add(this->tableLayoutPanel5);
 			this->pan_tilt_unit_group->Controls->Add(this->pan_tilt_status);
-			this->pan_tilt_unit_group->Location = System::Drawing::Point(13, 553);
+			this->pan_tilt_unit_group->Location = System::Drawing::Point(3, 6);
 			this->pan_tilt_unit_group->Name = L"pan_tilt_unit_group";
 			this->pan_tilt_unit_group->Size = System::Drawing::Size(292, 88);
 			this->pan_tilt_unit_group->TabIndex = 11;
@@ -1467,7 +1479,7 @@ private:
 			this->save_box->Controls->Add(this->flame_num);
 			this->save_box->Controls->Add(this->filename_box);
 			this->save_box->Controls->Add(this->filename_label);
-			this->save_box->Location = System::Drawing::Point(13, 647);
+			this->save_box->Location = System::Drawing::Point(3, 254);
 			this->save_box->Name = L"save_box";
 			this->save_box->Size = System::Drawing::Size(292, 112);
 			this->save_box->TabIndex = 12;
@@ -1496,7 +1508,7 @@ private:
 			// comboBox1
 			// 
 			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(3) { L"KF適用後", L"中心からの距離", L"計測値" });
+			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(4) { L"KF適用後", L"中心からの距離", L"補正後計測値", L"補正前計測値" });
 			this->comboBox1->Location = System::Drawing::Point(167, 31);
 			this->comboBox1->Name = L"comboBox1";
 			this->comboBox1->Size = System::Drawing::Size(120, 20);
@@ -1579,7 +1591,7 @@ private:
 			this->groupBox2->Controls->Add(this->reset_button);
 			this->groupBox2->Controls->Add(this->output_button);
 			this->groupBox2->Controls->Add(this->read_button);
-			this->groupBox2->Location = System::Drawing::Point(236, 102);
+			this->groupBox2->Location = System::Drawing::Point(226, 95);
 			this->groupBox2->Name = L"groupBox2";
 			this->groupBox2->Size = System::Drawing::Size(69, 107);
 			this->groupBox2->TabIndex = 13;
@@ -1628,7 +1640,7 @@ private:
 			this->groupBox3->Controls->Add(this->pixel_label);
 			this->groupBox3->Controls->Add(this->focal_box);
 			this->groupBox3->Controls->Add(this->focal_label);
-			this->groupBox3->Location = System::Drawing::Point(13, 215);
+			this->groupBox3->Location = System::Drawing::Point(3, 208);
 			this->groupBox3->Name = L"groupBox3";
 			this->groupBox3->Size = System::Drawing::Size(292, 40);
 			this->groupBox3->TabIndex = 14;
@@ -1692,26 +1704,68 @@ private:
 			// groupBox4
 			// 
 			this->groupBox4->Controls->Add(this->tableLayoutPanel6);
-			this->groupBox4->Location = System::Drawing::Point(13, 13);
+			this->groupBox4->Location = System::Drawing::Point(3, 6);
 			this->groupBox4->Name = L"groupBox4";
 			this->groupBox4->Size = System::Drawing::Size(292, 83);
 			this->groupBox4->TabIndex = 15;
 			this->groupBox4->TabStop = false;
 			this->groupBox4->Text = L"距離計測";
 			// 
+			// tabControl1
+			// 
+			this->tabControl1->Controls->Add(this->tabPage1);
+			this->tabControl1->Controls->Add(this->tabPage2);
+			this->tabControl1->Controls->Add(this->tabPage3);
+			this->tabControl1->Location = System::Drawing::Point(-1, 1);
+			this->tabControl1->Name = L"tabControl1";
+			this->tabControl1->SelectedIndex = 0;
+			this->tabControl1->Size = System::Drawing::Size(311, 400);
+			this->tabControl1->TabIndex = 16;
+			// 
+			// tabPage1
+			// 
+			this->tabPage1->Controls->Add(this->groupBox4);
+			this->tabPage1->Controls->Add(this->save_box);
+			this->tabPage1->Controls->Add(this->groupBox3);
+			this->tabPage1->Controls->Add(this->ofset_group);
+			this->tabPage1->Controls->Add(this->groupBox2);
+			this->tabPage1->Location = System::Drawing::Point(4, 22);
+			this->tabPage1->Name = L"tabPage1";
+			this->tabPage1->Padding = System::Windows::Forms::Padding(3);
+			this->tabPage1->Size = System::Drawing::Size(303, 374);
+			this->tabPage1->TabIndex = 0;
+			this->tabPage1->Text = L"全般";
+			this->tabPage1->UseVisualStyleBackColor = true;
+			// 
+			// tabPage2
+			// 
+			this->tabPage2->Controls->Add(this->leftcamera);
+			this->tabPage2->Controls->Add(this->rightcamera);
+			this->tabPage2->Location = System::Drawing::Point(4, 22);
+			this->tabPage2->Name = L"tabPage2";
+			this->tabPage2->Padding = System::Windows::Forms::Padding(3);
+			this->tabPage2->Size = System::Drawing::Size(303, 374);
+			this->tabPage2->TabIndex = 1;
+			this->tabPage2->Text = L"カメラ";
+			this->tabPage2->UseVisualStyleBackColor = true;
+			// 
+			// tabPage3
+			// 
+			this->tabPage3->Controls->Add(this->pan_tilt_unit_group);
+			this->tabPage3->Location = System::Drawing::Point(4, 22);
+			this->tabPage3->Name = L"tabPage3";
+			this->tabPage3->Padding = System::Windows::Forms::Padding(3);
+			this->tabPage3->Size = System::Drawing::Size(303, 374);
+			this->tabPage3->TabIndex = 2;
+			this->tabPage3->Text = L"電動雲台";
+			this->tabPage3->UseVisualStyleBackColor = true;
+			// 
 			// ParamShow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(315, 750);
-			this->Controls->Add(this->groupBox4);
-			this->Controls->Add(this->groupBox3);
-			this->Controls->Add(this->groupBox2);
-			this->Controls->Add(this->save_box);
-			this->Controls->Add(this->rightcamera);
-			this->Controls->Add(this->leftcamera);
-			this->Controls->Add(this->ofset_group);
-			this->Controls->Add(this->pan_tilt_unit_group);
+			this->ClientSize = System::Drawing::Size(303, 394);
+			this->Controls->Add(this->tabControl1);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
 			this->Name = L"ParamShow";
@@ -1751,6 +1805,10 @@ private:
 			this->groupBox3->ResumeLayout(false);
 			this->groupBox3->PerformLayout();
 			this->groupBox4->ResumeLayout(false);
+			this->tabControl1->ResumeLayout(false);
+			this->tabPage1->ResumeLayout(false);
+			this->tabPage2->ResumeLayout(false);
+			this->tabPage3->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}

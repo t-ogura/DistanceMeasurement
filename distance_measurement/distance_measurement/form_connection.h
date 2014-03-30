@@ -186,8 +186,11 @@ int FormConnection::doSave(Measurement *m){
 	else if (this->save_file_param == "中心からの距離"){
 		save << m->distance.mid << std::endl;
 	}
-	else if (this->save_file_param == "計測値"){
+	else if (this->save_file_param == "補正後計測値"){
 		save << m->distance.original << std::endl;
+	}
+	else if (this->save_file_param == "補正前計測値"){
+		save << m->non_ofset.original << std::endl;
 	}
 
 	if (this->save_csv_log){
