@@ -1931,16 +1931,16 @@ private: System::Void all_flag_l_CheckedChanged(System::Object^  sender, System:
 private: System::Void checkBox1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 }
 private: System::Void db_flag_l_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
-			 this->db_all_l->Enabled = this->db_flag_l->Checked;
-			 this->db_reset_l->Enabled = this->db_flag_l->Checked;
+//			 this->db_all_l->Enabled = this->db_flag_l->Checked;
+//			 this->db_reset_l->Enabled = this->db_flag_l->Checked;
 }
 private: System::Void all_flag_r_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 this->thr->Enabled = this->all_flag_r->Checked;
 			 this->th_box_r->Enabled = this->all_flag_r->Checked;
 }
 private: System::Void db_flag_r_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
-			 this->db_all_r->Enabled = this->db_flag_r->Checked;
-			 this->db_reset_r->Enabled = this->db_flag_r->Checked;
+//			 this->db_all_r->Enabled = this->db_flag_r->Checked;
+//			 this->db_reset_r->Enabled = this->db_flag_r->Checked;
 }
 private: System::Void label4_Click_1(System::Object^  sender, System::EventArgs^  e) {
 }

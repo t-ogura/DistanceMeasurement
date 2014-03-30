@@ -165,17 +165,16 @@ void VCC::templateMatching(){
 		}
 
 		/*---------------------DB探索（相違度が大きかったら実行）---必要ない場合はここをコメントアウト----*/
-		if ((correlationMinimam >= this->databaseSearchThreshold) && this->databaseFlag){
+		if (this->databaseClearFlag){
+			this->targetDB_x = 4;
+			this->targetDB_y = 4;
+			this->databaseClearFlag = false;
+		}
+		if ((correlationMinimam >= this->databaseSearchThreshold) && this->databaseFlag || this->databaseAllSearchFlag){
 			//テンプレートデータベース探索の際の一時保管用変数
 			int tempCorrelationMinimum;//tmpCrrMin
 			int targetDB_x_min, targetDB_y_min;
 
-			if (this->databaseClearFlag){
-				std::cout << "Database reset" << std::endl;
-				this->targetDB_x = 4;
-				this->targetDB_y = 4;
-				this->databaseClearFlag = false;
-			}
 			if (this->databaseAllSearchFlag){
 				for (int j = this->targetDB_x - 8; j <= this->targetDB_x + 8; j++){
 					for (int i = this->targetDB_y - 8; i <= this->targetDB_y + 8; i++){
