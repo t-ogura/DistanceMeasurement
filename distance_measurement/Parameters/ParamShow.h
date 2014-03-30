@@ -57,14 +57,14 @@ namespace Parameters {
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Timer^  timer1;
 	private: System::Windows::Forms::Label^  label2;
-	public: System::Windows::Forms::Label^  label3;
+
 	private: System::Windows::Forms::Label^  theta;
 
 	private: System::Windows::Forms::Label^  pan_label;
 
 
 
-	private: System::Windows::Forms::Label^  kalman;
+
 
 	private: System::Windows::Forms::Label^  mid;
 
@@ -117,7 +117,8 @@ namespace Parameters {
 	private: System::Windows::Forms::Button^  db_all_r;
 	private: System::Windows::Forms::TextBox^  th_box_r;
 	private: System::Windows::Forms::Button^  db_reset_r;
-	private: System::Windows::Forms::GroupBox^  measurement_box;
+	private: System::Windows::Forms::GroupBox^  ofset_group;
+
 	private: System::Windows::Forms::GroupBox^  pan_tilt_unit_group;
 	private: System::Windows::Forms::GroupBox^  pan_tilt_status;
 	private: System::Windows::Forms::Label^  platform_state;
@@ -133,8 +134,8 @@ private: System::Windows::Forms::Label^  platform_tilt;
 private: System::Windows::Forms::Label^  platform_pan;
 private: System::Windows::Forms::Label^  tilt_label;
 private: System::Windows::Forms::Label^  pla_pos_label;
-private: System::Windows::Forms::TextBox^  ofset;
-private: System::Windows::Forms::CheckBox^  ofset_check;
+public: System::Windows::Forms::TextBox^  ofset;
+public: System::Windows::Forms::CheckBox^  ofset_check;
 private: System::Windows::Forms::Label^  move_tilt;
 private: System::Windows::Forms::GroupBox^  save_box;
 
@@ -166,7 +167,7 @@ private: System::Windows::Forms::TextBox^  db_th_box_r;
 private: System::Windows::Forms::Button^  tool_button;
 
 private: System::Windows::Forms::GroupBox^  groupBox2;
-private: System::Windows::Forms::Button^  something_button;
+
 
 private: System::Windows::Forms::Button^  reset_button;
 
@@ -184,6 +185,25 @@ private: System::Windows::Forms::TextBox^  focal_box;
 private: System::Windows::Forms::Label^  focal_label;
 public: System::Windows::Forms::TextBox^  base_box;
 private: System::Windows::Forms::Label^  base_label;
+public: System::Windows::Forms::TextBox^  linear_b;
+private: System::Windows::Forms::Label^  label4;
+public: System::Windows::Forms::TextBox^  linear_a;
+public: System::Windows::Forms::CheckBox^  linear_flag;
+private: System::Windows::Forms::Label^  kalman;
+public: System::Windows::Forms::Label^  label3;
+private:
+private: System::Windows::Forms::GroupBox^  groupBox4;
+public:
+private: System::Windows::Forms::GroupBox^  groupBox5;
+private: System::Windows::Forms::GroupBox^  before_ofset_group;
+private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel9;
+private: System::Windows::Forms::Label^  label5;
+private: System::Windows::Forms::Label^  label6;
+private: System::Windows::Forms::Label^  label7;
+private: System::Windows::Forms::Label^  origin_measure_before;
+private: System::Windows::Forms::Label^  mid_measure_before;
+public: System::Windows::Forms::Label^  kf_measure_before;
+private:
 
 
 
@@ -214,10 +234,8 @@ private: System::Windows::Forms::Label^  base_label;
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->theta = (gcnew System::Windows::Forms::Label());
 			this->pan_label = (gcnew System::Windows::Forms::Label());
-			this->kalman = (gcnew System::Windows::Forms::Label());
 			this->mid = (gcnew System::Windows::Forms::Label());
 			this->Origin = (gcnew System::Windows::Forms::Label());
 			this->leftcamera = (gcnew System::Windows::Forms::GroupBox());
@@ -272,11 +290,17 @@ private: System::Windows::Forms::Label^  base_label;
 			this->db_all_r = (gcnew System::Windows::Forms::Button());
 			this->th_box_r = (gcnew System::Windows::Forms::TextBox());
 			this->db_reset_r = (gcnew System::Windows::Forms::Button());
-			this->measurement_box = (gcnew System::Windows::Forms::GroupBox());
-			this->tool_button = (gcnew System::Windows::Forms::Button());
+			this->ofset_group = (gcnew System::Windows::Forms::GroupBox());
+			this->linear_b = (gcnew System::Windows::Forms::TextBox());
+			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->linear_a = (gcnew System::Windows::Forms::TextBox());
 			this->ofset = (gcnew System::Windows::Forms::TextBox());
+			this->linear_flag = (gcnew System::Windows::Forms::CheckBox());
+			this->tool_button = (gcnew System::Windows::Forms::Button());
 			this->ofset_check = (gcnew System::Windows::Forms::CheckBox());
 			this->tableLayoutPanel6 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->kalman = (gcnew System::Windows::Forms::Label());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->filename_label = (gcnew System::Windows::Forms::Label());
 			this->pan_tilt_unit_group = (gcnew System::Windows::Forms::GroupBox());
 			this->plat_th_label = (gcnew System::Windows::Forms::Label());
@@ -306,25 +330,34 @@ private: System::Windows::Forms::Label^  base_label;
 			this->flame_num = (gcnew System::Windows::Forms::NumericUpDown());
 			this->filename_box = (gcnew System::Windows::Forms::TextBox());
 			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
-			this->something_button = (gcnew System::Windows::Forms::Button());
 			this->reset_button = (gcnew System::Windows::Forms::Button());
 			this->output_button = (gcnew System::Windows::Forms::Button());
 			this->read_button = (gcnew System::Windows::Forms::Button());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
-			this->focal_label = (gcnew System::Windows::Forms::Label());
-			this->focal_box = (gcnew System::Windows::Forms::TextBox());
-			this->pixel_box = (gcnew System::Windows::Forms::TextBox());
-			this->pixel_label = (gcnew System::Windows::Forms::Label());
 			this->base_box = (gcnew System::Windows::Forms::TextBox());
 			this->base_label = (gcnew System::Windows::Forms::Label());
+			this->pixel_box = (gcnew System::Windows::Forms::TextBox());
+			this->pixel_label = (gcnew System::Windows::Forms::Label());
+			this->focal_box = (gcnew System::Windows::Forms::TextBox());
+			this->focal_label = (gcnew System::Windows::Forms::Label());
+			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
+			this->groupBox5 = (gcnew System::Windows::Forms::GroupBox());
+			this->before_ofset_group = (gcnew System::Windows::Forms::GroupBox());
+			this->tableLayoutPanel9 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->label5 = (gcnew System::Windows::Forms::Label());
+			this->label6 = (gcnew System::Windows::Forms::Label());
+			this->label7 = (gcnew System::Windows::Forms::Label());
+			this->origin_measure_before = (gcnew System::Windows::Forms::Label());
+			this->mid_measure_before = (gcnew System::Windows::Forms::Label());
+			this->kf_measure_before = (gcnew System::Windows::Forms::Label());
 			this->leftcamera->SuspendLayout();
 			this->tableLayoutPanel3->SuspendLayout();
 			this->tableLayoutPanel1->SuspendLayout();
 			this->rightcamera->SuspendLayout();
 			this->tableLayoutPanel4->SuspendLayout();
 			this->tableLayoutPanel2->SuspendLayout();
-			this->measurement_box->SuspendLayout();
+			this->ofset_group->SuspendLayout();
 			this->tableLayoutPanel6->SuspendLayout();
 			this->pan_tilt_unit_group->SuspendLayout();
 			this->tableLayoutPanel5->SuspendLayout();
@@ -336,13 +369,17 @@ private: System::Windows::Forms::Label^  base_label;
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->flame_num))->BeginInit();
 			this->groupBox2->SuspendLayout();
 			this->groupBox3->SuspendLayout();
+			this->groupBox4->SuspendLayout();
+			this->groupBox5->SuspendLayout();
+			this->before_ofset_group->SuspendLayout();
+			this->tableLayoutPanel9->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// label1
 			// 
 			this->label1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(157, 0);
+			this->label1->Location = System::Drawing::Point(212, 0);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(43, 12);
 			this->label1->TabIndex = 0;
@@ -361,25 +398,13 @@ private: System::Windows::Forms::Label^  base_label;
 			// 
 			this->label2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(157, 19);
+			this->label2->Location = System::Drawing::Point(212, 15);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(43, 12);
 			this->label2->TabIndex = 1;
 			this->label2->Text = L"0000.00";
 			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
 			this->label2->Click += gcnew System::EventHandler(this, &ParamShow::label2_Click);
-			// 
-			// label3
-			// 
-			this->label3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
-			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(157, 38);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(43, 12);
-			this->label3->TabIndex = 2;
-			this->label3->Text = L"0000.00";
-			this->label3->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->label3->Click += gcnew System::EventHandler(this, &ParamShow::label3_Click);
 			// 
 			// theta
 			// 
@@ -404,20 +429,10 @@ private: System::Windows::Forms::Label^  base_label;
 			this->pan_label->Text = L"PAN";
 			this->pan_label->Click += gcnew System::EventHandler(this, &ParamShow::label5_Click);
 			// 
-			// kalman
-			// 
-			this->kalman->AutoSize = true;
-			this->kalman->Location = System::Drawing::Point(3, 38);
-			this->kalman->Name = L"kalman";
-			this->kalman->Size = System::Drawing::Size(55, 12);
-			this->kalman->TabIndex = 6;
-			this->kalman->Text = L"KF適用後";
-			this->kalman->Click += gcnew System::EventHandler(this, &ParamShow::label6_Click);
-			// 
 			// mid
 			// 
 			this->mid->AutoSize = true;
-			this->mid->Location = System::Drawing::Point(3, 19);
+			this->mid->Location = System::Drawing::Point(3, 15);
 			this->mid->Name = L"mid";
 			this->mid->Size = System::Drawing::Size(81, 12);
 			this->mid->TabIndex = 5;
@@ -451,7 +466,7 @@ private: System::Windows::Forms::Label^  base_label;
 			this->leftcamera->Controls->Add(this->db_flag_l);
 			this->leftcamera->Controls->Add(this->tableLayoutPanel3);
 			this->leftcamera->Controls->Add(this->tableLayoutPanel1);
-			this->leftcamera->Location = System::Drawing::Point(12, 197);
+			this->leftcamera->Location = System::Drawing::Point(12, 346);
 			this->leftcamera->Name = L"leftcamera";
 			this->leftcamera->Size = System::Drawing::Size(143, 286);
 			this->leftcamera->TabIndex = 8;
@@ -649,7 +664,7 @@ private: System::Windows::Forms::Label^  base_label;
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				31.31313F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				38)));
+				40)));
 			this->tableLayoutPanel1->Controls->Add(this->xl, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->yl, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->coodinatel, 0, 1);
@@ -673,9 +688,9 @@ private: System::Windows::Forms::Label^  base_label;
 			this->xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->xl->AutoSize = true;
-			this->xl->Location = System::Drawing::Point(66, 0);
+			this->xl->Location = System::Drawing::Point(65, 0);
 			this->xl->Name = L"xl";
-			this->xl->Size = System::Drawing::Size(23, 12);
+			this->xl->Size = System::Drawing::Size(22, 12);
 			this->xl->TabIndex = 0;
 			this->xl->Text = L"x";
 			this->xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -685,9 +700,9 @@ private: System::Windows::Forms::Label^  base_label;
 			this->yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->yl->AutoSize = true;
-			this->yl->Location = System::Drawing::Point(95, 0);
+			this->yl->Location = System::Drawing::Point(93, 0);
 			this->yl->Name = L"yl";
-			this->yl->Size = System::Drawing::Size(33, 12);
+			this->yl->Size = System::Drawing::Size(35, 12);
 			this->yl->TabIndex = 1;
 			this->yl->Text = L"y";
 			this->yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -699,7 +714,7 @@ private: System::Windows::Forms::Label^  base_label;
 			this->coodinatel->AutoSize = true;
 			this->coodinatel->Location = System::Drawing::Point(3, 19);
 			this->coodinatel->Name = L"coodinatel";
-			this->coodinatel->Size = System::Drawing::Size(57, 12);
+			this->coodinatel->Size = System::Drawing::Size(56, 12);
 			this->coodinatel->TabIndex = 2;
 			this->coodinatel->Text = L"検出座標";
 			this->coodinatel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -711,7 +726,7 @@ private: System::Windows::Forms::Label^  base_label;
 			this->databasel->AutoSize = true;
 			this->databasel->Location = System::Drawing::Point(3, 38);
 			this->databasel->Name = L"databasel";
-			this->databasel->Size = System::Drawing::Size(57, 12);
+			this->databasel->Size = System::Drawing::Size(56, 12);
 			this->databasel->TabIndex = 3;
 			this->databasel->Text = L"Database";
 			this->databasel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -722,9 +737,9 @@ private: System::Windows::Forms::Label^  base_label;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_xl->AutoSize = true;
 			this->coor_xl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_xl->Location = System::Drawing::Point(66, 19);
+			this->coor_xl->Location = System::Drawing::Point(65, 19);
 			this->coor_xl->Name = L"coor_xl";
-			this->coor_xl->Size = System::Drawing::Size(23, 12);
+			this->coor_xl->Size = System::Drawing::Size(22, 19);
 			this->coor_xl->TabIndex = 4;
 			this->coor_xl->Text = L"000";
 			this->coor_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -735,9 +750,9 @@ private: System::Windows::Forms::Label^  base_label;
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_yl->AutoSize = true;
 			this->coor_yl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_yl->Location = System::Drawing::Point(95, 19);
+			this->coor_yl->Location = System::Drawing::Point(93, 19);
 			this->coor_yl->Name = L"coor_yl";
-			this->coor_yl->Size = System::Drawing::Size(33, 12);
+			this->coor_yl->Size = System::Drawing::Size(35, 12);
 			this->coor_yl->TabIndex = 5;
 			this->coor_yl->Text = L"000";
 			this->coor_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -747,9 +762,9 @@ private: System::Windows::Forms::Label^  base_label;
 			this->db_xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_xl->AutoSize = true;
-			this->db_xl->Location = System::Drawing::Point(66, 38);
+			this->db_xl->Location = System::Drawing::Point(65, 38);
 			this->db_xl->Name = L"db_xl";
-			this->db_xl->Size = System::Drawing::Size(23, 12);
+			this->db_xl->Size = System::Drawing::Size(22, 12);
 			this->db_xl->TabIndex = 6;
 			this->db_xl->Text = L"4";
 			this->db_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -759,9 +774,9 @@ private: System::Windows::Forms::Label^  base_label;
 			this->db_yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_yl->AutoSize = true;
-			this->db_yl->Location = System::Drawing::Point(95, 38);
+			this->db_yl->Location = System::Drawing::Point(93, 38);
 			this->db_yl->Name = L"db_yl";
-			this->db_yl->Size = System::Drawing::Size(33, 12);
+			this->db_yl->Size = System::Drawing::Size(35, 12);
 			this->db_yl->TabIndex = 7;
 			this->db_yl->Text = L"4";
 			this->db_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -783,7 +798,7 @@ private: System::Windows::Forms::Label^  base_label;
 			this->rightcamera->Controls->Add(this->db_all_r);
 			this->rightcamera->Controls->Add(this->th_box_r);
 			this->rightcamera->Controls->Add(this->db_reset_r);
-			this->rightcamera->Location = System::Drawing::Point(161, 197);
+			this->rightcamera->Location = System::Drawing::Point(161, 346);
 			this->rightcamera->Name = L"rightcamera";
 			this->rightcamera->Size = System::Drawing::Size(143, 286);
 			this->rightcamera->TabIndex = 9;
@@ -1096,22 +1111,75 @@ private: System::Windows::Forms::Label^  base_label;
 			this->db_reset_r->UseVisualStyleBackColor = true;
 			this->db_reset_r->Click += gcnew System::EventHandler(this, &ParamShow::db_reset_r_Click);
 			// 
-			// measurement_box
+			// ofset_group
 			// 
-			this->measurement_box->Controls->Add(this->tool_button);
-			this->measurement_box->Controls->Add(this->ofset);
-			this->measurement_box->Controls->Add(this->ofset_check);
-			this->measurement_box->Controls->Add(this->tableLayoutPanel6);
-			this->measurement_box->Location = System::Drawing::Point(12, 12);
-			this->measurement_box->Name = L"measurement_box";
-			this->measurement_box->Size = System::Drawing::Size(216, 133);
-			this->measurement_box->TabIndex = 10;
-			this->measurement_box->TabStop = false;
-			this->measurement_box->Text = L"距離計測";
+			this->ofset_group->Controls->Add(this->linear_b);
+			this->ofset_group->Controls->Add(this->label4);
+			this->ofset_group->Controls->Add(this->linear_a);
+			this->ofset_group->Controls->Add(this->ofset);
+			this->ofset_group->Controls->Add(this->linear_flag);
+			this->ofset_group->Controls->Add(this->tool_button);
+			this->ofset_group->Controls->Add(this->ofset_check);
+			this->ofset_group->Location = System::Drawing::Point(12, 187);
+			this->ofset_group->Name = L"ofset_group";
+			this->ofset_group->Size = System::Drawing::Size(216, 107);
+			this->ofset_group->TabIndex = 10;
+			this->ofset_group->TabStop = false;
+			this->ofset_group->Text = L"補正";
+			// 
+			// linear_b
+			// 
+			this->linear_b->Enabled = false;
+			this->linear_b->Location = System::Drawing::Point(131, 80);
+			this->linear_b->Name = L"linear_b";
+			this->linear_b->Size = System::Drawing::Size(79, 19);
+			this->linear_b->TabIndex = 25;
+			this->linear_b->Text = L"0.0";
+			this->linear_b->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Enabled = false;
+			this->label4->Location = System::Drawing::Point(104, 83);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(25, 12);
+			this->label4->TabIndex = 24;
+			this->label4->Text = L"x  +";
+			// 
+			// linear_a
+			// 
+			this->linear_a->Enabled = false;
+			this->linear_a->Location = System::Drawing::Point(6, 80);
+			this->linear_a->Name = L"linear_a";
+			this->linear_a->Size = System::Drawing::Size(97, 19);
+			this->linear_a->TabIndex = 12;
+			this->linear_a->Text = L"0.0";
+			this->linear_a->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// ofset
+			// 
+			this->ofset->Enabled = false;
+			this->ofset->Location = System::Drawing::Point(6, 36);
+			this->ofset->Name = L"ofset";
+			this->ofset->Size = System::Drawing::Size(203, 19);
+			this->ofset->TabIndex = 9;
+			this->ofset->Text = L"0.0";
+			this->ofset->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// linear_flag
+			// 
+			this->linear_flag->AutoSize = true;
+			this->linear_flag->Location = System::Drawing::Point(6, 62);
+			this->linear_flag->Name = L"linear_flag";
+			this->linear_flag->Size = System::Drawing::Size(72, 16);
+			this->linear_flag->TabIndex = 11;
+			this->linear_flag->Text = L"線形補正";
+			this->linear_flag->UseVisualStyleBackColor = true;
 			// 
 			// tool_button
 			// 
-			this->tool_button->Location = System::Drawing::Point(149, 77);
+			this->tool_button->Location = System::Drawing::Point(149, 14);
 			this->tool_button->Name = L"tool_button";
 			this->tool_button->Size = System::Drawing::Size(61, 20);
 			this->tool_button->TabIndex = 10;
@@ -1119,20 +1187,10 @@ private: System::Windows::Forms::Label^  base_label;
 			this->tool_button->UseVisualStyleBackColor = true;
 			this->tool_button->Click += gcnew System::EventHandler(this, &ParamShow::tool_button_Click);
 			// 
-			// ofset
-			// 
-			this->ofset->Enabled = false;
-			this->ofset->Location = System::Drawing::Point(6, 103);
-			this->ofset->Name = L"ofset";
-			this->ofset->Size = System::Drawing::Size(203, 19);
-			this->ofset->TabIndex = 9;
-			this->ofset->Text = L"0.0";
-			this->ofset->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			// 
 			// ofset_check
 			// 
 			this->ofset_check->AutoSize = true;
-			this->ofset_check->Location = System::Drawing::Point(6, 81);
+			this->ofset_check->Location = System::Drawing::Point(6, 18);
 			this->ofset_check->Name = L"ofset_check";
 			this->ofset_check->Size = System::Drawing::Size(72, 16);
 			this->ofset_check->TabIndex = 8;
@@ -1147,20 +1205,43 @@ private: System::Windows::Forms::Label^  base_label;
 				53.37423F)));
 			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				46.62577F)));
-			this->tableLayoutPanel6->Controls->Add(this->label1, 1, 0);
 			this->tableLayoutPanel6->Controls->Add(this->Origin, 0, 0);
-			this->tableLayoutPanel6->Controls->Add(this->label3, 1, 2);
-			this->tableLayoutPanel6->Controls->Add(this->kalman, 0, 2);
 			this->tableLayoutPanel6->Controls->Add(this->mid, 0, 1);
+			this->tableLayoutPanel6->Controls->Add(this->kalman, 0, 2);
+			this->tableLayoutPanel6->Controls->Add(this->label1, 1, 0);
 			this->tableLayoutPanel6->Controls->Add(this->label2, 1, 1);
-			this->tableLayoutPanel6->Location = System::Drawing::Point(6, 18);
+			this->tableLayoutPanel6->Controls->Add(this->label3, 1, 2);
+			this->tableLayoutPanel6->Location = System::Drawing::Point(7, 18);
 			this->tableLayoutPanel6->Name = L"tableLayoutPanel6";
 			this->tableLayoutPanel6->RowCount = 3;
 			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel6->Size = System::Drawing::Size(203, 57);
+			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 20)));
+			this->tableLayoutPanel6->Size = System::Drawing::Size(258, 45);
 			this->tableLayoutPanel6->TabIndex = 0;
+			// 
+			// kalman
+			// 
+			this->kalman->AutoSize = true;
+			this->kalman->Location = System::Drawing::Point(3, 30);
+			this->kalman->Name = L"kalman";
+			this->kalman->Size = System::Drawing::Size(55, 12);
+			this->kalman->TabIndex = 6;
+			this->kalman->Text = L"KF適用後";
+			this->kalman->Click += gcnew System::EventHandler(this, &ParamShow::label6_Click);
+			// 
+			// label3
+			// 
+			this->label3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
+			this->label3->AutoSize = true;
+			this->label3->Location = System::Drawing::Point(212, 30);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(43, 12);
+			this->label3->TabIndex = 2;
+			this->label3->Text = L"0000.00";
+			this->label3->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			this->label3->Click += gcnew System::EventHandler(this, &ParamShow::label3_Click);
 			// 
 			// filename_label
 			// 
@@ -1180,7 +1261,7 @@ private: System::Windows::Forms::Label^  base_label;
 			this->pan_tilt_unit_group->Controls->Add(this->plat_stop_button);
 			this->pan_tilt_unit_group->Controls->Add(this->tableLayoutPanel5);
 			this->pan_tilt_unit_group->Controls->Add(this->pan_tilt_status);
-			this->pan_tilt_unit_group->Location = System::Drawing::Point(12, 489);
+			this->pan_tilt_unit_group->Location = System::Drawing::Point(12, 638);
 			this->pan_tilt_unit_group->Name = L"pan_tilt_unit_group";
 			this->pan_tilt_unit_group->Size = System::Drawing::Size(292, 88);
 			this->pan_tilt_unit_group->TabIndex = 11;
@@ -1372,7 +1453,7 @@ private: System::Windows::Forms::Label^  base_label;
 			this->save_box->Controls->Add(this->flame_num);
 			this->save_box->Controls->Add(this->filename_box);
 			this->save_box->Controls->Add(this->filename_label);
-			this->save_box->Location = System::Drawing::Point(12, 583);
+			this->save_box->Location = System::Drawing::Point(12, 732);
 			this->save_box->Name = L"save_box";
 			this->save_box->Size = System::Drawing::Size(292, 112);
 			this->save_box->TabIndex = 12;
@@ -1481,29 +1562,19 @@ private: System::Windows::Forms::Label^  base_label;
 			// 
 			// groupBox2
 			// 
-			this->groupBox2->Controls->Add(this->something_button);
 			this->groupBox2->Controls->Add(this->reset_button);
 			this->groupBox2->Controls->Add(this->output_button);
 			this->groupBox2->Controls->Add(this->read_button);
-			this->groupBox2->Location = System::Drawing::Point(235, 12);
+			this->groupBox2->Location = System::Drawing::Point(235, 187);
 			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(68, 133);
+			this->groupBox2->Size = System::Drawing::Size(68, 107);
 			this->groupBox2->TabIndex = 13;
 			this->groupBox2->TabStop = false;
 			this->groupBox2->Text = L"設定";
 			// 
-			// something_button
-			// 
-			this->something_button->Location = System::Drawing::Point(7, 102);
-			this->something_button->Name = L"something_button";
-			this->something_button->Size = System::Drawing::Size(53, 23);
-			this->something_button->TabIndex = 3;
-			this->something_button->Text = L"詳細";
-			this->something_button->UseVisualStyleBackColor = true;
-			// 
 			// reset_button
 			// 
-			this->reset_button->Location = System::Drawing::Point(7, 74);
+			this->reset_button->Location = System::Drawing::Point(7, 76);
 			this->reset_button->Name = L"reset_button";
 			this->reset_button->Size = System::Drawing::Size(53, 23);
 			this->reset_button->TabIndex = 2;
@@ -1513,7 +1584,7 @@ private: System::Windows::Forms::Label^  base_label;
 			// 
 			// output_button
 			// 
-			this->output_button->Location = System::Drawing::Point(7, 46);
+			this->output_button->Location = System::Drawing::Point(7, 48);
 			this->output_button->Name = L"output_button";
 			this->output_button->Size = System::Drawing::Size(53, 23);
 			this->output_button->TabIndex = 1;
@@ -1523,7 +1594,7 @@ private: System::Windows::Forms::Label^  base_label;
 			// 
 			// read_button
 			// 
-			this->read_button->Location = System::Drawing::Point(7, 18);
+			this->read_button->Location = System::Drawing::Point(7, 20);
 			this->read_button->Name = L"read_button";
 			this->read_button->Size = System::Drawing::Size(53, 23);
 			this->read_button->TabIndex = 0;
@@ -1543,48 +1614,12 @@ private: System::Windows::Forms::Label^  base_label;
 			this->groupBox3->Controls->Add(this->pixel_label);
 			this->groupBox3->Controls->Add(this->focal_box);
 			this->groupBox3->Controls->Add(this->focal_label);
-			this->groupBox3->Location = System::Drawing::Point(13, 151);
+			this->groupBox3->Location = System::Drawing::Point(13, 300);
 			this->groupBox3->Name = L"groupBox3";
 			this->groupBox3->Size = System::Drawing::Size(290, 40);
 			this->groupBox3->TabIndex = 14;
 			this->groupBox3->TabStop = false;
 			this->groupBox3->Text = L"構成";
-			// 
-			// focal_label
-			// 
-			this->focal_label->AutoSize = true;
-			this->focal_label->Location = System::Drawing::Point(88, 18);
-			this->focal_label->Name = L"focal_label";
-			this->focal_label->Size = System::Drawing::Size(53, 12);
-			this->focal_label->TabIndex = 8;
-			this->focal_label->Text = L"焦点距離";
-			// 
-			// focal_box
-			// 
-			this->focal_box->Location = System::Drawing::Point(145, 15);
-			this->focal_box->Name = L"focal_box";
-			this->focal_box->Size = System::Drawing::Size(25, 19);
-			this->focal_box->TabIndex = 15;
-			this->focal_box->Text = L"25";
-			this->focal_box->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			// 
-			// pixel_box
-			// 
-			this->pixel_box->Location = System::Drawing::Point(240, 15);
-			this->pixel_box->Name = L"pixel_box";
-			this->pixel_box->Size = System::Drawing::Size(41, 19);
-			this->pixel_box->TabIndex = 17;
-			this->pixel_box->Text = L"0.0075";
-			this->pixel_box->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			// 
-			// pixel_label
-			// 
-			this->pixel_label->AutoSize = true;
-			this->pixel_label->Location = System::Drawing::Point(174, 18);
-			this->pixel_label->Name = L"pixel_label";
-			this->pixel_label->Size = System::Drawing::Size(62, 12);
-			this->pixel_label->TabIndex = 16;
-			this->pixel_label->Text = L"ﾋﾟｸｾﾙｻｲｽﾞ";
 			// 
 			// base_box
 			// 
@@ -1604,17 +1639,167 @@ private: System::Windows::Forms::Label^  base_label;
 			this->base_label->TabIndex = 18;
 			this->base_label->Text = L"基線長";
 			// 
+			// pixel_box
+			// 
+			this->pixel_box->Location = System::Drawing::Point(240, 15);
+			this->pixel_box->Name = L"pixel_box";
+			this->pixel_box->Size = System::Drawing::Size(41, 19);
+			this->pixel_box->TabIndex = 17;
+			this->pixel_box->Text = L"0.0075";
+			this->pixel_box->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// pixel_label
+			// 
+			this->pixel_label->AutoSize = true;
+			this->pixel_label->Location = System::Drawing::Point(174, 18);
+			this->pixel_label->Name = L"pixel_label";
+			this->pixel_label->Size = System::Drawing::Size(62, 12);
+			this->pixel_label->TabIndex = 16;
+			this->pixel_label->Text = L"ﾋﾟｸｾﾙｻｲｽﾞ";
+			// 
+			// focal_box
+			// 
+			this->focal_box->Location = System::Drawing::Point(145, 15);
+			this->focal_box->Name = L"focal_box";
+			this->focal_box->Size = System::Drawing::Size(25, 19);
+			this->focal_box->TabIndex = 15;
+			this->focal_box->Text = L"25";
+			this->focal_box->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// focal_label
+			// 
+			this->focal_label->AutoSize = true;
+			this->focal_label->Location = System::Drawing::Point(88, 18);
+			this->focal_label->Name = L"focal_label";
+			this->focal_label->Size = System::Drawing::Size(53, 12);
+			this->focal_label->TabIndex = 8;
+			this->focal_label->Text = L"焦点距離";
+			// 
+			// groupBox4
+			// 
+			this->groupBox4->Controls->Add(this->groupBox5);
+			this->groupBox4->Controls->Add(this->before_ofset_group);
+			this->groupBox4->Location = System::Drawing::Point(13, 13);
+			this->groupBox4->Name = L"groupBox4";
+			this->groupBox4->Size = System::Drawing::Size(290, 168);
+			this->groupBox4->TabIndex = 15;
+			this->groupBox4->TabStop = false;
+			this->groupBox4->Text = L"距離計測";
+			// 
+			// groupBox5
+			// 
+			this->groupBox5->Controls->Add(this->tableLayoutPanel6);
+			this->groupBox5->Location = System::Drawing::Point(8, 94);
+			this->groupBox5->Name = L"groupBox5";
+			this->groupBox5->Size = System::Drawing::Size(273, 69);
+			this->groupBox5->TabIndex = 1;
+			this->groupBox5->TabStop = false;
+			this->groupBox5->Text = L"補正後";
+			// 
+			// before_ofset_group
+			// 
+			this->before_ofset_group->Controls->Add(this->tableLayoutPanel9);
+			this->before_ofset_group->Location = System::Drawing::Point(7, 19);
+			this->before_ofset_group->Name = L"before_ofset_group";
+			this->before_ofset_group->Size = System::Drawing::Size(273, 69);
+			this->before_ofset_group->TabIndex = 0;
+			this->before_ofset_group->TabStop = false;
+			this->before_ofset_group->Text = L"補正前";
+			// 
+			// tableLayoutPanel9
+			// 
+			this->tableLayoutPanel9->ColumnCount = 2;
+			this->tableLayoutPanel9->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				53.37423F)));
+			this->tableLayoutPanel9->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				46.62577F)));
+			this->tableLayoutPanel9->Controls->Add(this->label5, 0, 0);
+			this->tableLayoutPanel9->Controls->Add(this->label6, 0, 1);
+			this->tableLayoutPanel9->Controls->Add(this->label7, 0, 2);
+			this->tableLayoutPanel9->Controls->Add(this->origin_measure_before, 1, 0);
+			this->tableLayoutPanel9->Controls->Add(this->mid_measure_before, 1, 1);
+			this->tableLayoutPanel9->Controls->Add(this->kf_measure_before, 1, 2);
+			this->tableLayoutPanel9->Location = System::Drawing::Point(8, 18);
+			this->tableLayoutPanel9->Name = L"tableLayoutPanel9";
+			this->tableLayoutPanel9->RowCount = 3;
+			this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel9->Size = System::Drawing::Size(258, 45);
+			this->tableLayoutPanel9->TabIndex = 7;
+			// 
+			// label5
+			// 
+			this->label5->AutoSize = true;
+			this->label5->Location = System::Drawing::Point(3, 0);
+			this->label5->Name = L"label5";
+			this->label5->Size = System::Drawing::Size(41, 12);
+			this->label5->TabIndex = 4;
+			this->label5->Text = L"計測値";
+			// 
+			// label6
+			// 
+			this->label6->AutoSize = true;
+			this->label6->Location = System::Drawing::Point(3, 15);
+			this->label6->Name = L"label6";
+			this->label6->Size = System::Drawing::Size(81, 12);
+			this->label6->TabIndex = 5;
+			this->label6->Text = L"中心からの距離";
+			// 
+			// label7
+			// 
+			this->label7->AutoSize = true;
+			this->label7->Location = System::Drawing::Point(3, 30);
+			this->label7->Name = L"label7";
+			this->label7->Size = System::Drawing::Size(55, 12);
+			this->label7->TabIndex = 6;
+			this->label7->Text = L"KF適用後";
+			// 
+			// origin_measure_before
+			// 
+			this->origin_measure_before->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
+			this->origin_measure_before->AutoSize = true;
+			this->origin_measure_before->Location = System::Drawing::Point(212, 0);
+			this->origin_measure_before->Name = L"origin_measure_before";
+			this->origin_measure_before->Size = System::Drawing::Size(43, 12);
+			this->origin_measure_before->TabIndex = 0;
+			this->origin_measure_before->Text = L"0000.00";
+			this->origin_measure_before->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
+			// mid_measure_before
+			// 
+			this->mid_measure_before->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
+			this->mid_measure_before->AutoSize = true;
+			this->mid_measure_before->Location = System::Drawing::Point(212, 15);
+			this->mid_measure_before->Name = L"mid_measure_before";
+			this->mid_measure_before->Size = System::Drawing::Size(43, 12);
+			this->mid_measure_before->TabIndex = 1;
+			this->mid_measure_before->Text = L"0000.00";
+			this->mid_measure_before->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
+			// kf_measure_before
+			// 
+			this->kf_measure_before->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
+			this->kf_measure_before->AutoSize = true;
+			this->kf_measure_before->Location = System::Drawing::Point(212, 30);
+			this->kf_measure_before->Name = L"kf_measure_before";
+			this->kf_measure_before->Size = System::Drawing::Size(43, 12);
+			this->kf_measure_before->TabIndex = 2;
+			this->kf_measure_before->Text = L"0000.00";
+			this->kf_measure_before->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
 			// ParamShow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(315, 705);
+			this->ClientSize = System::Drawing::Size(315, 852);
+			this->Controls->Add(this->groupBox4);
 			this->Controls->Add(this->groupBox3);
 			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->save_box);
 			this->Controls->Add(this->rightcamera);
 			this->Controls->Add(this->leftcamera);
-			this->Controls->Add(this->measurement_box);
+			this->Controls->Add(this->ofset_group);
 			this->Controls->Add(this->pan_tilt_unit_group);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
@@ -1634,8 +1819,8 @@ private: System::Windows::Forms::Label^  base_label;
 			this->tableLayoutPanel4->PerformLayout();
 			this->tableLayoutPanel2->ResumeLayout(false);
 			this->tableLayoutPanel2->PerformLayout();
-			this->measurement_box->ResumeLayout(false);
-			this->measurement_box->PerformLayout();
+			this->ofset_group->ResumeLayout(false);
+			this->ofset_group->PerformLayout();
 			this->tableLayoutPanel6->ResumeLayout(false);
 			this->tableLayoutPanel6->PerformLayout();
 			this->pan_tilt_unit_group->ResumeLayout(false);
@@ -1654,6 +1839,11 @@ private: System::Windows::Forms::Label^  base_label;
 			this->groupBox2->ResumeLayout(false);
 			this->groupBox3->ResumeLayout(false);
 			this->groupBox3->PerformLayout();
+			this->groupBox4->ResumeLayout(false);
+			this->groupBox5->ResumeLayout(false);
+			this->before_ofset_group->ResumeLayout(false);
+			this->tableLayoutPanel9->ResumeLayout(false);
+			this->tableLayoutPanel9->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
@@ -1665,33 +1855,36 @@ private: System::Void input(){
 	int i = 0;
 	while (in && std::getline(in, str)){
 		i++;
-		if (i == 1) this->label1->Text = ToSystemString(str);
-		if (i == 2) this->label2->Text = ToSystemString(str);
-		if (i == 3) this->label3->Text = ToSystemString(str);
-		if (i == 4) this->coor_xl->Text = ToSystemString(str);
-		if (i == 5) this->coor_yl->Text = ToSystemString(str);
-		if (i == 6) this->db_xl->Text = ToSystemString(str);
-		if (i == 7) this->db_yl->Text = ToSystemString(str);
-		if (i == 8) this->corr_l->Text = ToSystemString(str);
-		if (i == 9) this->coor_xr->Text = ToSystemString(str);
-		if (i == 10) this->coor_yr->Text = ToSystemString(str);
-		if (i == 11) this->db_xr->Text = ToSystemString(str);
-		if (i == 12) this->db_yr->Text = ToSystemString(str);
-		if (i == 13) this->corr_r->Text = ToSystemString(str);
-		if (i == 14) if ("T" == ToSystemString(str)) this->reset_ack_l = false;
-		if (i == 15) if ("T" == ToSystemString(str)) this->all_ack_l = false;
-		if (i == 16) if ("T" == ToSystemString(str)) this->reset_ack_r = false;
-		if (i == 17) if ("T" == ToSystemString(str)) this->all_ack_r = false;
-		if (i == 18) this->platform_state->Text = ToSystemString(str);
-		if (i == 19) this->theta->Text = ToSystemString(str);
-		if (i == 20) this->move_tilt->Text = ToSystemString(str);
-		if (i == 21) this->platform_pan->Text = ToSystemString(str);
-		if (i == 22) this->platform_tilt->Text = ToSystemString(str);
-		if (i == 23) if ("T" == ToSystemString(str)) this->plat_home_ack = false;
-		if (i == 24) if ("T" == ToSystemString(str)) this->plat_move_ack = false;
-		if (i == 25) if ("T" == ToSystemString(str)) this->plat_stop_ack = false;
-		if (i == 26) this->save_state->Text = ToSystemString(str);
-		if (i == 27) if ("T" == ToSystemString(str)) this->save_ack = false;
+		if (i == 1) this->origin_measure_before->Text = ToSystemString(str);
+		if (i == 2) this->mid_measure_before->Text = ToSystemString(str);
+		if (i == 3) this->kf_measure_before->Text = ToSystemString(str);
+		if (i == 4) this->label1->Text = ToSystemString(str);
+		if (i == 5) this->label2->Text = ToSystemString(str);
+		if (i == 6) this->label3->Text = ToSystemString(str);
+		if (i == 7) this->coor_xl->Text = ToSystemString(str);
+		if (i == 8) this->coor_yl->Text = ToSystemString(str);
+		if (i == 9) this->db_xl->Text = ToSystemString(str);
+		if (i == 10) this->db_yl->Text = ToSystemString(str);
+		if (i == 11) this->corr_l->Text = ToSystemString(str);
+		if (i == 12) this->coor_xr->Text = ToSystemString(str);
+		if (i == 13) this->coor_yr->Text = ToSystemString(str);
+		if (i == 14) this->db_xr->Text = ToSystemString(str);
+		if (i == 15) this->db_yr->Text = ToSystemString(str);
+		if (i == 16) this->corr_r->Text = ToSystemString(str);
+		if (i == 17) if ("T" == ToSystemString(str)) this->reset_ack_l = false;
+		if (i == 18) if ("T" == ToSystemString(str)) this->all_ack_l = false;
+		if (i == 19) if ("T" == ToSystemString(str)) this->reset_ack_r = false;
+		if (i == 20) if ("T" == ToSystemString(str)) this->all_ack_r = false;
+		if (i == 21) this->platform_state->Text = ToSystemString(str);
+		if (i == 22) this->theta->Text = ToSystemString(str);
+		if (i == 23) this->move_tilt->Text = ToSystemString(str);
+		if (i == 24) this->platform_pan->Text = ToSystemString(str);
+		if (i == 25) this->platform_tilt->Text = ToSystemString(str);
+		if (i == 26) if ("T" == ToSystemString(str)) this->plat_home_ack = false;
+		if (i == 27) if ("T" == ToSystemString(str)) this->plat_move_ack = false;
+		if (i == 28) if ("T" == ToSystemString(str)) this->plat_stop_ack = false;
+		if (i == 29) this->save_state->Text = ToSystemString(str);
+		if (i == 30) if ("T" == ToSystemString(str)) this->save_ack = false;
 	}
 	in.close();
 }
@@ -1729,15 +1922,17 @@ private: System::Void output(){
 			 /* 18 */if (this->sub_flag_r->Checked) out << "T" << std::endl; else out << "F" << std::endl;
 			 /* 19 */if (this->kalman_flag_r->Checked) out << "T" << std::endl; else out << "F" << std::endl;
 			 /* 20 */if (this->ofset_check->Checked) out << this->ToStdString(this->ofset->Text) << std::endl; else out << "0.0" << std::endl;
-			 /* 21 */out << this->ToStdString(this->plat_th_box->Text) << std::endl;
-			 /* 22 */if (this->plat_home_ack) out << "T" << std::endl; else out << "F" << std::endl;
-			 /* 23 */if (this->plat_move_ack) out << "T" << std::endl; else out << "F" << std::endl;
-			 /* 24 */if (this->plat_stop_ack) out << "T" << std::endl; else out << "F" << std::endl;
-			 /* 25 */out << this->ToStdString(this->filename_box->Text) << std::endl;
-			 /* 26 */out << this->ToStdString(this->flame_num->Text) << std::endl;
-			 /* 27 */out << this->ToStdString(this->comboBox1->Text) << std::endl;
-			 /* 28 */if (this->csv_check->Checked) out << "T" << std::endl; else out << "F" << std::endl;
-			 /* 29 */if (this->save_ack) out << "T" << std::endl; else out << "F" << std::endl;
+			 /* 21 */if (this->linear_flag->Checked) out << this->ToStdString(this->linear_a->Text) << std::endl; else out << "0.0" << std::endl;
+			 /* 22 */if (this->linear_flag->Checked) out << this->ToStdString(this->linear_b->Text) << std::endl; else out << "0.0" << std::endl;
+			 /* 23 */out << this->ToStdString(this->plat_th_box->Text) << std::endl;
+			 /* 24 */if (this->plat_home_ack) out << "T" << std::endl; else out << "F" << std::endl;
+			 /* 25 */if (this->plat_move_ack) out << "T" << std::endl; else out << "F" << std::endl;
+			 /* 26 */if (this->plat_stop_ack) out << "T" << std::endl; else out << "F" << std::endl;
+			 /* 27 */out << this->ToStdString(this->filename_box->Text) << std::endl;
+			 /* 28 */out << this->ToStdString(this->flame_num->Text) << std::endl;
+			 /* 29 */out << this->ToStdString(this->comboBox1->Text) << std::endl;
+			 /* 30 */if (this->csv_check->Checked) out << "T" << std::endl; else out << "F" << std::endl;
+			 /* 31 */if (this->save_ack) out << "T" << std::endl; else out << "F" << std::endl;
 
 			 out.close();
 }
@@ -1814,6 +2009,11 @@ private: System::Void plat_stop_button_Click(System::Object^  sender, System::Ev
 			 this->plat_stop_ack = true;
 }
 private: System::Void tool_button_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->linear_flag->Checked = false;
+			 this->linear_a->Enabled = false;
+			 this->linear_b->Enabled = false;
+			 this->ofset_check->Checked = false;
+			 this->ofset->Enabled = false;
 			 ParallelOffsetTool ^pot = gcnew ParallelOffsetTool();
 			 pot->Owner = this;
 			 pot->Show();
@@ -1835,30 +2035,33 @@ private: System::Void output_button_Click(System::Object^  sender, System::Event
 			 /* 03 */swriter->WriteLine(this->pixel_box->Text);
 			 /* 04 */if (this->ofset_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
 			 /* 05 */swriter->WriteLine(this->ofset->Text);
-			 /* 06 */if (this->roll_flag_l->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
-			 /* 07 */swriter->WriteLine(this->roll_box_l->Text);
-			 /* 08 */if (this->all_flag_l->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
-			 /* 19 */swriter->WriteLine(this->th_box_l->Text);
-			 /* 10 */if (this->db_flag_l->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
-			 /* 11 */swriter->WriteLine(this->db_th_box_l->Text);
-			 /* 12 */if (this->sub_flag_l->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
-			 /* 13 */if (this->kalman_flag_l->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 06 */if (this->linear_flag->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 07 */swriter->WriteLine(this->linear_a->Text);
+			 /* 08 */swriter->WriteLine(this->linear_b->Text);
+			 /* 09 */if (this->roll_flag_l->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 10 */swriter->WriteLine(this->roll_box_l->Text);
+			 /* 11 */if (this->all_flag_l->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 12 */swriter->WriteLine(this->th_box_l->Text);
+			 /* 13 */if (this->db_flag_l->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 14 */swriter->WriteLine(this->db_th_box_l->Text);
+			 /* 15 */if (this->sub_flag_l->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 16 */if (this->kalman_flag_l->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
 			 /* -- */
-			 /* 14 */if (this->roll_flag_r->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
-			 /* 15 */swriter->WriteLine(this->roll_box_r->Text);
-			 /* 16 */if (this->all_flag_r->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
-			 /* 17 */swriter->WriteLine(this->th_box_r->Text);
-			 /* 18 */if (this->db_flag_r->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
-			 /* 19 */swriter->WriteLine(this->db_th_box_r->Text);
-			 /* 20 */if (this->sub_flag_r->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
-			 /* 21 */if (this->kalman_flag_r->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 17 */if (this->roll_flag_r->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 18 */swriter->WriteLine(this->roll_box_r->Text);
+			 /* 19 */if (this->all_flag_r->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 20 */swriter->WriteLine(this->th_box_r->Text);
+			 /* 21 */if (this->db_flag_r->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 22 */swriter->WriteLine(this->db_th_box_r->Text);
+			 /* 23 */if (this->sub_flag_r->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 24 */if (this->kalman_flag_r->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
 			 /* -- */
 			 /* -- */
-			 /* 22 */swriter->WriteLine(this->plat_th_box->Text);
-			 /* 23 */swriter->WriteLine(this->filename_box->Text);
-			 /* 24 */swriter->WriteLine(this->flame_num->Text);
-			 /* 25 */swriter->WriteLine(this->comboBox1->Text);
-			 /* 26 */if (this->csv_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 25 */swriter->WriteLine(this->plat_th_box->Text);
+			 /* 26 */swriter->WriteLine(this->filename_box->Text);
+			 /* 27 */swriter->WriteLine(this->flame_num->Text);
+			 /* 28 */swriter->WriteLine(this->comboBox1->Text);
+			 /* 29 */if (this->csv_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
 
 
 reset_ack_l=false;
@@ -1891,29 +2094,32 @@ private: System::Void read_button_Click(System::Object^  sender, System::EventAr
 				 if (i == 3){ this->pixel_box->Text = sreader->ReadLine(); }
 				 if (i == 4){ if (sreader->ReadLine() == "T") this->ofset_check->Checked = true; else this->ofset_check->Checked = false; }
 				 if (i == 5){ this->ofset->Text = sreader->ReadLine(); }
-				 if (i == 6){ if (sreader->ReadLine() == "T") this->roll_flag_l->Checked = true; else this->roll_flag_l->Checked = false; }
-				 if (i == 7){ this->roll_box_l->Text = sreader->ReadLine(); }
-				 if (i == 8){ if (sreader->ReadLine() == "T") this->all_flag_l->Checked = true; else this->all_flag_l->Checked = false; }
-				 if (i == 9){ this->th_box_l->Text = sreader->ReadLine(); }
-				 if (i == 10){ if (sreader->ReadLine() == "T") this->db_flag_l->Checked = true; else this->db_flag_l->Checked = false; }
-				 if (i == 11){ this->db_th_box_l->Text = sreader->ReadLine(); }
-				 if (i == 12){ if (sreader->ReadLine() == "T") this->sub_flag_l->Checked = true; else this->sub_flag_l->Checked = false; }
-				 if (i == 13){ if (sreader->ReadLine() == "T") this->kalman_flag_l->Checked = true; else this->kalman_flag_l->Checked = false; }
+				 if (i == 6){ if (sreader->ReadLine() == "T") this->linear_flag->Checked = true; else this->linear_flag->Checked = false; }
+				 if (i == 7){ this->linear_a->Text = sreader->ReadLine(); }
+				 if (i == 8){ this->linear_b->Text = sreader->ReadLine(); }
+				 if (i == 9){ if (sreader->ReadLine() == "T") this->roll_flag_l->Checked = true; else this->roll_flag_l->Checked = false; }
+				 if (i == 10){ this->roll_box_l->Text = sreader->ReadLine(); }
+				 if (i == 11){ if (sreader->ReadLine() == "T") this->all_flag_l->Checked = true; else this->all_flag_l->Checked = false; }
+				 if (i == 12){ this->th_box_l->Text = sreader->ReadLine(); }
+				 if (i == 13){ if (sreader->ReadLine() == "T") this->db_flag_l->Checked = true; else this->db_flag_l->Checked = false; }
+				 if (i == 14){ this->db_th_box_l->Text = sreader->ReadLine(); }
+				 if (i == 15){ if (sreader->ReadLine() == "T") this->sub_flag_l->Checked = true; else this->sub_flag_l->Checked = false; }
+				 if (i == 16){ if (sreader->ReadLine() == "T") this->kalman_flag_l->Checked = true; else this->kalman_flag_l->Checked = false; }
 
-				 if (i == 14){ if (sreader->ReadLine() == "T") this->roll_flag_r->Checked = true; else this->roll_flag_r->Checked = false; }
-				 if (i == 15){ this->roll_box_r->Text = sreader->ReadLine(); }
-				 if (i == 16){ if (sreader->ReadLine() == "T") this->all_flag_r->Checked = true; else this->all_flag_r->Checked = false; }
-				 if (i == 17){ this->th_box_r->Text = sreader->ReadLine(); }
-				 if (i == 18){ if (sreader->ReadLine() == "T") this->db_flag_r->Checked = true; else this->db_flag_r->Checked = false; }
-				 if (i == 19){ this->db_th_box_r->Text = sreader->ReadLine(); }
-				 if (i == 20){ if (sreader->ReadLine() == "T") this->sub_flag_r->Checked = true; else this->sub_flag_r->Checked = false; }
-				 if (i == 21){ if (sreader->ReadLine() == "T") this->kalman_flag_r->Checked = true; else this->kalman_flag_r->Checked = false; }
+				 if (i == 17){ if (sreader->ReadLine() == "T") this->roll_flag_r->Checked = true; else this->roll_flag_r->Checked = false; }
+				 if (i == 18){ this->roll_box_r->Text = sreader->ReadLine(); }
+				 if (i == 19){ if (sreader->ReadLine() == "T") this->all_flag_r->Checked = true; else this->all_flag_r->Checked = false; }
+				 if (i == 20){ this->th_box_r->Text = sreader->ReadLine(); }
+				 if (i == 21){ if (sreader->ReadLine() == "T") this->db_flag_r->Checked = true; else this->db_flag_r->Checked = false; }
+				 if (i == 22){ this->db_th_box_r->Text = sreader->ReadLine(); }
+				 if (i == 23){ if (sreader->ReadLine() == "T") this->sub_flag_r->Checked = true; else this->sub_flag_r->Checked = false; }
+				 if (i == 24){ if (sreader->ReadLine() == "T") this->kalman_flag_r->Checked = true; else this->kalman_flag_r->Checked = false; }
 				 
-				 if (i == 22){ this->plat_th_box->Text = sreader->ReadLine(); }
-				 if (i == 23){ this->filename_box->Text = sreader->ReadLine(); }
-				 if (i == 24){ this->flame_num->Text = sreader->ReadLine(); }
-				 if (i == 25){ this->comboBox1->Text = sreader->ReadLine(); }
-				 if (i == 26){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
+				 if (i == 25){ this->plat_th_box->Text = sreader->ReadLine(); }
+				 if (i == 26){ this->filename_box->Text = sreader->ReadLine(); }
+				 if (i == 27){ this->flame_num->Text = sreader->ReadLine(); }
+				 if (i == 28){ this->comboBox1->Text = sreader->ReadLine(); }
+				 if (i == 29){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
 			 }			   
 			 sreader->Close();
 			 Invalidate();
@@ -1929,29 +2135,32 @@ private: System::Void reset_button_Click(System::Object^  sender, System::EventA
 				 if (i == 3){ this->pixel_box->Text = sreader->ReadLine(); }
 				 if (i == 4){ if (sreader->ReadLine() == "T") this->ofset_check->Checked = true; else this->ofset_check->Checked = false; }
 				 if (i == 5){ this->ofset->Text = sreader->ReadLine(); }
-				 if (i == 6){ if (sreader->ReadLine() == "T") this->roll_flag_l->Checked = true; else this->roll_flag_l->Checked = false; }
-				 if (i == 7){ this->roll_box_l->Text = sreader->ReadLine(); }
-				 if (i == 8){ if (sreader->ReadLine() == "T") this->all_flag_l->Checked = true; else this->all_flag_l->Checked = false; }
-				 if (i == 9){ this->th_box_l->Text = sreader->ReadLine(); }
-				 if (i == 10){ if (sreader->ReadLine() == "T") this->db_flag_l->Checked = true; else this->db_flag_l->Checked = false; }
-				 if (i == 11){ this->db_th_box_l->Text = sreader->ReadLine(); }
-				 if (i == 12){ if (sreader->ReadLine() == "T") this->sub_flag_l->Checked = true; else this->sub_flag_l->Checked = false; }
-				 if (i == 13){ if (sreader->ReadLine() == "T") this->kalman_flag_l->Checked = true; else this->kalman_flag_l->Checked = false; }
+				 if (i == 6){ if (sreader->ReadLine() == "T") this->linear_flag->Checked = true; else this->linear_flag->Checked = false; }
+				 if (i == 7){ this->linear_a->Text = sreader->ReadLine(); }
+				 if (i == 8){ this->linear_b->Text = sreader->ReadLine(); }
+				 if (i == 9){ if (sreader->ReadLine() == "T") this->roll_flag_l->Checked = true; else this->roll_flag_l->Checked = false; }
+				 if (i == 10){ this->roll_box_l->Text = sreader->ReadLine(); }
+				 if (i == 11){ if (sreader->ReadLine() == "T") this->all_flag_l->Checked = true; else this->all_flag_l->Checked = false; }
+				 if (i == 12){ this->th_box_l->Text = sreader->ReadLine(); }
+				 if (i == 13){ if (sreader->ReadLine() == "T") this->db_flag_l->Checked = true; else this->db_flag_l->Checked = false; }
+				 if (i == 14){ this->db_th_box_l->Text = sreader->ReadLine(); }
+				 if (i == 15){ if (sreader->ReadLine() == "T") this->sub_flag_l->Checked = true; else this->sub_flag_l->Checked = false; }
+				 if (i == 16){ if (sreader->ReadLine() == "T") this->kalman_flag_l->Checked = true; else this->kalman_flag_l->Checked = false; }
 
-				 if (i == 14){ if (sreader->ReadLine() == "T") this->roll_flag_r->Checked = true; else this->roll_flag_r->Checked = false; }
-				 if (i == 15){ this->roll_box_r->Text = sreader->ReadLine(); }
-				 if (i == 16){ if (sreader->ReadLine() == "T") this->all_flag_r->Checked = true; else this->all_flag_r->Checked = false; }
-				 if (i == 17){ this->th_box_r->Text = sreader->ReadLine(); }
-				 if (i == 18){ if (sreader->ReadLine() == "T") this->db_flag_r->Checked = true; else this->db_flag_r->Checked = false; }
-				 if (i == 19){ this->db_th_box_r->Text = sreader->ReadLine(); }
-				 if (i == 20){ if (sreader->ReadLine() == "T") this->sub_flag_r->Checked = true; else this->sub_flag_r->Checked = false; }
-				 if (i == 21){ if (sreader->ReadLine() == "T") this->kalman_flag_r->Checked = true; else this->kalman_flag_r->Checked = false; }
+				 if (i == 17){ if (sreader->ReadLine() == "T") this->roll_flag_r->Checked = true; else this->roll_flag_r->Checked = false; }
+				 if (i == 18){ this->roll_box_r->Text = sreader->ReadLine(); }
+				 if (i == 19){ if (sreader->ReadLine() == "T") this->all_flag_r->Checked = true; else this->all_flag_r->Checked = false; }
+				 if (i == 20){ this->th_box_r->Text = sreader->ReadLine(); }
+				 if (i == 21){ if (sreader->ReadLine() == "T") this->db_flag_r->Checked = true; else this->db_flag_r->Checked = false; }
+				 if (i == 22){ this->db_th_box_r->Text = sreader->ReadLine(); }
+				 if (i == 23){ if (sreader->ReadLine() == "T") this->sub_flag_r->Checked = true; else this->sub_flag_r->Checked = false; }
+				 if (i == 24){ if (sreader->ReadLine() == "T") this->kalman_flag_r->Checked = true; else this->kalman_flag_r->Checked = false; }
 
-				 if (i == 22){ this->plat_th_box->Text = sreader->ReadLine(); }
-				 if (i == 23){ this->filename_box->Text = sreader->ReadLine(); }
-				 if (i == 24){ this->flame_num->Text = sreader->ReadLine(); }
-				 if (i == 25){ this->comboBox1->Text = sreader->ReadLine(); }
-				 if (i == 26){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
+				 if (i == 25){ this->plat_th_box->Text = sreader->ReadLine(); }
+				 if (i == 26){ this->filename_box->Text = sreader->ReadLine(); }
+				 if (i == 27){ this->flame_num->Text = sreader->ReadLine(); }
+				 if (i == 28){ this->comboBox1->Text = sreader->ReadLine(); }
+				 if (i == 29){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
 			 }
 			 sreader->Close();
 			 Invalidate();

@@ -89,14 +89,16 @@ int FormConnection::input(Measurement *m, std::string filename){
 		if (i == 19){ if (str == "T") m->vcc_R->kalmanFlag = true; else m->vcc_R->kalmanFlag = false; }
 		if (i == 20){ std::stringstream ss; ss << str; ss >> m->correctParallel; }
 		if (i == 21){ std::stringstream ss; ss << str; ss >> m->trackingThreshold; }
-		if (i == 22){ if (str == "T") { m->trackingHomeFlag = true; this->plat_home_ack = true; } }
-		if (i == 23){ if (str == "T") { m->trackingMoveFlag = true; this->plat_move_ack = true; } }
-		if (i == 24){ if (str == "T") { m->trackingMoveFlag = false; this->plat_stop_ack = true; } }
-		if (i == 25){ save_filename = str; }
-		if (i == 26){ std::stringstream ss; ss << str; ss >> save_frame_num; }
-		if (i == 27){ save_setdata_name = str; }
-		if (i == 28){ if (str == "T") save_csv_flag = true; else save_csv_flag = false; }
-		if (i == 29){ if (str == "T") { setSave(save_filename, save_frame_num, save_setdata_name, save_csv_flag); this->save_ack = true; } }
+		if (i == 22){ std::stringstream ss; ss << str; ss >> m->linear_a; }
+		if (i == 23){ std::stringstream ss; ss << str; ss >> m->linear_b; }
+		if (i == 24){ if (str == "T") { m->trackingHomeFlag = true; this->plat_home_ack = true; } }
+		if (i == 25){ if (str == "T") { m->trackingMoveFlag = true; this->plat_move_ack = true; } }
+		if (i == 26){ if (str == "T") { m->trackingMoveFlag = false; this->plat_stop_ack = true; } }
+		if (i == 27){ save_filename = str; }
+		if (i == 28){ std::stringstream ss; ss << str; ss >> save_frame_num; }
+		if (i == 29){ save_setdata_name = str; }
+		if (i == 30){ if (str == "T") save_csv_flag = true; else save_csv_flag = false; }
+		if (i == 31){ if (str == "T") { setSave(save_filename, save_frame_num, save_setdata_name, save_csv_flag); this->save_ack = true; } }
 	}
 
 	in.close();
@@ -108,43 +110,46 @@ int FormConnection::output(Measurement *m, std::string filename){
 	/* -- *///èëÇ´çûÇ›èàóù
 	/* -- */std::ofstream out(filename);
 	/* -- */if (out.fail()) return -1;
-	/* 01 */out << m->distance.original << std::endl;
-	/* 02 */out << m->distance.mid << std::endl;
-	/* 03 */out << m->distance.kf << std::endl;
-	/* 04 */out << m->vcc_L->matchingParameters[2] << std::endl;
-	/* 05 */out << m->vcc_L->matchingParameters[3] << std::endl;
-	/* 06 */out << m->vcc_L->targetDB_x << std::endl;
-	/* 07 */out << m->vcc_L->targetDB_y << std::endl;
-	/* 08 */out << m->vcc_L->matchingParameters[8] << std::endl;
-	/* 19 */out << m->vcc_R->matchingParameters[2] << std::endl;
-	/* 10 */out << m->vcc_R->matchingParameters[3] << std::endl;
-	/* 11 */out << m->vcc_R->targetDB_x << std::endl;
-	/* 12 */out << m->vcc_R->targetDB_y << std::endl;
-	/* 13 */out << m->vcc_R->matchingParameters[8] << std::endl;
+	/* 01 */out << m->non_ofset.original << std::endl;
+	/* 02 */out << m->non_ofset.mid << std::endl;
+	/* 03 */out << m->non_ofset.kf << std::endl;
+	/* 04 */out << m->distance.original << std::endl;
+	/* 05 */out << m->distance.mid << std::endl;
+	/* 06 */out << m->distance.kf << std::endl;
+	/* 07 */out << m->vcc_L->matchingParameters[2] << std::endl;
+	/* 08 */out << m->vcc_L->matchingParameters[3] << std::endl;
+	/* 19 */out << m->vcc_L->targetDB_x << std::endl;
+	/* 10 */out << m->vcc_L->targetDB_y << std::endl;
+	/* 11 */out << m->vcc_L->matchingParameters[8] << std::endl;
+	/* 12 */out << m->vcc_R->matchingParameters[2] << std::endl;
+	/* 13 */out << m->vcc_R->matchingParameters[3] << std::endl;
+	/* 14 */out << m->vcc_R->targetDB_x << std::endl;
+	/* 15 */out << m->vcc_R->targetDB_y << std::endl;
+	/* 16 */out << m->vcc_R->matchingParameters[8] << std::endl;
 	/* -- *///ack
-	/* 14 */if (db_reset_ack_l) out << "T" << std::endl; else out << "F" << std::endl;
-	/* 15 */if (db_all_ack_l) out << "T" << std::endl; else out << "F" << std::endl;
-	/* 16 */if (db_reset_ack_r) out << "T" << std::endl; else out << "F" << std::endl;
-	/* 17 */if (db_all_ack_r) out << "T" << std::endl; else out << "F" << std::endl;
+	/* 17 */if (db_reset_ack_l) out << "T" << std::endl; else out << "F" << std::endl;
+	/* 18 */if (db_all_ack_l) out << "T" << std::endl; else out << "F" << std::endl;
+	/* 19 */if (db_reset_ack_r) out << "T" << std::endl; else out << "F" << std::endl;
+	/* 20 */if (db_all_ack_r) out << "T" << std::endl; else out << "F" << std::endl;
 	/* -- */db_reset_ack_l = false;
 	/* -- */db_reset_ack_r = false;
 	/* -- */db_all_ack_l = false;
 	/* -- */db_all_ack_r = false;
 	/* -- *///ìdìÆâ_ë‰
-	/* 18 */out << m->trackingState << std::endl;
-	/* 19 */out << m->trackingAngle.pan << std::endl;
-	/* 20 */out << m->trackingAngle.tilt << std::endl;
-	/* 21 */out << m->platformState.pan << std::endl;
-	/* 22 */out << m->platformState.tilt << std::endl;
-	/* 23 */if (plat_home_ack) out << "T" << std::endl; else out << "F" << std::endl;
-	/* 24 */if (plat_move_ack) out << "T" << std::endl; else out << "F" << std::endl;
-	/* 25 */if (plat_stop_ack) out << "T" << std::endl; else out << "F" << std::endl;
+	/* 21 */out << m->trackingState << std::endl;
+	/* 22 */out << m->trackingAngle.pan << std::endl;
+	/* 23 */out << m->trackingAngle.tilt << std::endl;
+	/* 24 */out << m->platformState.pan << std::endl;
+	/* 25 */out << m->platformState.tilt << std::endl;
+	/* 26 */if (plat_home_ack) out << "T" << std::endl; else out << "F" << std::endl;
+	/* 27 */if (plat_move_ack) out << "T" << std::endl; else out << "F" << std::endl;
+	/* 28 */if (plat_stop_ack) out << "T" << std::endl; else out << "F" << std::endl;
 	/* -- */plat_home_ack = false;
 	/* -- */plat_move_ack = false;
 	/* -- */plat_stop_ack = false;
 	/* -- *///ÉZÅ[Éuä÷åW
-	/* 26 */out << this->save_state << std::endl;
-	/* 27 */if (save_ack) out << "T" << std::endl; else out << "F" << std::endl;
+	/* 29 */out << this->save_state << std::endl;
+	/* 30 */if (save_ack) out << "T" << std::endl; else out << "F" << std::endl;
 	/* -- */save_ack = false;
 	/* -- */
 	/* -- */out.close();
@@ -185,33 +190,36 @@ int FormConnection::doSave(Measurement *m){
 		save << m->distance.original << std::endl;
 	}
 
-	if (this->save_csv_log){	
-	/* 01 */log << m->distance.original << ",";
-	/* 02 */log << m->distance.mid << ",";
-	/* 03 */log << m->distance.kf << ",";
-	/* 04 */log << m->vcc_L->matchingParameters[2] << ",";
-	/* 05 */log << m->vcc_L->matchingParameters[3] << ",";
-	/* 06 */log << m->vcc_L->targetDB_x << ",";
-	/* 07 */log << m->vcc_L->targetDB_y << ",";
-	/* 08 */log << m->vcc_L->matchingParameters[8] << ",";
-	/* 09 */log << m->vcc_R->matchingParameters[2] << ",";
-	/* 10 */log << m->vcc_R->matchingParameters[3] << ",";
-	/* 11 */log << m->vcc_R->targetDB_x << ",";
-	/* 12 */log << m->vcc_R->targetDB_y << ",";
-	/* 13 */log << m->vcc_R->matchingParameters[8] << ",";
-	/* 14 */if (db_reset_ack_l) log << "T" << ","; else log << "F" << ",";
-	/* 15 */if (db_all_ack_l) log << "T" << ","; else log << "F" << ",";
-	/* 16 */if (db_reset_ack_r) log << "T" << ","; else log << "F" << ",";
-	/* 17 */if (db_all_ack_l) log << "T" << ","; else log << "F" << ",";
-	/* 18 */log << m->trackingState << ",";
-	/* 19 */log << m->trackingAngle.pan << ",";
-	/* 20 */log << m->trackingAngle.tilt << ",";
-	/* 21 */log << m->platformState.pan << ",";
-	/* 22 */log << m->platformState.tilt << ",";
-	/* 23 */if (plat_home_ack) log << "T" << ","; else log << "F" << ",";
-	/* 24 */if (plat_move_ack) log << "T" << ","; else log << "F" << ",";
-	/* 25 */if (plat_stop_ack) log << "T" << ","; else log << "F" << ",";
-	/* 26 */log << this->save_state << ",";
-	/* 27 */if (save_ack) log << "T" << std::endl; else log << "F" << std::endl;
+	if (this->save_csv_log){
+	/* 01 */log << m->non_ofset.original << ",";
+	/* 02 */log << m->non_ofset.mid << ",";
+	/* 03 */log << m->non_ofset.kf << ",";
+	/* 04 */log << m->distance.original << ",";
+	/* 05 */log << m->distance.mid << ",";
+	/* 06 */log << m->distance.kf << ",";
+	/* 07 */log << m->vcc_L->matchingParameters[2] << ",";
+	/* 08 */log << m->vcc_L->matchingParameters[3] << ",";
+	/* 09 */log << m->vcc_L->targetDB_x << ",";
+	/* 10 */log << m->vcc_L->targetDB_y << ",";
+	/* 11 */log << m->vcc_L->matchingParameters[8] << ",";
+	/* 12 */log << m->vcc_R->matchingParameters[2] << ",";
+	/* 13 */log << m->vcc_R->matchingParameters[3] << ",";
+	/* 14 */log << m->vcc_R->targetDB_x << ",";
+	/* 15 */log << m->vcc_R->targetDB_y << ",";
+	/* 16 */log << m->vcc_R->matchingParameters[8] << ",";
+	/* 17 */if (db_reset_ack_l) log << "T" << ","; else log << "F" << ",";
+	/* 18 */if (db_all_ack_l) log << "T" << ","; else log << "F" << ",";
+	/* 19 */if (db_reset_ack_r) log << "T" << ","; else log << "F" << ",";
+	/* 20 */if (db_all_ack_l) log << "T" << ","; else log << "F" << ",";
+	/* 21 */log << m->trackingState << ",";
+	/* 22 */log << m->trackingAngle.pan << ",";
+	/* 23 */log << m->trackingAngle.tilt << ",";
+	/* 24 */log << m->platformState.pan << ",";
+	/* 25 */log << m->platformState.tilt << ",";
+	/* 26 */if (plat_home_ack) log << "T" << ","; else log << "F" << ",";
+	/* 27 */if (plat_move_ack) log << "T" << ","; else log << "F" << ",";
+	/* 28 */if (plat_stop_ack) log << "T" << ","; else log << "F" << ",";
+	/* 29 */log << this->save_state << ",";
+	/* 30 */if (save_ack) log << "T" << std::endl; else log << "F" << std::endl;
 	}
 }

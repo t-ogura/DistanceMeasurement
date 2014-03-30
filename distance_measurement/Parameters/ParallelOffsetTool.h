@@ -60,7 +60,7 @@ namespace Parameters {
 	protected:
 	private: System::Windows::Forms::Label^  ofset_label;
 	private: System::Windows::Forms::TextBox^  ofset_box;
-	private: System::Windows::Forms::Button^  copy_button;
+
 	private: System::Windows::Forms::TextBox^  true_value_box;
 
 
@@ -91,11 +91,17 @@ namespace Parameters {
 	private: System::Windows::Forms::Timer^  timer1;
 	private: System::Windows::Forms::TextBox^  base_length;
 	private: System::Windows::Forms::Label^  base_length_label;
-	private: System::Windows::Forms::Label^  mm_label;
+
 	private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 	private: System::Windows::Forms::StatusStrip^  statusStrip1;
 	private: System::Windows::Forms::ToolStripStatusLabel^  toolStripStatusLabel1;
+	private: System::Windows::Forms::TextBox^  linear_a;
+
+	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::TextBox^  linear_b;
+
+	private: System::Windows::Forms::Label^  label3;
 
 
 
@@ -125,7 +131,6 @@ namespace Parameters {
 			this->components = (gcnew System::ComponentModel::Container());
 			this->ofset_label = (gcnew System::Windows::Forms::Label());
 			this->ofset_box = (gcnew System::Windows::Forms::TextBox());
-			this->copy_button = (gcnew System::Windows::Forms::Button());
 			this->true_value_box = (gcnew System::Windows::Forms::TextBox());
 			this->true_value_label = (gcnew System::Windows::Forms::Label());
 			this->measure_vaule_box = (gcnew System::Windows::Forms::TextBox());
@@ -143,48 +148,39 @@ namespace Parameters {
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->base_length = (gcnew System::Windows::Forms::TextBox());
 			this->base_length_label = (gcnew System::Windows::Forms::Label());
-			this->mm_label = (gcnew System::Windows::Forms::Label());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
 			this->toolStripStatusLabel1 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+			this->linear_a = (gcnew System::Windows::Forms::TextBox());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->linear_b = (gcnew System::Windows::Forms::TextBox());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->statusStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// ofset_label
 			// 
 			this->ofset_label->AutoSize = true;
-			this->ofset_label->Location = System::Drawing::Point(13, 35);
+			this->ofset_label->Location = System::Drawing::Point(101, 15);
 			this->ofset_label->Name = L"ofset_label";
-			this->ofset_label->Size = System::Drawing::Size(41, 12);
+			this->ofset_label->Size = System::Drawing::Size(53, 12);
 			this->ofset_label->TabIndex = 1;
-			this->ofset_label->Text = L"補正値";
+			this->ofset_label->Text = L"平行補正";
 			// 
 			// ofset_box
 			// 
-			this->ofset_box->Location = System::Drawing::Point(60, 32);
+			this->ofset_box->Location = System::Drawing::Point(159, 12);
 			this->ofset_box->Name = L"ofset_box";
-			this->ofset_box->Size = System::Drawing::Size(159, 19);
+			this->ofset_box->Size = System::Drawing::Size(112, 19);
 			this->ofset_box->TabIndex = 2;
 			this->ofset_box->Text = L"0.0";
 			this->ofset_box->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			this->ofset_box->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::ofset_box_Click);
 			// 
-			// copy_button
-			// 
-			this->copy_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(128)));
-			this->copy_button->Location = System::Drawing::Point(225, 32);
-			this->copy_button->Name = L"copy_button";
-			this->copy_button->Size = System::Drawing::Size(47, 19);
-			this->copy_button->TabIndex = 3;
-			this->copy_button->Text = L"コピー";
-			this->copy_button->UseVisualStyleBackColor = true;
-			this->copy_button->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::copy_button_Click);
-			// 
 			// true_value_box
 			// 
-			this->true_value_box->Location = System::Drawing::Point(48, 57);
+			this->true_value_box->Location = System::Drawing::Point(47, 62);
 			this->true_value_box->Name = L"true_value_box";
 			this->true_value_box->Size = System::Drawing::Size(59, 19);
 			this->true_value_box->TabIndex = 5;
@@ -196,7 +192,7 @@ namespace Parameters {
 			// true_value_label
 			// 
 			this->true_value_label->AutoSize = true;
-			this->true_value_label->Location = System::Drawing::Point(13, 60);
+			this->true_value_label->Location = System::Drawing::Point(12, 65);
 			this->true_value_label->Name = L"true_value_label";
 			this->true_value_label->Size = System::Drawing::Size(29, 12);
 			this->true_value_label->TabIndex = 4;
@@ -204,7 +200,7 @@ namespace Parameters {
 			// 
 			// measure_vaule_box
 			// 
-			this->measure_vaule_box->Location = System::Drawing::Point(160, 57);
+			this->measure_vaule_box->Location = System::Drawing::Point(159, 62);
 			this->measure_vaule_box->Name = L"measure_vaule_box";
 			this->measure_vaule_box->Size = System::Drawing::Size(59, 19);
 			this->measure_vaule_box->TabIndex = 7;
@@ -215,7 +211,7 @@ namespace Parameters {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(115, 60);
+			this->label1->Location = System::Drawing::Point(114, 65);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(41, 12);
 			this->label1->TabIndex = 6;
@@ -226,7 +222,7 @@ namespace Parameters {
 			// 
 			this->get_distance_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(128)));
-			this->get_distance_button->Location = System::Drawing::Point(225, 57);
+			this->get_distance_button->Location = System::Drawing::Point(224, 62);
 			this->get_distance_button->Name = L"get_distance_button";
 			this->get_distance_button->Size = System::Drawing::Size(47, 19);
 			this->get_distance_button->TabIndex = 8;
@@ -238,7 +234,7 @@ namespace Parameters {
 			// 
 			this->add_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(128)));
-			this->add_button->Location = System::Drawing::Point(214, 82);
+			this->add_button->Location = System::Drawing::Point(213, 87);
 			this->add_button->Name = L"add_button";
 			this->add_button->Size = System::Drawing::Size(58, 19);
 			this->add_button->TabIndex = 9;
@@ -250,7 +246,7 @@ namespace Parameters {
 			// 
 			this->true_list->FormattingEnabled = true;
 			this->true_list->ItemHeight = 12;
-			this->true_list->Location = System::Drawing::Point(12, 82);
+			this->true_list->Location = System::Drawing::Point(11, 87);
 			this->true_list->Name = L"true_list";
 			this->true_list->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
 			this->true_list->Size = System::Drawing::Size(95, 184);
@@ -262,7 +258,7 @@ namespace Parameters {
 			// 
 			this->measure_list->FormattingEnabled = true;
 			this->measure_list->ItemHeight = 12;
-			this->measure_list->Location = System::Drawing::Point(113, 82);
+			this->measure_list->Location = System::Drawing::Point(112, 87);
 			this->measure_list->Name = L"measure_list";
 			this->measure_list->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
 			this->measure_list->Size = System::Drawing::Size(95, 184);
@@ -274,7 +270,7 @@ namespace Parameters {
 			// 
 			this->delete_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(128)));
-			this->delete_button->Location = System::Drawing::Point(214, 157);
+			this->delete_button->Location = System::Drawing::Point(213, 162);
 			this->delete_button->Name = L"delete_button";
 			this->delete_button->Size = System::Drawing::Size(58, 19);
 			this->delete_button->TabIndex = 15;
@@ -286,11 +282,11 @@ namespace Parameters {
 			// 
 			this->exit_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(128)));
-			this->exit_button->Location = System::Drawing::Point(214, 245);
+			this->exit_button->Location = System::Drawing::Point(213, 250);
 			this->exit_button->Name = L"exit_button";
 			this->exit_button->Size = System::Drawing::Size(58, 19);
 			this->exit_button->TabIndex = 16;
-			this->exit_button->Text = L"閉じる";
+			this->exit_button->Text = L"適用";
 			this->exit_button->UseVisualStyleBackColor = true;
 			this->exit_button->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::exit_button_Click);
 			// 
@@ -298,7 +294,7 @@ namespace Parameters {
 			// 
 			this->import->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(128)));
-			this->import->Location = System::Drawing::Point(214, 195);
+			this->import->Location = System::Drawing::Point(213, 200);
 			this->import->Name = L"import";
 			this->import->Size = System::Drawing::Size(58, 19);
 			this->import->TabIndex = 17;
@@ -310,7 +306,7 @@ namespace Parameters {
 			// 
 			this->output->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(128)));
-			this->output->Location = System::Drawing::Point(214, 220);
+			this->output->Location = System::Drawing::Point(213, 225);
 			this->output->Name = L"output";
 			this->output->Size = System::Drawing::Size(58, 19);
 			this->output->TabIndex = 18;
@@ -322,7 +318,7 @@ namespace Parameters {
 			// 
 			this->up_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(128)));
-			this->up_button->Location = System::Drawing::Point(214, 107);
+			this->up_button->Location = System::Drawing::Point(213, 112);
 			this->up_button->Name = L"up_button";
 			this->up_button->Size = System::Drawing::Size(58, 19);
 			this->up_button->TabIndex = 13;
@@ -334,7 +330,7 @@ namespace Parameters {
 			// 
 			this->down_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 8.5F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(128)));
-			this->down_button->Location = System::Drawing::Point(214, 132);
+			this->down_button->Location = System::Drawing::Point(213, 137);
 			this->down_button->Name = L"down_button";
 			this->down_button->Size = System::Drawing::Size(58, 19);
 			this->down_button->TabIndex = 14;
@@ -349,9 +345,9 @@ namespace Parameters {
 			// 
 			// base_length
 			// 
-			this->base_length->Location = System::Drawing::Point(185, 7);
+			this->base_length->Location = System::Drawing::Point(59, 12);
 			this->base_length->Name = L"base_length";
-			this->base_length->Size = System::Drawing::Size(58, 19);
+			this->base_length->Size = System::Drawing::Size(36, 19);
 			this->base_length->TabIndex = 20;
 			this->base_length->Text = L"300";
 			this->base_length->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
@@ -359,20 +355,11 @@ namespace Parameters {
 			// base_length_label
 			// 
 			this->base_length_label->AutoSize = true;
-			this->base_length_label->Location = System::Drawing::Point(138, 10);
+			this->base_length_label->Location = System::Drawing::Point(12, 15);
 			this->base_length_label->Name = L"base_length_label";
 			this->base_length_label->Size = System::Drawing::Size(41, 12);
 			this->base_length_label->TabIndex = 19;
 			this->base_length_label->Text = L"基線長";
-			// 
-			// mm_label
-			// 
-			this->mm_label->AutoSize = true;
-			this->mm_label->Location = System::Drawing::Point(249, 10);
-			this->mm_label->Name = L"mm_label";
-			this->mm_label->Size = System::Drawing::Size(23, 12);
-			this->mm_label->TabIndex = 21;
-			this->mm_label->Text = L"mm";
 			// 
 			// saveFileDialog1
 			// 
@@ -387,7 +374,7 @@ namespace Parameters {
 			// statusStrip1
 			// 
 			this->statusStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->toolStripStatusLabel1 });
-			this->statusStrip1->Location = System::Drawing::Point(0, 271);
+			this->statusStrip1->Location = System::Drawing::Point(0, 280);
 			this->statusStrip1->Name = L"statusStrip1";
 			this->statusStrip1->Size = System::Drawing::Size(284, 23);
 			this->statusStrip1->SizingGrip = false;
@@ -401,14 +388,53 @@ namespace Parameters {
 			this->toolStripStatusLabel1->Text = L"補正値の算出には４組以上のデータが必要です";
 			this->toolStripStatusLabel1->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::toolStripStatusLabel1_Click);
 			// 
+			// linear_a
+			// 
+			this->linear_a->Location = System::Drawing::Point(71, 37);
+			this->linear_a->Name = L"linear_a";
+			this->linear_a->Size = System::Drawing::Size(90, 19);
+			this->linear_a->TabIndex = 24;
+			this->linear_a->Text = L"0.0";
+			this->linear_a->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Location = System::Drawing::Point(12, 40);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(53, 12);
+			this->label2->TabIndex = 23;
+			this->label2->Text = L"線形補正";
+			// 
+			// linear_b
+			// 
+			this->linear_b->Location = System::Drawing::Point(198, 37);
+			this->linear_b->Name = L"linear_b";
+			this->linear_b->Size = System::Drawing::Size(73, 19);
+			this->linear_b->TabIndex = 25;
+			this->linear_b->Text = L"0.0";
+			this->linear_b->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Location = System::Drawing::Point(167, 40);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(25, 12);
+			this->label3->TabIndex = 26;
+			this->label3->Text = L"x  +";
+			// 
 			// ParallelOffsetTool
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(284, 294);
+			this->ClientSize = System::Drawing::Size(284, 303);
 			this->ControlBox = false;
+			this->Controls->Add(this->label3);
+			this->Controls->Add(this->linear_b);
+			this->Controls->Add(this->linear_a);
+			this->Controls->Add(this->label2);
 			this->Controls->Add(this->statusStrip1);
-			this->Controls->Add(this->mm_label);
 			this->Controls->Add(this->base_length);
 			this->Controls->Add(this->base_length_label);
 			this->Controls->Add(this->output);
@@ -425,11 +451,8 @@ namespace Parameters {
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->true_value_box);
 			this->Controls->Add(this->true_value_label);
-			this->Controls->Add(this->copy_button);
 			this->Controls->Add(this->ofset_box);
 			this->Controls->Add(this->ofset_label);
-			this->MaximumSize = System::Drawing::Size(300, 332);
-			this->MinimumSize = System::Drawing::Size(300, 332);
 			this->Name = L"ParallelOffsetTool";
 			this->Text = L"ParallelOffsetTool";
 			this->Load += gcnew System::EventHandler(this, &ParallelOffsetTool::ParallelOffsetTool_Load);
@@ -487,6 +510,8 @@ namespace Parameters {
 
 	}
 	private: System::Void exit_button_Click(System::Object^  sender, System::EventArgs^  e) {
+				 this->ApplyOfset();
+				 this->savePrevData();
 				 this->~ParallelOffsetTool();
 	}
 	private: System::Void up_button_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -522,7 +547,8 @@ namespace Parameters {
 	public: bool base_length_read_flag;
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
 				 if (!base_length_read_flag){
-					 this->getBaseLength();
+					 this->readPrevData();
+					 //this->getBaseLength();
 					 this->base_length_read_flag = true;
 				 }
 				 this->time_count++;
@@ -558,7 +584,7 @@ namespace Parameters {
 
 				 std::stringstream ss;
 				 ss << this->ToStdString(this->base_length->Text);
-				 int base_line;
+				 double base_line;
 				 ss >> base_line;
 
 				 while (interval > 0.0000001){
@@ -588,9 +614,25 @@ namespace Parameters {
 					 interval /= 2;
 				 }
 				 std::stringstream ss2;
-				 ss2 << angle_error;
+				 double angle_error_rad = angle_error / 180.0 * M_PI;
+				 ss2 << angle_error_rad;
 				 std::string str = ss2.str();
 				 this->ofset_box->Text = this->ToSystemString(str);
+
+
+				 linearApprox linear;
+				 for (int i = 0; i < correct.size(); i++){
+					 double dist = base_line / (tan(atan(base_line / 2. / measure[i]) + angle_error_rad) - (tan(-1 * atan(base_line / 2. / measure[i]))));
+					 linear.add(correct[i], dist - correct[i]);
+				 }
+				 std::stringstream ss3;
+				 ss3 << linear.getA();
+				 str = ss3.str();
+				 this->linear_a->Text = this->ToSystemString(str);
+				 std::stringstream ss4;
+				 ss4 << linear.getB();
+				 str = ss4.str();
+				 this->linear_b->Text = this->ToSystemString(str);
 
 	}
 	public: System::Void get_distance_button_Click(System::Object^  sender, System::EventArgs^  e);
@@ -670,5 +712,51 @@ private: System::Void import_Click(System::Object^  sender, System::EventArgs^  
 private: System::Void toolStripStatusLabel1_Click(System::Object^  sender, System::EventArgs^  e) {
 }
 		 public: System::Void getBaseLength();
+private: System::Void savePrevData(){
+			 fname = "tool.cfg\\Temp.cfg";
+			 StreamWriter^ swriter = gcnew StreamWriter(fname);
+			 swriter->WriteLine(this->base_length->Text);
+			 for (int i = 0; i < this->true_list->Items->Count && i < this->measure_list->Items->Count; i++){
+				 swriter->WriteLine(this->true_list->Items[i]);
+				 swriter->WriteLine(this->measure_list->Items[i]);
+			 }
+			 swriter->Close();
+			 this->time_count = 0;
+			 String ^notice;
+			 String ^split = "\\";
+			 array<Char>^ splitchar = split->ToCharArray();
+			 array<String^>^ words;
+			 words = fname->Split(splitchar);
+			 notice = "[";
+			 notice += words[words->Length - 1];
+			 notice += "]を書き込みました";
+			 this->toolStripStatusLabel1->Text = notice;
+}
+private: System::Void readPrevData(){
+
+			 this->true_list->Items->Clear();
+			 this->measure_list->Items->Clear();
+			 fname = "tool.cfg\\Temp.cfg";
+			 StreamReader^ sreader = gcnew StreamReader(fname);
+			 if (sreader->Peek() == -1)return;
+			 this->base_length->Text = sreader->ReadLine();
+			 while (sreader->Peek() > -1){
+				 this->true_list->Items->Add(sreader->ReadLine());
+				 this->measure_list->Items->Add(sreader->ReadLine());
+			 }
+			 sreader->Close();
+			 Invalidate();
+			 this->time_count = 0;
+			 String ^notice;
+			 String ^split = "\\";
+			 array<Char>^ splitchar = split->ToCharArray();
+			 array<String^>^ words;
+			 words = fname->Split(splitchar);
+			 notice = "[";
+			 notice += words[words->Length - 1];
+			 notice += "]を読み込みました";
+			 this->toolStripStatusLabel1->Text = notice;
+}
+public: System::Void ApplyOfset();
 };
 }

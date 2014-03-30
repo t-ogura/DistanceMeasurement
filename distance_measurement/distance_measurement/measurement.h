@@ -33,6 +33,8 @@ public:
 
 	//ï‚ê≥íl
 	double correctParallel;
+	double linear_a;
+	double linear_b;
 
 	bool trackingHomeFlag;
 	bool trackingMoveFlag;
@@ -45,7 +47,9 @@ public:
 		double mid;
 		double theta;
 		double kf;
-	}distance;
+	};
+	Distances distance;
+	Distances non_ofset;
 
 	struct PanTilt{
 		double pan;

@@ -25,6 +25,9 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	this->trackingThreshold = 170;
 	this->trackingHomeFlag = false;
 	this->trackingMoveFlag = true;
+
+	this->linear_a = 0.0;
+	this->linear_b = 0.0;
 }
 
 Measurement::~Measurement(){}
@@ -111,7 +114,11 @@ void Measurement::measure(){
 	vccThread_R.join();
 	this->angle_L = angleCalculation(vcc_L);
 	this->angle_R = angleCalculation(vcc_R);
-	this->distance.original = this->baselineLength / (tan(this->angle_L.pan+this->correctParallel/2.0) - tan(this->angle_R.pan-this->correctParallel/2.0));
+	this->non_ofset.original = this->baselineLength / (tan(this->angle_L.pan) - tan(this->angle_R.pan));
+	this->non_ofset.mid = sqrt(pow(this->non_ofset.original, 2)*(pow(tan(angle_L.pan), 2) + pow(tan(angle_R.pan), 2) + 2) / 2 - pow((double)this->baselineLength, 2) / 4);
+	this->non_ofset.theta = acos(this->non_ofset.original / this->non_ofset.mid);
+	double tmp = this->baselineLength / (tan(this->angle_L.pan + this->correctParallel / 2.0) - tan(this->angle_R.pan - this->correctParallel / 2.0));
+	this->distance.original = tmp / (1.0 + this->linear_a) - this->linear_b;
 	this->distance.mid = sqrt(pow(this->distance.original, 2)*(pow(tan(angle_L.pan), 2) + pow(tan(angle_R.pan), 2) + 2) / 2 - pow((double)this->baselineLength, 2) / 4);
 	this->distance.theta = acos(this->distance.original / this->distance.mid);
 	if (angle_L.pan + angle_R.pan < 0) this->distance.theta *= -1;
