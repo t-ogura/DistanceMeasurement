@@ -68,32 +68,35 @@ int FormConnection::input(Measurement *m, std::string filename){
 	int i = 0;
 	while (in && std::getline(in, str)){
 		i++;
-		if (i == 1){ if (str == "T") m->vcc_L->allSeekFlag = true; else m->vcc_L->allSeekFlag = false; }
-		if (i == 2){ std::stringstream ss; ss << str; ss >> m->vcc_L->allSeekThreshold; }
-		if (i == 3){ if (str == "T") m->vcc_L->databaseFlag = true; else m->vcc_L->databaseFlag = false; }
-		if (i == 4){ std::stringstream ss; ss << str; ss >> m->vcc_L->databaseSearchThreshold; }
-		if (i == 5){ if (str == "T") { m->vcc_L->databaseClearFlag = true; db_reset_ack_l = true; } }
-		if (i == 6){ if (str == "T") { m->vcc_L->databaseAllSearchFlag = true; false; db_all_ack_l = true; } }
-		if (i == 7){ if (str == "T") m->vcc_L->subpixelFlag = true; else m->vcc_L->subpixelFlag = false; }
-		if (i == 8){ if (str == "T") m->vcc_L->kalmanFlag = true; else m->vcc_L->kalmanFlag = false; }
-		if (i == 9){ if (str == "T") m->vcc_R->allSeekFlag = true; else m->vcc_R->allSeekFlag = false; }
-		if (i == 10){ std::stringstream ss; ss << str; ss >> m->vcc_R->allSeekThreshold; }
-		if (i == 11){ if (str == "T") m->vcc_R->databaseFlag = true; else m->vcc_R->databaseFlag = false; }
-		if (i == 12){ std::stringstream ss; ss << str; ss >> m->vcc_R->databaseSearchThreshold; }
-		if (i == 13){ if (str == "T") { m->vcc_R->databaseClearFlag = true; db_reset_ack_r = true; } }
-		if (i == 14){ if (str == "T") { m->vcc_R->databaseAllSearchFlag = true; db_all_ack_r = true; } }
-		if (i == 15){ if (str == "T") m->vcc_R->subpixelFlag = true; else m->vcc_R->subpixelFlag = false; }
-		if (i == 16){ if (str == "T") m->vcc_R->kalmanFlag = true; else m->vcc_R->kalmanFlag = false; }
-		if (i == 17){ std::stringstream ss; ss << str; ss >> m->correctParallel; }
-		if (i == 18){ std::stringstream ss; ss << str; ss >> m->trackingThreshold; }
-		if (i == 19){ if (str == "T") { m->trackingHomeFlag = true; this->plat_home_ack = true; } }
-		if (i == 20){ if (str == "T") { m->trackingMoveFlag = true; this->plat_move_ack = true; } }
-		if (i == 21){ if (str == "T") { m->trackingMoveFlag = false; this->plat_stop_ack = true; } }
-		if (i == 22){ save_filename = str; }
-		if (i == 23){ std::stringstream ss; ss << str; ss >> save_frame_num; }
-		if (i == 24){ save_setdata_name = str; }
-		if (i == 25){ if (str == "T") save_csv_flag = true; else save_csv_flag = false; }
-		if (i == 26){ if (str == "T") { setSave(save_filename, save_frame_num, save_setdata_name, save_csv_flag); this->save_ack = true; } }
+		if (i == 1){ std::stringstream ss; ss << str; ss >> m->baselineLength; }
+		if (i == 2){ std::stringstream ss; ss << str; ss >> m->focalLength; }
+		if (i == 3){ std::stringstream ss; ss << str; ss >> m->pixelSize; }
+		if (i == 4){ if (str == "T") m->vcc_L->allSeekFlag = true; else m->vcc_L->allSeekFlag = false; }
+		if (i == 5){ std::stringstream ss; ss << str; ss >> m->vcc_L->allSeekThreshold; }
+		if (i == 6){ if (str == "T") m->vcc_L->databaseFlag = true; else m->vcc_L->databaseFlag = false; }
+		if (i == 7){ std::stringstream ss; ss << str; ss >> m->vcc_L->databaseSearchThreshold; }
+		if (i == 8){ if (str == "T") { m->vcc_L->databaseClearFlag = true; db_reset_ack_l = true; } }
+		if (i == 9){ if (str == "T") { m->vcc_L->databaseAllSearchFlag = true; false; db_all_ack_l = true; } }
+		if (i == 10){ if (str == "T") m->vcc_L->subpixelFlag = true; else m->vcc_L->subpixelFlag = false; }
+		if (i == 11){ if (str == "T") m->vcc_L->kalmanFlag = true; else m->vcc_L->kalmanFlag = false; }
+		if (i == 12){ if (str == "T") m->vcc_R->allSeekFlag = true; else m->vcc_R->allSeekFlag = false; }
+		if (i == 13){ std::stringstream ss; ss << str; ss >> m->vcc_R->allSeekThreshold; }
+		if (i == 14){ if (str == "T") m->vcc_R->databaseFlag = true; else m->vcc_R->databaseFlag = false; }
+		if (i == 15){ std::stringstream ss; ss << str; ss >> m->vcc_R->databaseSearchThreshold; }
+		if (i == 16){ if (str == "T") { m->vcc_R->databaseClearFlag = true; db_reset_ack_r = true; } }
+		if (i == 17){ if (str == "T") { m->vcc_R->databaseAllSearchFlag = true; db_all_ack_r = true; } }
+		if (i == 18){ if (str == "T") m->vcc_R->subpixelFlag = true; else m->vcc_R->subpixelFlag = false; }
+		if (i == 19){ if (str == "T") m->vcc_R->kalmanFlag = true; else m->vcc_R->kalmanFlag = false; }
+		if (i == 20){ std::stringstream ss; ss << str; ss >> m->correctParallel; }
+		if (i == 21){ std::stringstream ss; ss << str; ss >> m->trackingThreshold; }
+		if (i == 22){ if (str == "T") { m->trackingHomeFlag = true; this->plat_home_ack = true; } }
+		if (i == 23){ if (str == "T") { m->trackingMoveFlag = true; this->plat_move_ack = true; } }
+		if (i == 24){ if (str == "T") { m->trackingMoveFlag = false; this->plat_stop_ack = true; } }
+		if (i == 25){ save_filename = str; }
+		if (i == 26){ std::stringstream ss; ss << str; ss >> save_frame_num; }
+		if (i == 27){ save_setdata_name = str; }
+		if (i == 28){ if (str == "T") save_csv_flag = true; else save_csv_flag = false; }
+		if (i == 29){ if (str == "T") { setSave(save_filename, save_frame_num, save_setdata_name, save_csv_flag); this->save_ack = true; } }
 	}
 
 	in.close();
@@ -186,28 +189,29 @@ int FormConnection::doSave(Measurement *m){
 	/* 01 */log << m->distance.original << ",";
 	/* 02 */log << m->distance.mid << ",";
 	/* 03 */log << m->distance.kf << ",";
-	/* 04 */log << m->distance.theta << ",";
-	/* 05 */log << m->vcc_L->matchingParameters[2] << ",";
-	/* 06 */log << m->vcc_L->matchingParameters[3] << ",";
-	/* 07 */log << m->vcc_L->targetDB_x << ",";
-	/* 08 */log << m->vcc_L->targetDB_y << ",";
-	/* 09 */log << m->vcc_L->matchingParameters[8] << ",";
-	/* 10 */log << m->vcc_R->matchingParameters[2] << ",";
-	/* 11 */log << m->vcc_R->matchingParameters[3] << ",";
-	/* 12 */log << m->vcc_R->targetDB_x << ",";
-	/* 13 */log << m->vcc_R->targetDB_y << ",";
-	/* 14 */log << m->vcc_R->matchingParameters[8] << ",";
-	/* 15 */if (db_reset_ack_l) log << "T" << ","; else log << "F" << ",";
-	/* 16 */if (db_all_ack_l) log << "T" << ","; else log << "F" << ",";
-	/* 17 */if (db_reset_ack_r) log << "T" << ","; else log << "F" << ",";
-	/* 18 */if (db_all_ack_l) log << "T" << ","; else log << "F" << ",";
-	/* 19 */log << m->trackingState << ",";
-	/* 20 */log << m->platformState.pan << ",";
-	/* 21 */log << m->platformState.tilt << ",";
-	/* 22 */if (plat_home_ack) log << "T" << ","; else log << "F" << ",";
-	/* 23 */if (plat_move_ack) log << "T" << ","; else log << "F" << ",";
-	/* 24 */if (plat_stop_ack) log << "T" << ","; else log << "F" << ",";
-	/* 25 */log << this->save_state << ",";
-	/* 26 */if (save_ack) log << "T" << std::endl; else log << "F" << std::endl;
+	/* 04 */log << m->vcc_L->matchingParameters[2] << ",";
+	/* 05 */log << m->vcc_L->matchingParameters[3] << ",";
+	/* 06 */log << m->vcc_L->targetDB_x << ",";
+	/* 07 */log << m->vcc_L->targetDB_y << ",";
+	/* 08 */log << m->vcc_L->matchingParameters[8] << ",";
+	/* 09 */log << m->vcc_R->matchingParameters[2] << ",";
+	/* 10 */log << m->vcc_R->matchingParameters[3] << ",";
+	/* 11 */log << m->vcc_R->targetDB_x << ",";
+	/* 12 */log << m->vcc_R->targetDB_y << ",";
+	/* 13 */log << m->vcc_R->matchingParameters[8] << ",";
+	/* 14 */if (db_reset_ack_l) log << "T" << ","; else log << "F" << ",";
+	/* 15 */if (db_all_ack_l) log << "T" << ","; else log << "F" << ",";
+	/* 16 */if (db_reset_ack_r) log << "T" << ","; else log << "F" << ",";
+	/* 17 */if (db_all_ack_l) log << "T" << ","; else log << "F" << ",";
+	/* 18 */log << m->trackingState << ",";
+	/* 19 */log << m->trackingAngle.pan << ",";
+	/* 20 */log << m->trackingAngle.tilt << ",";
+	/* 21 */log << m->platformState.pan << ",";
+	/* 22 */log << m->platformState.tilt << ",";
+	/* 23 */if (plat_home_ack) log << "T" << ","; else log << "F" << ",";
+	/* 24 */if (plat_move_ack) log << "T" << ","; else log << "F" << ",";
+	/* 25 */if (plat_stop_ack) log << "T" << ","; else log << "F" << ",";
+	/* 26 */log << this->save_state << ",";
+	/* 27 */if (save_ack) log << "T" << std::endl; else log << "F" << std::endl;
 	}
 }

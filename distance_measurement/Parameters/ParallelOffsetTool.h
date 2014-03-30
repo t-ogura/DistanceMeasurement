@@ -519,8 +519,12 @@ namespace Parameters {
 	}
 	private: System::Void ParallelOffsetTool_Load(System::Object^  sender, System::EventArgs^  e) {
 	}
-					  
+	public: bool base_length_read_flag;
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+				 if (!base_length_read_flag){
+					 this->getBaseLength();
+					 this->base_length_read_flag = true;
+				 }
 				 this->time_count++;
 				 linearApprox la;
 				 std::vector<double> correct;
@@ -665,5 +669,6 @@ private: System::Void import_Click(System::Object^  sender, System::EventArgs^  
 }
 private: System::Void toolStripStatusLabel1_Click(System::Object^  sender, System::EventArgs^  e) {
 }
+		 public: System::Void getBaseLength();
 };
 }

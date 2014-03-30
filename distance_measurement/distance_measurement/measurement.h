@@ -20,6 +20,10 @@ public:
 	void measure();
 	void threadTrackingJoin();
 
+	double pixelSize;
+	double focalLength;
+	double baselineLength;
+
 	Camera *camera_L;
 	Camera *camera_R;
 	ControlBiclops *controlBiclops;
@@ -55,9 +59,6 @@ public:
 	PanTilt angleCalculation(VCC *vcc);
 
 private:
-	double pixelSize;
-	double focalLength;
-	double baselineLength;
 
 
 	void kalmanInitialize();

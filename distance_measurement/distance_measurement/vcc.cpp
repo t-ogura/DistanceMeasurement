@@ -171,6 +171,7 @@ void VCC::templateMatching(){
 			int targetDB_x_min, targetDB_y_min;
 
 			if (this->databaseClearFlag){
+				std::cout << "Database reset" << std::endl;
 				this->targetDB_x = 4;
 				this->targetDB_y = 4;
 				this->databaseClearFlag = false;
