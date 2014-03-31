@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 #include "measurement.h"
 
@@ -16,9 +17,9 @@ public:
 	int doSave(Measurement *m);
 
 private:
-	int setSave(std::string filename, int frame_num, std::string save_param, bool csv_log);
+	int setSave(std::string folder_name, std::string file_name, int frame_num, bool csv_log);
 
-	std::string save_file_name, save_file_param;
+	std::string save_folder_name, save_file_name, save_file_path;
 	int save_frame_num;
 	bool save_csv_log;
 
@@ -60,8 +61,8 @@ FormConnection::~FormConnection(){}
 int FormConnection::input(Measurement *m, std::string filename){
 	std::ifstream in(filename);
 	if (in.fail())return -1;
-	std::string save_filename, save_setdata_name;
-	int save_frame_num;
+	std::string _save_folder_name, _save_file_name;
+	int _save_frame_num;
 	bool save_csv_flag;
 
 	std::string str;
@@ -94,11 +95,11 @@ int FormConnection::input(Measurement *m, std::string filename){
 		if (i == 24){ if (str == "T") { m->trackingHomeFlag = true; this->plat_home_ack = true; } }
 		if (i == 25){ if (str == "T") { m->trackingMoveFlag = true; this->plat_move_ack = true; } }
 		if (i == 26){ if (str == "T") { m->trackingMoveFlag = false; this->plat_stop_ack = true; } }
-		if (i == 27){ save_filename = str; }
-		if (i == 28){ std::stringstream ss; ss << str; ss >> save_frame_num; }
-		if (i == 29){ save_setdata_name = str; }
+		if (i == 27){ _save_file_name = str; }
+		if (i == 28){ _save_folder_name = str; }
+		if (i == 29){ std::stringstream ss; ss << str; ss >> _save_frame_num; }
 		if (i == 30){ if (str == "T") save_csv_flag = true; else save_csv_flag = false; }
-		if (i == 31){ if (str == "T") { setSave(save_filename, save_frame_num, save_setdata_name, save_csv_flag); this->save_ack = true; } }
+		if (i == 31){ if (str == "T") { setSave(_save_folder_name, _save_file_name, _save_frame_num, save_csv_flag); this->save_ack = true; } }
 	}
 
 	in.close();
@@ -110,9 +111,9 @@ int FormConnection::output(Measurement *m, std::string filename){
 	/* -- *///書き込み処理
 	/* -- */std::ofstream out(filename);
 	/* -- */if (out.fail()) return -1;
-	/* 01 */out << m->non_ofset.original << std::endl;
-	/* 02 */out << m->non_ofset.mid << std::endl;
-	/* 03 */out << m->non_ofset.kf << std::endl;
+	/* 01 */out << m->non_offset.original << std::endl;
+	/* 02 */out << m->non_offset.mid << std::endl;
+	/* 03 */out << m->non_offset.kf << std::endl;
 	/* 04 */out << m->distance.original << std::endl;
 	/* 05 */out << m->distance.mid << std::endl;
 	/* 06 */out << m->distance.kf << std::endl;
@@ -156,18 +157,28 @@ int FormConnection::output(Measurement *m, std::string filename){
 	/* -- */return 0;
 }
 
-int FormConnection::setSave(std::string filename, int frame_num, std::string save_param, bool csv_log){
-	this->save_file_name = SAVE_FILE_DIR + filename;
+int FormConnection::setSave(std::string folder_name, std::string file_name, int frame_num, bool csv_log){
+	using namespace std::tr2::sys;
+
+	std::string folder_path = SAVE_FILE_DIR;
+	folder_path += folder_name;
+	create_directory(path(folder_name));
+	this->save_folder_name = folder_name;
+	this->save_file_name = file_name;
+	
+	this->save_file_path = SAVE_FILE_DIR;
+	this->save_file_path += folder_name;
+	this->save_file_path += "\\";
+	this->save_file_path += file_name;
 	this->save_frame_num = frame_num;
-	this->save_file_param = save_param;
 	this->save_csv_log = csv_log;
 
 	save.close();
-	std::string str = this->save_file_name + ".txt";
+	std::string str = this->save_file_path + ".txt";
 	save.open(str);
 	if (this->save_csv_log){
 		log.close();
-		str = this->save_file_name + ".csv";
+		str = this->save_file_path + ".csv";
 		log.open(str);
 	}
 	return 0;
@@ -180,23 +191,12 @@ int FormConnection::doSave(Measurement *m){
 	}
 	save_frame_num--;
 	this->save_state = "保存中";
-	if (this->save_file_param == "KF適用後"){
-		save << m->distance.kf << std::endl;
-	}
-	else if (this->save_file_param == "中心からの距離"){
-		save << m->distance.mid << std::endl;
-	}
-	else if (this->save_file_param == "補正後計測値"){
-		save << m->distance.original << std::endl;
-	}
-	else if (this->save_file_param == "補正前計測値"){
-		save << m->non_ofset.original << std::endl;
-	}
+	save << m->distance.kf << std::endl;
 
 	if (this->save_csv_log){
-	/* 01 */log << m->non_ofset.original << ",";
-	/* 02 */log << m->non_ofset.mid << ",";
-	/* 03 */log << m->non_ofset.kf << ",";
+	/* 01 */log << m->non_offset.original << ",";
+	/* 02 */log << m->non_offset.mid << ",";
+	/* 03 */log << m->non_offset.kf << ",";
 	/* 04 */log << m->distance.original << ",";
 	/* 05 */log << m->distance.mid << ",";
 	/* 06 */log << m->distance.kf << ",";

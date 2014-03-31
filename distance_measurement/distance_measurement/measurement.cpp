@@ -108,15 +108,15 @@ void Measurement::measure(){
 	this->camera_R->getImage();
 	this->vcc_L->setInputImage(this->camera_L->grayImage);
 	this->vcc_R->setInputImage(this->camera_R->grayImage);
-	std::thread vccThread_L(std::bind(&VCC::templateMatching, this->vcc_L));
-	std::thread vccThread_R(std::bind(&VCC::templateMatching, this->vcc_R));
+	vccThread_L = std::thread(std::bind(&VCC::templateMatching, this->vcc_L));
+	vccThread_R = std::thread(std::bind(&VCC::templateMatching, this->vcc_R));
 	vccThread_L.join();
 	vccThread_R.join();
 	this->angle_L = angleCalculation(vcc_L);
 	this->angle_R = angleCalculation(vcc_R);
-	this->non_ofset.original = this->baselineLength / (tan(this->angle_L.pan) - tan(this->angle_R.pan));
-	this->non_ofset.mid = sqrt(pow(this->non_ofset.original, 2)*(pow(tan(angle_L.pan), 2) + pow(tan(angle_R.pan), 2) + 2) / 2 - pow((double)this->baselineLength, 2) / 4);
-	this->non_ofset.theta = acos(this->non_ofset.original / this->non_ofset.mid);
+	this->non_offset.original = this->baselineLength / (tan(this->angle_L.pan) - tan(this->angle_R.pan));
+	this->non_offset.mid = sqrt(pow(this->non_offset.original, 2)*(pow(tan(angle_L.pan), 2) + pow(tan(angle_R.pan), 2) + 2) / 2 - pow((double)this->baselineLength, 2) / 4);
+	this->non_offset.theta = acos(this->non_offset.original / this->non_offset.mid);
 	double tmp = this->baselineLength / (tan(this->angle_L.pan + this->correctParallel / 2.0) - tan(this->angle_R.pan - this->correctParallel / 2.0));
 	this->distance.original = tmp / (1.0 + this->linear_a) - this->linear_b;
 	this->distance.mid = sqrt(pow(this->distance.original, 2)*(pow(tan(angle_L.pan), 2) + pow(tan(angle_R.pan), 2) + 2) / 2 - pow((double)this->baselineLength, 2) / 4);
@@ -127,20 +127,10 @@ void Measurement::measure(){
 	(*this->KF_Measurement)(0) = this->distance.mid;
 	cv::Mat estimated = this->KF->correct((*this->KF_Measurement));
 	this->distance.kf = estimated.at<float>(0);
-	if (vcc_L->matchingParameters[8] < 850 && vcc_R->matchingParameters[8] < 850){
-		PanTilt pt;
-		pt.pan = this->distance.theta;
-		pt.tilt = (angle_L.tilt + angle_R.tilt) / 2.0;
-		this->mtx.lock();
-		this->trackingAngle = pt;
-		this->mtx.unlock();
-	}
-	else{
-		PanTilt pt;
-		pt.pan = 0;
-		pt.tilt = 0;
-		this->mtx.lock();
-		this->trackingAngle = pt;
-		this->mtx.unlock();
-	}
+	PanTilt pt;
+	pt.pan = this->distance.theta;
+	pt.tilt = (angle_L.tilt + angle_R.tilt) / 2.0;
+	this->mtx.lock();
+	this->trackingAngle = pt;
+	this->mtx.unlock();
 }

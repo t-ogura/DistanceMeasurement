@@ -49,7 +49,7 @@ public:
 		double kf;
 	};
 	Distances distance;
-	Distances non_ofset;
+	Distances non_offset;
 
 	struct PanTilt{
 		double pan;
@@ -72,6 +72,9 @@ private:
 	cv::Mat_<float> *KF_Measurement;
 
 	std::thread trackingThread;
+
+	std::thread vccThread_L;
+	std::thread vccThread_R;
 	std::mutex mtx;
 };
 

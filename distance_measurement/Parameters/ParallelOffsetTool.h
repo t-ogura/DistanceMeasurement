@@ -58,8 +58,8 @@ namespace Parameters {
 		}
 
 	protected:
-	private: System::Windows::Forms::Label^  ofset_label;
-	private: System::Windows::Forms::TextBox^  ofset_box;
+	private: System::Windows::Forms::Label^  offset_label;
+	private: System::Windows::Forms::TextBox^  offset_box;
 
 	private: System::Windows::Forms::TextBox^  true_value_box;
 
@@ -129,8 +129,8 @@ namespace Parameters {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			this->ofset_label = (gcnew System::Windows::Forms::Label());
-			this->ofset_box = (gcnew System::Windows::Forms::TextBox());
+			this->offset_label = (gcnew System::Windows::Forms::Label());
+			this->offset_box = (gcnew System::Windows::Forms::TextBox());
 			this->true_value_box = (gcnew System::Windows::Forms::TextBox());
 			this->true_value_label = (gcnew System::Windows::Forms::Label());
 			this->measure_vaule_box = (gcnew System::Windows::Forms::TextBox());
@@ -159,24 +159,24 @@ namespace Parameters {
 			this->statusStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
-			// ofset_label
+			// offset_label
 			// 
-			this->ofset_label->AutoSize = true;
-			this->ofset_label->Location = System::Drawing::Point(101, 15);
-			this->ofset_label->Name = L"ofset_label";
-			this->ofset_label->Size = System::Drawing::Size(53, 12);
-			this->ofset_label->TabIndex = 1;
-			this->ofset_label->Text = L"•½s•â³";
+			this->offset_label->AutoSize = true;
+			this->offset_label->Location = System::Drawing::Point(101, 15);
+			this->offset_label->Name = L"offset_label";
+			this->offset_label->Size = System::Drawing::Size(53, 12);
+			this->offset_label->TabIndex = 1;
+			this->offset_label->Text = L"•½s•â³";
 			// 
-			// ofset_box
+			// offset_box
 			// 
-			this->ofset_box->Location = System::Drawing::Point(159, 12);
-			this->ofset_box->Name = L"ofset_box";
-			this->ofset_box->Size = System::Drawing::Size(112, 19);
-			this->ofset_box->TabIndex = 2;
-			this->ofset_box->Text = L"0.0";
-			this->ofset_box->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			this->ofset_box->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::ofset_box_Click);
+			this->offset_box->Location = System::Drawing::Point(159, 12);
+			this->offset_box->Name = L"offset_box";
+			this->offset_box->Size = System::Drawing::Size(112, 19);
+			this->offset_box->TabIndex = 2;
+			this->offset_box->Text = L"0.0";
+			this->offset_box->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			this->offset_box->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::offset_box_Click);
 			// 
 			// true_value_box
 			// 
@@ -451,8 +451,8 @@ namespace Parameters {
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->true_value_box);
 			this->Controls->Add(this->true_value_label);
-			this->Controls->Add(this->ofset_box);
-			this->Controls->Add(this->ofset_label);
+			this->Controls->Add(this->offset_box);
+			this->Controls->Add(this->offset_label);
 			this->Name = L"ParallelOffsetTool";
 			this->Text = L"ParallelOffsetTool";
 			this->Load += gcnew System::EventHandler(this, &ParallelOffsetTool::ParallelOffsetTool_Load);
@@ -510,7 +510,7 @@ namespace Parameters {
 
 	}
 	private: System::Void exit_button_Click(System::Object^  sender, System::EventArgs^  e) {
-				 this->ApplyOfset();
+				 this->ApplyOffset();
 				 this->savePrevData();
 				 this->~ParallelOffsetTool();
 	}
@@ -540,7 +540,7 @@ namespace Parameters {
 				 this->measure_list->SetSelected(m + 1, true);
 	}
 	private: System::Void copy_button_Click(System::Object^  sender, System::EventArgs^  e) {
-				 Clipboard::SetDataObject(this->ofset_box->Text, true);
+				 Clipboard::SetDataObject(this->offset_box->Text, true);
 	}
 	private: System::Void ParallelOffsetTool_Load(System::Object^  sender, System::EventArgs^  e) {
 	}
@@ -617,7 +617,7 @@ namespace Parameters {
 				 double angle_error_rad = angle_error / 180.0 * M_PI;
 				 ss2 << angle_error_rad;
 				 std::string str = ss2.str();
-				 this->ofset_box->Text = this->ToSystemString(str);
+				 this->offset_box->Text = this->ToSystemString(str);
 
 
 				 linearApprox linear;
@@ -644,8 +644,8 @@ private: System::Void true_value_box_Click(System::Object^  sender, System::Even
 private: System::Void measure_vaule_box_Click(System::Object^  sender, System::EventArgs^  e) {
 			 this->measure_vaule_box->SelectAll();
 }
-private: System::Void ofset_box_Click(System::Object^  sender, System::EventArgs^  e) {
-			 this->ofset_box->SelectAll();
+private: System::Void offset_box_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->offset_box->SelectAll();
 }
 		 private: String ^fname;
 				  private: int time_count;
@@ -757,6 +757,6 @@ private: System::Void readPrevData(){
 			 notice += "]‚ð“Ç‚Ýž‚Ý‚Ü‚µ‚½";
 			 this->toolStripStatusLabel1->Text = notice;
 }
-public: System::Void ApplyOfset();
+public: System::Void ApplyOffset();
 };
 }

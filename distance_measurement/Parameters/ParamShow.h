@@ -117,7 +117,7 @@ namespace Parameters {
 	private: System::Windows::Forms::Button^  db_all_r;
 	private: System::Windows::Forms::TextBox^  th_box_r;
 	private: System::Windows::Forms::Button^  db_reset_r;
-	private: System::Windows::Forms::GroupBox^  ofset_group;
+	private: System::Windows::Forms::GroupBox^  offset_group;
 
 	private: System::Windows::Forms::GroupBox^  pan_tilt_unit_group;
 	private: System::Windows::Forms::GroupBox^  pan_tilt_status;
@@ -134,15 +134,15 @@ private: System::Windows::Forms::Label^  platform_tilt;
 private: System::Windows::Forms::Label^  platform_pan;
 private: System::Windows::Forms::Label^  tilt_label;
 private: System::Windows::Forms::Label^  pla_pos_label;
-public: System::Windows::Forms::TextBox^  ofset;
-public: System::Windows::Forms::CheckBox^  ofset_check;
+public: System::Windows::Forms::TextBox^  offset;
+public: System::Windows::Forms::CheckBox^  offset_check;
 private: System::Windows::Forms::Label^  move_tilt;
 private: System::Windows::Forms::GroupBox^  save_box;
 
 
-private: System::Windows::Forms::Label^  save_label;
 
-private: System::Windows::Forms::ComboBox^  comboBox1;
+
+
 private: System::Windows::Forms::Button^  save_button;
 private: System::Windows::Forms::GroupBox^  groupBox1;
 private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel7;
@@ -206,6 +206,11 @@ private: System::Windows::Forms::TabControl^  tabControl1;
 private: System::Windows::Forms::TabPage^  tabPage1;
 private: System::Windows::Forms::TabPage^  tabPage2;
 private: System::Windows::Forms::TabPage^  tabPage3;
+private: System::Windows::Forms::CheckBox^  calib_check;
+
+private: System::Windows::Forms::TextBox^  true_value;
+
+private: System::Windows::Forms::Label^  label6;
 
 
 private:
@@ -295,14 +300,14 @@ private:
 			this->db_all_r = (gcnew System::Windows::Forms::Button());
 			this->th_box_r = (gcnew System::Windows::Forms::TextBox());
 			this->db_reset_r = (gcnew System::Windows::Forms::Button());
-			this->ofset_group = (gcnew System::Windows::Forms::GroupBox());
+			this->offset_group = (gcnew System::Windows::Forms::GroupBox());
 			this->linear_b = (gcnew System::Windows::Forms::TextBox());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->linear_a = (gcnew System::Windows::Forms::TextBox());
-			this->ofset = (gcnew System::Windows::Forms::TextBox());
+			this->offset = (gcnew System::Windows::Forms::TextBox());
 			this->linear_flag = (gcnew System::Windows::Forms::CheckBox());
 			this->tool_button = (gcnew System::Windows::Forms::Button());
-			this->ofset_check = (gcnew System::Windows::Forms::CheckBox());
+			this->offset_check = (gcnew System::Windows::Forms::CheckBox());
 			this->tableLayoutPanel6 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
@@ -326,9 +331,10 @@ private:
 			this->tableLayoutPanel8 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->platform_state = (gcnew System::Windows::Forms::Label());
 			this->save_box = (gcnew System::Windows::Forms::GroupBox());
+			this->calib_check = (gcnew System::Windows::Forms::CheckBox());
+			this->true_value = (gcnew System::Windows::Forms::TextBox());
+			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->csv_check = (gcnew System::Windows::Forms::CheckBox());
-			this->save_label = (gcnew System::Windows::Forms::Label());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
 			this->save_button = (gcnew System::Windows::Forms::Button());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->tableLayoutPanel7 = (gcnew System::Windows::Forms::TableLayoutPanel());
@@ -359,7 +365,7 @@ private:
 			this->rightcamera->SuspendLayout();
 			this->tableLayoutPanel4->SuspendLayout();
 			this->tableLayoutPanel2->SuspendLayout();
-			this->ofset_group->SuspendLayout();
+			this->offset_group->SuspendLayout();
 			this->tableLayoutPanel6->SuspendLayout();
 			this->pan_tilt_unit_group->SuspendLayout();
 			this->tableLayoutPanel5->SuspendLayout();
@@ -667,7 +673,7 @@ private:
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				31.31313F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				32)));
+				37)));
 			this->tableLayoutPanel1->Controls->Add(this->xl, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->yl, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->coodinatel, 0, 1);
@@ -691,9 +697,9 @@ private:
 			this->xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->xl->AutoSize = true;
-			this->xl->Location = System::Drawing::Point(70, 0);
+			this->xl->Location = System::Drawing::Point(67, 0);
 			this->xl->Name = L"xl";
-			this->xl->Size = System::Drawing::Size(24, 12);
+			this->xl->Size = System::Drawing::Size(23, 12);
 			this->xl->TabIndex = 0;
 			this->xl->Text = L"x";
 			this->xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -703,9 +709,9 @@ private:
 			this->yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->yl->AutoSize = true;
-			this->yl->Location = System::Drawing::Point(100, 0);
+			this->yl->Location = System::Drawing::Point(96, 0);
 			this->yl->Name = L"yl";
-			this->yl->Size = System::Drawing::Size(28, 12);
+			this->yl->Size = System::Drawing::Size(32, 12);
 			this->yl->TabIndex = 1;
 			this->yl->Text = L"y";
 			this->yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -717,7 +723,7 @@ private:
 			this->coodinatel->AutoSize = true;
 			this->coodinatel->Location = System::Drawing::Point(3, 19);
 			this->coodinatel->Name = L"coodinatel";
-			this->coodinatel->Size = System::Drawing::Size(61, 12);
+			this->coodinatel->Size = System::Drawing::Size(58, 12);
 			this->coodinatel->TabIndex = 2;
 			this->coodinatel->Text = L"検出座標";
 			this->coodinatel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -729,7 +735,7 @@ private:
 			this->databasel->AutoSize = true;
 			this->databasel->Location = System::Drawing::Point(3, 38);
 			this->databasel->Name = L"databasel";
-			this->databasel->Size = System::Drawing::Size(61, 12);
+			this->databasel->Size = System::Drawing::Size(58, 12);
 			this->databasel->TabIndex = 3;
 			this->databasel->Text = L"Database";
 			this->databasel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -740,9 +746,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_xl->AutoSize = true;
 			this->coor_xl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_xl->Location = System::Drawing::Point(70, 19);
+			this->coor_xl->Location = System::Drawing::Point(67, 19);
 			this->coor_xl->Name = L"coor_xl";
-			this->coor_xl->Size = System::Drawing::Size(24, 12);
+			this->coor_xl->Size = System::Drawing::Size(23, 12);
 			this->coor_xl->TabIndex = 4;
 			this->coor_xl->Text = L"000";
 			this->coor_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -753,9 +759,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_yl->AutoSize = true;
 			this->coor_yl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_yl->Location = System::Drawing::Point(100, 19);
+			this->coor_yl->Location = System::Drawing::Point(96, 19);
 			this->coor_yl->Name = L"coor_yl";
-			this->coor_yl->Size = System::Drawing::Size(28, 12);
+			this->coor_yl->Size = System::Drawing::Size(32, 12);
 			this->coor_yl->TabIndex = 5;
 			this->coor_yl->Text = L"000";
 			this->coor_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -765,9 +771,9 @@ private:
 			this->db_xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_xl->AutoSize = true;
-			this->db_xl->Location = System::Drawing::Point(70, 38);
+			this->db_xl->Location = System::Drawing::Point(67, 38);
 			this->db_xl->Name = L"db_xl";
-			this->db_xl->Size = System::Drawing::Size(24, 12);
+			this->db_xl->Size = System::Drawing::Size(23, 12);
 			this->db_xl->TabIndex = 6;
 			this->db_xl->Text = L"4";
 			this->db_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -777,9 +783,9 @@ private:
 			this->db_yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_yl->AutoSize = true;
-			this->db_yl->Location = System::Drawing::Point(100, 38);
+			this->db_yl->Location = System::Drawing::Point(96, 38);
 			this->db_yl->Name = L"db_yl";
-			this->db_yl->Size = System::Drawing::Size(28, 12);
+			this->db_yl->Size = System::Drawing::Size(32, 12);
 			this->db_yl->TabIndex = 7;
 			this->db_yl->Text = L"4";
 			this->db_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -1114,21 +1120,21 @@ private:
 			this->db_reset_r->UseVisualStyleBackColor = true;
 			this->db_reset_r->Click += gcnew System::EventHandler(this, &ParamShow::db_reset_r_Click);
 			// 
-			// ofset_group
+			// offset_group
 			// 
-			this->ofset_group->Controls->Add(this->linear_b);
-			this->ofset_group->Controls->Add(this->label4);
-			this->ofset_group->Controls->Add(this->linear_a);
-			this->ofset_group->Controls->Add(this->ofset);
-			this->ofset_group->Controls->Add(this->linear_flag);
-			this->ofset_group->Controls->Add(this->tool_button);
-			this->ofset_group->Controls->Add(this->ofset_check);
-			this->ofset_group->Location = System::Drawing::Point(3, 95);
-			this->ofset_group->Name = L"ofset_group";
-			this->ofset_group->Size = System::Drawing::Size(216, 107);
-			this->ofset_group->TabIndex = 10;
-			this->ofset_group->TabStop = false;
-			this->ofset_group->Text = L"補正";
+			this->offset_group->Controls->Add(this->linear_b);
+			this->offset_group->Controls->Add(this->label4);
+			this->offset_group->Controls->Add(this->linear_a);
+			this->offset_group->Controls->Add(this->offset);
+			this->offset_group->Controls->Add(this->linear_flag);
+			this->offset_group->Controls->Add(this->tool_button);
+			this->offset_group->Controls->Add(this->offset_check);
+			this->offset_group->Location = System::Drawing::Point(3, 95);
+			this->offset_group->Name = L"offset_group";
+			this->offset_group->Size = System::Drawing::Size(216, 107);
+			this->offset_group->TabIndex = 10;
+			this->offset_group->TabStop = false;
+			this->offset_group->Text = L"補正";
 			// 
 			// linear_b
 			// 
@@ -1160,15 +1166,15 @@ private:
 			this->linear_a->Text = L"0.0";
 			this->linear_a->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
-			// ofset
+			// offset
 			// 
-			this->ofset->Enabled = false;
-			this->ofset->Location = System::Drawing::Point(6, 36);
-			this->ofset->Name = L"ofset";
-			this->ofset->Size = System::Drawing::Size(203, 19);
-			this->ofset->TabIndex = 9;
-			this->ofset->Text = L"0.0";
-			this->ofset->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			this->offset->Enabled = false;
+			this->offset->Location = System::Drawing::Point(6, 36);
+			this->offset->Name = L"offset";
+			this->offset->Size = System::Drawing::Size(203, 19);
+			this->offset->TabIndex = 9;
+			this->offset->Text = L"0.0";
+			this->offset->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
 			// linear_flag
 			// 
@@ -1191,16 +1197,16 @@ private:
 			this->tool_button->UseVisualStyleBackColor = true;
 			this->tool_button->Click += gcnew System::EventHandler(this, &ParamShow::tool_button_Click);
 			// 
-			// ofset_check
+			// offset_check
 			// 
-			this->ofset_check->AutoSize = true;
-			this->ofset_check->Location = System::Drawing::Point(6, 18);
-			this->ofset_check->Name = L"ofset_check";
-			this->ofset_check->Size = System::Drawing::Size(72, 16);
-			this->ofset_check->TabIndex = 8;
-			this->ofset_check->Text = L"平行補正";
-			this->ofset_check->UseVisualStyleBackColor = true;
-			this->ofset_check->CheckedChanged += gcnew System::EventHandler(this, &ParamShow::ofset_check_CheckedChanged);
+			this->offset_check->AutoSize = true;
+			this->offset_check->Location = System::Drawing::Point(6, 18);
+			this->offset_check->Name = L"offset_check";
+			this->offset_check->Size = System::Drawing::Size(72, 16);
+			this->offset_check->TabIndex = 8;
+			this->offset_check->Text = L"平行補正";
+			this->offset_check->UseVisualStyleBackColor = true;
+			this->offset_check->CheckedChanged += gcnew System::EventHandler(this, &ParamShow::offset_check_CheckedChanged);
 			// 
 			// tableLayoutPanel6
 			// 
@@ -1274,9 +1280,9 @@ private:
 			this->filename_label->AutoSize = true;
 			this->filename_label->Location = System::Drawing::Point(9, 18);
 			this->filename_label->Name = L"filename_label";
-			this->filename_label->Size = System::Drawing::Size(51, 12);
+			this->filename_label->Size = System::Drawing::Size(52, 12);
 			this->filename_label->TabIndex = 7;
-			this->filename_label->Text = L"ファイル名";
+			this->filename_label->Text = L"フォルダ名";
 			// 
 			// pan_tilt_unit_group
 			// 
@@ -1470,9 +1476,10 @@ private:
 			// 
 			// save_box
 			// 
+			this->save_box->Controls->Add(this->calib_check);
+			this->save_box->Controls->Add(this->true_value);
+			this->save_box->Controls->Add(this->label6);
 			this->save_box->Controls->Add(this->csv_check);
-			this->save_box->Controls->Add(this->save_label);
-			this->save_box->Controls->Add(this->comboBox1);
 			this->save_box->Controls->Add(this->save_button);
 			this->save_box->Controls->Add(this->groupBox1);
 			this->save_box->Controls->Add(this->flame);
@@ -1486,6 +1493,35 @@ private:
 			this->save_box->TabStop = false;
 			this->save_box->Text = L"保存関係";
 			// 
+			// calib_check
+			// 
+			this->calib_check->AutoSize = true;
+			this->calib_check->Location = System::Drawing::Point(167, 41);
+			this->calib_check->Name = L"calib_check";
+			this->calib_check->Size = System::Drawing::Size(112, 16);
+			this->calib_check->TabIndex = 14;
+			this->calib_check->Text = L"ｷｬﾘﾌﾞﾚｰｼｮﾝﾓｰﾄﾞ";
+			this->calib_check->UseVisualStyleBackColor = true;
+			this->calib_check->CheckedChanged += gcnew System::EventHandler(this, &ParamShow::calib_check_CheckedChanged);
+			// 
+			// true_value
+			// 
+			this->true_value->Location = System::Drawing::Point(200, 15);
+			this->true_value->Name = L"true_value";
+			this->true_value->Size = System::Drawing::Size(83, 19);
+			this->true_value->TabIndex = 13;
+			this->true_value->Text = L"0";
+			this->true_value->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// label6
+			// 
+			this->label6->AutoSize = true;
+			this->label6->Location = System::Drawing::Point(165, 18);
+			this->label6->Name = L"label6";
+			this->label6->Size = System::Drawing::Size(29, 12);
+			this->label6->TabIndex = 12;
+			this->label6->Text = L"真値";
+			// 
 			// csv_check
 			// 
 			this->csv_check->AutoSize = true;
@@ -1495,25 +1531,6 @@ private:
 			this->csv_check->TabIndex = 10;
 			this->csv_check->Text = L"ログを記録(.csv)";
 			this->csv_check->UseVisualStyleBackColor = true;
-			// 
-			// save_label
-			// 
-			this->save_label->AutoSize = true;
-			this->save_label->Location = System::Drawing::Point(165, 14);
-			this->save_label->Name = L"save_label";
-			this->save_label->Size = System::Drawing::Size(53, 12);
-			this->save_label->TabIndex = 13;
-			this->save_label->Text = L"保存対象";
-			// 
-			// comboBox1
-			// 
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(4) { L"KF適用後", L"中心からの距離", L"補正後計測値", L"補正前計測値" });
-			this->comboBox1->Location = System::Drawing::Point(167, 31);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(120, 20);
-			this->comboBox1->TabIndex = 12;
-			this->comboBox1->Text = L"KF適用後";
 			// 
 			// save_button
 			// 
@@ -1584,7 +1601,7 @@ private:
 			this->filename_box->Name = L"filename_box";
 			this->filename_box->Size = System::Drawing::Size(86, 19);
 			this->filename_box->TabIndex = 8;
-			this->filename_box->Text = L"distance01";
+			this->filename_box->Text = L"distance";
 			// 
 			// groupBox2
 			// 
@@ -1727,7 +1744,7 @@ private:
 			this->tabPage1->Controls->Add(this->groupBox4);
 			this->tabPage1->Controls->Add(this->save_box);
 			this->tabPage1->Controls->Add(this->groupBox3);
-			this->tabPage1->Controls->Add(this->ofset_group);
+			this->tabPage1->Controls->Add(this->offset_group);
 			this->tabPage1->Controls->Add(this->groupBox2);
 			this->tabPage1->Location = System::Drawing::Point(4, 22);
 			this->tabPage1->Name = L"tabPage1";
@@ -1746,7 +1763,7 @@ private:
 			this->tabPage2->Padding = System::Windows::Forms::Padding(3);
 			this->tabPage2->Size = System::Drawing::Size(303, 374);
 			this->tabPage2->TabIndex = 1;
-			this->tabPage2->Text = L"カメラ";
+			this->tabPage2->Text = L"VCC";
 			this->tabPage2->UseVisualStyleBackColor = true;
 			// 
 			// tabPage3
@@ -1784,8 +1801,8 @@ private:
 			this->tableLayoutPanel4->PerformLayout();
 			this->tableLayoutPanel2->ResumeLayout(false);
 			this->tableLayoutPanel2->PerformLayout();
-			this->ofset_group->ResumeLayout(false);
-			this->ofset_group->PerformLayout();
+			this->offset_group->ResumeLayout(false);
+			this->offset_group->PerformLayout();
 			this->tableLayoutPanel6->ResumeLayout(false);
 			this->tableLayoutPanel6->PerformLayout();
 			this->pan_tilt_unit_group->ResumeLayout(false);
@@ -1884,16 +1901,16 @@ private: System::Void output(){
 			 /* 17 */if (this->all_ack_r) out << "T" << std::endl; else out << "F" << std::endl;
 			 /* 18 */if (this->sub_flag_r->Checked) out << "T" << std::endl; else out << "F" << std::endl;
 			 /* 19 */if (this->kalman_flag_r->Checked) out << "T" << std::endl; else out << "F" << std::endl;
-			 /* 20 */if (this->ofset_check->Checked) out << this->ToStdString(this->ofset->Text) << std::endl; else out << "0.0" << std::endl;
+			 /* 20 */if (this->offset_check->Checked) out << this->ToStdString(this->offset->Text) << std::endl; else out << "0.0" << std::endl;
 			 /* 21 */if (this->linear_flag->Checked) out << this->ToStdString(this->linear_a->Text) << std::endl; else out << "0.0" << std::endl;
 			 /* 22 */if (this->linear_flag->Checked) out << this->ToStdString(this->linear_b->Text) << std::endl; else out << "0.0" << std::endl;
 			 /* 23 */out << this->ToStdString(this->plat_th_box->Text) << std::endl;
 			 /* 24 */if (this->plat_home_ack) out << "T" << std::endl; else out << "F" << std::endl;
 			 /* 25 */if (this->plat_move_ack) out << "T" << std::endl; else out << "F" << std::endl;
 			 /* 26 */if (this->plat_stop_ack) out << "T" << std::endl; else out << "F" << std::endl;
-			 /* 27 */out << this->ToStdString(this->filename_box->Text) << std::endl;
-			 /* 28 */out << this->ToStdString(this->flame_num->Text) << std::endl;
-			 /* 29 */out << this->ToStdString(this->comboBox1->Text) << std::endl;
+			 /* 27 */out << this->ToStdString(this->true_value->Text) << std::endl;
+			 /* 28 */out << this->ToStdString(this->filename_box->Text) << std::endl;
+			 /* 29 */out << this->ToStdString(this->flame_num->Text) << std::endl;
 			 /* 30 */if (this->csv_check->Checked) out << "T" << std::endl; else out << "F" << std::endl;
 			 /* 31 */if (this->save_ack) out << "T" << std::endl; else out << "F" << std::endl;
 
@@ -1956,10 +1973,17 @@ private: System::Void db_reset_r_Click(System::Object^  sender, System::EventArg
 private: System::Void db_all_r_Click(System::Object^  sender, System::EventArgs^  e) {
 			 this->all_ack_r = true;
 }
-private: System::Void ofset_check_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
-			 this->ofset->Enabled = this->ofset_check->Checked;
+private: System::Void offset_check_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 this->offset->Enabled = this->offset_check->Checked;
 }
 private: System::Void save_button_Click(System::Object^  sender, System::EventArgs^  e) {
+			 if (this->calib_check->Checked){
+				 fname = "tool.cfg\\Temp.cfg";
+				 StreamWriter^ swriter = gcnew StreamWriter(fname,true);
+				 swriter->WriteLine(this->true_value->Text);
+				 swriter->WriteLine(this->origin_measure_before->Text);
+				 swriter->Close();
+			 }
 			 this->save_ack = true;
 }
 private: System::Void plat_home_button_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -1975,8 +1999,8 @@ private: System::Void tool_button_Click(System::Object^  sender, System::EventAr
 			 this->linear_flag->Checked = false;
 			 this->linear_a->Enabled = false;
 			 this->linear_b->Enabled = false;
-			 this->ofset_check->Checked = false;
-			 this->ofset->Enabled = false;
+			 this->offset_check->Checked = false;
+			 this->offset->Enabled = false;
 			 ParallelOffsetTool ^pot = gcnew ParallelOffsetTool();
 			 pot->Owner = this;
 			 pot->Show();
@@ -1996,8 +2020,8 @@ private: System::Void output_button_Click(System::Object^  sender, System::Event
 			 /* 01 */swriter->WriteLine(this->base_box->Text);
 			 /* 02 */swriter->WriteLine(this->focal_box->Text);
 			 /* 03 */swriter->WriteLine(this->pixel_box->Text);
-			 /* 04 */if (this->ofset_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
-			 /* 05 */swriter->WriteLine(this->ofset->Text);
+			 /* 04 */if (this->offset_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 05 */swriter->WriteLine(this->offset->Text);
 			 /* 06 */if (this->linear_flag->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
 			 /* 07 */swriter->WriteLine(this->linear_a->Text);
 			 /* 08 */swriter->WriteLine(this->linear_b->Text);
@@ -2023,8 +2047,9 @@ private: System::Void output_button_Click(System::Object^  sender, System::Event
 			 /* 25 */swriter->WriteLine(this->plat_th_box->Text);
 			 /* 26 */swriter->WriteLine(this->filename_box->Text);
 			 /* 27 */swriter->WriteLine(this->flame_num->Text);
-			 /* 28 */swriter->WriteLine(this->comboBox1->Text);
-			 /* 29 */if (this->csv_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 28 */swriter->WriteLine(this->true_value->Text);
+			 /* 29 */if (this->calib_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 30 */if (this->csv_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
 
 
 reset_ack_l=false;
@@ -2055,8 +2080,8 @@ private: System::Void read_button_Click(System::Object^  sender, System::EventAr
 				 if (i == 1){ this->base_box->Text = sreader->ReadLine(); }
 				 if (i == 2){ this->focal_box->Text = sreader->ReadLine(); }
 				 if (i == 3){ this->pixel_box->Text = sreader->ReadLine(); }
-				 if (i == 4){ if (sreader->ReadLine() == "T") this->ofset_check->Checked = true; else this->ofset_check->Checked = false; }
-				 if (i == 5){ this->ofset->Text = sreader->ReadLine(); }
+				 if (i == 4){ if (sreader->ReadLine() == "T") this->offset_check->Checked = true; else this->offset_check->Checked = false; }
+				 if (i == 5){ this->offset->Text = sreader->ReadLine(); }
 				 if (i == 6){ if (sreader->ReadLine() == "T") this->linear_flag->Checked = true; else this->linear_flag->Checked = false; }
 				 if (i == 7){ this->linear_a->Text = sreader->ReadLine(); }
 				 if (i == 8){ this->linear_b->Text = sreader->ReadLine(); }
@@ -2081,8 +2106,9 @@ private: System::Void read_button_Click(System::Object^  sender, System::EventAr
 				 if (i == 25){ this->plat_th_box->Text = sreader->ReadLine(); }
 				 if (i == 26){ this->filename_box->Text = sreader->ReadLine(); }
 				 if (i == 27){ this->flame_num->Text = sreader->ReadLine(); }
-				 if (i == 28){ this->comboBox1->Text = sreader->ReadLine(); }
-				 if (i == 29){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
+				 if (i == 28){ this->true_value->Text = sreader->ReadLine(); }
+				 if (i == 29){ if (sreader->ReadLine() == "T") this->calib_check->Checked = true; else this->calib_check->Checked = false; }
+				 if (i == 30){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
 			 }			   
 			 sreader->Close();
 			 Invalidate();
@@ -2096,8 +2122,8 @@ private: System::Void reset_button_Click(System::Object^  sender, System::EventA
 				 if (i == 1){ this->base_box->Text = sreader->ReadLine(); }
 				 if (i == 2){ this->focal_box->Text = sreader->ReadLine(); }
 				 if (i == 3){ this->pixel_box->Text = sreader->ReadLine(); }
-				 if (i == 4){ if (sreader->ReadLine() == "T") this->ofset_check->Checked = true; else this->ofset_check->Checked = false; }
-				 if (i == 5){ this->ofset->Text = sreader->ReadLine(); }
+				 if (i == 4){ if (sreader->ReadLine() == "T") this->offset_check->Checked = true; else this->offset_check->Checked = false; }
+				 if (i == 5){ this->offset->Text = sreader->ReadLine(); }
 				 if (i == 6){ if (sreader->ReadLine() == "T") this->linear_flag->Checked = true; else this->linear_flag->Checked = false; }
 				 if (i == 7){ this->linear_a->Text = sreader->ReadLine(); }
 				 if (i == 8){ this->linear_b->Text = sreader->ReadLine(); }
@@ -2122,8 +2148,9 @@ private: System::Void reset_button_Click(System::Object^  sender, System::EventA
 				 if (i == 25){ this->plat_th_box->Text = sreader->ReadLine(); }
 				 if (i == 26){ this->filename_box->Text = sreader->ReadLine(); }
 				 if (i == 27){ this->flame_num->Text = sreader->ReadLine(); }
-				 if (i == 28){ this->comboBox1->Text = sreader->ReadLine(); }
-				 if (i == 29){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
+				 if (i == 28){ this->true_value->Text = sreader->ReadLine(); }
+				 if (i == 29){ if (sreader->ReadLine() == "T") this->calib_check->Checked = true; else this->calib_check->Checked = false; }
+				 if (i == 30){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
 			 }
 			 sreader->Close();
 			 Invalidate();
@@ -2131,6 +2158,8 @@ private: System::Void reset_button_Click(System::Object^  sender, System::EventA
 private: System::Void linear_flag_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 this->linear_a->Enabled = this->linear_flag->Checked;
 			 this->linear_b->Enabled = this->linear_flag->Checked;
+}
+private: System::Void calib_check_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 }
 };
 }

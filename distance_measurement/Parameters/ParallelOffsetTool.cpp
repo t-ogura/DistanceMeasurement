@@ -22,15 +22,15 @@ System::Void ParallelOffsetTool::getBaseLength(){
 	}
 }
 
-System::Void ParallelOffsetTool::ApplyOfset(){
+System::Void ParallelOffsetTool::ApplyOffset(){
 	ParamShow^ ps;
 	if (this->Owner != nullptr){
 		//親のフォームクラス
 		ps = static_cast<ParamShow^>(this->Owner);
-		ps->ofset->Text = this->ofset_box->Text;
+		ps->offset->Text = this->offset_box->Text;
 		ps->linear_a->Text = this->linear_a->Text;
 		ps->linear_b->Text = this->linear_b->Text;
-		ps->ofset_check->Checked = true;
+		ps->offset_check->Checked = true;
 		ps->linear_flag->Checked = true;
 	}
 }
