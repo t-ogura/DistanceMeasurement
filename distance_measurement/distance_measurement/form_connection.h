@@ -162,12 +162,12 @@ int FormConnection::setSave(std::string folder_name, std::string file_name, int 
 
 	std::string folder_path = SAVE_FILE_DIR;
 	folder_path += folder_name;
-	create_directory(path(folder_name));
+	create_directory(path(folder_path));
 	this->save_folder_name = folder_name;
 	this->save_file_name = file_name;
 	
 	this->save_file_path = SAVE_FILE_DIR;
-	this->save_file_path += folder_name;
+	this->save_file_path += folder_path;
 	this->save_file_path += "\\";
 	this->save_file_path += file_name;
 	this->save_frame_num = frame_num;
