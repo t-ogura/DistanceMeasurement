@@ -37,5 +37,7 @@ void View::show(cv::Mat image, int vcc_x, int vcc_y, int area_x, int area_y, boo
 		                     cv::Point(vcc_x + VCC_TEMPLATE_SIZE, vcc_y + VCC_TEMPLATE_SIZE),
 		                     cv::Scalar(0, 255, 255),
 		                     VIEW_DROW_RECTANGLE_THICKNESS);
-	cv::imshow(this->myWindowName, showImage);
+	cv::Mat showImageResize;	
+	cv::resize(showImage, showImageResize, cv::Size(showImage.cols / 2, showImage.rows/2));
+	cv::imshow(this->myWindowName, showImageResize);
 }

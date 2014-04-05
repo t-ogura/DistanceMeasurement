@@ -619,6 +619,7 @@ namespace Parameters {
 				 std::string str = ss2.str();
 				 this->offset_box->Text = this->ToSystemString(str);
 
+				 std::cout << angle_error << std::endl;
 
 				 linearApprox linear;
 				 for (int i = 0; i < correct.size(); i++){

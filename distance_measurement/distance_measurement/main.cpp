@@ -4,8 +4,8 @@
 
 
 #define MAIN_PIXEL_SIZE       0.0075
-#define MAIN_FOCAL_LENGTH     25.0
-#define MAIN_BASELINE_LENGTH  300
+#define MAIN_FOCAL_LENGTH     16.0
+#define MAIN_BASELINE_LENGTH  220
 #define OUTPUT_FILENAME "../param_files/send.param"
 #define INPUT_FILENAME "../param_files/receive.param"
 
@@ -14,8 +14,8 @@
 
 int main(){
 	Measurement measurement(MAIN_PIXEL_SIZE,MAIN_FOCAL_LENGTH,MAIN_BASELINE_LENGTH);
-	View view_L("LEFT",0,300);
-	View view_R("RIGHT", 670, 300);
+	View view_L("LEFT",320,400);
+	View view_R("RIGHT", 670, 400);
 	FormConnection connect;
 	//measurement.threadTracking("Biclops/data/BiclopsDefaultRight.cfg");
 	while (1){

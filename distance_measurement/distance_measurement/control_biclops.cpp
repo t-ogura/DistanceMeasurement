@@ -76,8 +76,8 @@ void ControlBiclops::directionTurn(double X, double Y)
 //---------------------------------------------------------------------------
 void ControlBiclops::deviceTurn(double pan_angle, double tilt_angle)
 {
-	pan_angle *= 0.7;
-	tilt_angle *= 0.7;
+	pan_angle *= 0.6;
+	tilt_angle *= 0.6;
 	////§Œä•û®‚Ì•ÏX
 	////í‚ÉˆÚ“®‚³‚¹‚é
 	time_t start, end;
