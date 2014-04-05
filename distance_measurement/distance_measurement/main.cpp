@@ -4,8 +4,8 @@
 
 
 #define MAIN_PIXEL_SIZE       0.0075
-#define MAIN_FOCAL_LENGTH     16.0
-#define MAIN_BASELINE_LENGTH  220
+#define MAIN_FOCAL_LENGTH     25.0
+#define MAIN_BASELINE_LENGTH  156
 #define OUTPUT_FILENAME "../param_files/send.param"
 #define INPUT_FILENAME "../param_files/receive.param"
 

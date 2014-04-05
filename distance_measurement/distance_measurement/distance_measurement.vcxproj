@@ -40,7 +40,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ReferencePath>$(ReferencePath)</ReferencePath>
-    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>C:\Users\Admin\Desktop\senpaku\SetB\DistanceMeasurement\distance_measurement\distance_measurement\pthread\lib;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

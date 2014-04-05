@@ -11,7 +11,7 @@ Camera::Camera(int cameraID, bool cameraIsColor){
 	int cameraInitialize;
 	if (this->cameraColorFlag){
 		this->cameraImage = cv::Mat(cv::Size(CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT), CV_8UC3);
-		cameraInitialize = EWC_Open(this->ID, CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT, CAMERA_FPS, this->ID, MEDIASUBTYPE_RGB32);
+		cameraInitialize = EWC_Open(this->ID, CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT, CAMERA_FPS, this->ID, MEDIASUBTYPE_RGB24);
 	}
 	else{
 		this->cameraImage = cv::Mat(cv::Size(CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT), CV_8UC1);
