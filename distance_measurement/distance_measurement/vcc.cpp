@@ -363,6 +363,8 @@ void VCC::templateMatching(){
 
 				//変数DB_LTrgt_Col, DB_LTrgt_Row, DB_RTrgt_Col, DB_RTrgt_Rowを使う
 				//マッチングさせるテンプレートの先頭アドレスをtemplateVCに代入する
+				this->targetDB_x = 4;
+				this->targetDB_y = 4;
 				templateVC = this->templateImageVectorCode[4][4];
 
 				int correlationScore = correlationMinimam;

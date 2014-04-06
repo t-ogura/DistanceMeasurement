@@ -15,6 +15,7 @@ namespace Parameters {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::IO;
 
 	/// <summary>
 	/// ParamShow の概要
@@ -211,6 +212,16 @@ private: System::Windows::Forms::CheckBox^  calib_check;
 private: System::Windows::Forms::TextBox^  true_value;
 
 private: System::Windows::Forms::Label^  label6;
+private: System::Windows::Forms::TabPage^  tabPage4;
+private: System::Windows::Forms::FolderBrowserDialog^  folderBrowserDialog1;
+private: System::Windows::Forms::GroupBox^  groupBox5;
+private: System::Windows::Forms::Label^  label7;
+private: System::Windows::Forms::Label^  server_dir_label;
+private: System::Windows::Forms::Button^  server_dir_button;
+private: System::Windows::Forms::TextBox^  server_dir_box;
+private: System::Windows::Forms::RadioButton^  b_radio;
+private: System::Windows::Forms::RadioButton^  a_radio;
+private: System::Windows::Forms::CheckBox^  server_check;
 
 
 private:
@@ -359,6 +370,16 @@ private:
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
 			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
 			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
+			this->tabPage4 = (gcnew System::Windows::Forms::TabPage());
+			this->groupBox5 = (gcnew System::Windows::Forms::GroupBox());
+			this->label7 = (gcnew System::Windows::Forms::Label());
+			this->server_dir_label = (gcnew System::Windows::Forms::Label());
+			this->server_dir_button = (gcnew System::Windows::Forms::Button());
+			this->server_dir_box = (gcnew System::Windows::Forms::TextBox());
+			this->b_radio = (gcnew System::Windows::Forms::RadioButton());
+			this->a_radio = (gcnew System::Windows::Forms::RadioButton());
+			this->server_check = (gcnew System::Windows::Forms::CheckBox());
+			this->folderBrowserDialog1 = (gcnew System::Windows::Forms::FolderBrowserDialog());
 			this->leftcamera->SuspendLayout();
 			this->tableLayoutPanel3->SuspendLayout();
 			this->tableLayoutPanel1->SuspendLayout();
@@ -382,6 +403,8 @@ private:
 			this->tabPage1->SuspendLayout();
 			this->tabPage2->SuspendLayout();
 			this->tabPage3->SuspendLayout();
+			this->tabPage4->SuspendLayout();
+			this->groupBox5->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// label1
@@ -673,7 +696,7 @@ private:
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				31.31313F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				37)));
+				40)));
 			this->tableLayoutPanel1->Controls->Add(this->xl, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->yl, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->coodinatel, 0, 1);
@@ -697,9 +720,9 @@ private:
 			this->xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->xl->AutoSize = true;
-			this->xl->Location = System::Drawing::Point(67, 0);
+			this->xl->Location = System::Drawing::Point(65, 0);
 			this->xl->Name = L"xl";
-			this->xl->Size = System::Drawing::Size(23, 12);
+			this->xl->Size = System::Drawing::Size(22, 12);
 			this->xl->TabIndex = 0;
 			this->xl->Text = L"x";
 			this->xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -709,9 +732,9 @@ private:
 			this->yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->yl->AutoSize = true;
-			this->yl->Location = System::Drawing::Point(96, 0);
+			this->yl->Location = System::Drawing::Point(93, 0);
 			this->yl->Name = L"yl";
-			this->yl->Size = System::Drawing::Size(32, 12);
+			this->yl->Size = System::Drawing::Size(35, 12);
 			this->yl->TabIndex = 1;
 			this->yl->Text = L"y";
 			this->yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -723,7 +746,7 @@ private:
 			this->coodinatel->AutoSize = true;
 			this->coodinatel->Location = System::Drawing::Point(3, 19);
 			this->coodinatel->Name = L"coodinatel";
-			this->coodinatel->Size = System::Drawing::Size(58, 12);
+			this->coodinatel->Size = System::Drawing::Size(56, 12);
 			this->coodinatel->TabIndex = 2;
 			this->coodinatel->Text = L"検出座標";
 			this->coodinatel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -735,7 +758,7 @@ private:
 			this->databasel->AutoSize = true;
 			this->databasel->Location = System::Drawing::Point(3, 38);
 			this->databasel->Name = L"databasel";
-			this->databasel->Size = System::Drawing::Size(58, 12);
+			this->databasel->Size = System::Drawing::Size(56, 12);
 			this->databasel->TabIndex = 3;
 			this->databasel->Text = L"Database";
 			this->databasel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -746,9 +769,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_xl->AutoSize = true;
 			this->coor_xl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_xl->Location = System::Drawing::Point(67, 19);
+			this->coor_xl->Location = System::Drawing::Point(65, 19);
 			this->coor_xl->Name = L"coor_xl";
-			this->coor_xl->Size = System::Drawing::Size(23, 12);
+			this->coor_xl->Size = System::Drawing::Size(22, 19);
 			this->coor_xl->TabIndex = 4;
 			this->coor_xl->Text = L"000";
 			this->coor_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -759,9 +782,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_yl->AutoSize = true;
 			this->coor_yl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_yl->Location = System::Drawing::Point(96, 19);
+			this->coor_yl->Location = System::Drawing::Point(93, 19);
 			this->coor_yl->Name = L"coor_yl";
-			this->coor_yl->Size = System::Drawing::Size(32, 12);
+			this->coor_yl->Size = System::Drawing::Size(35, 12);
 			this->coor_yl->TabIndex = 5;
 			this->coor_yl->Text = L"000";
 			this->coor_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -771,9 +794,9 @@ private:
 			this->db_xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_xl->AutoSize = true;
-			this->db_xl->Location = System::Drawing::Point(67, 38);
+			this->db_xl->Location = System::Drawing::Point(65, 38);
 			this->db_xl->Name = L"db_xl";
-			this->db_xl->Size = System::Drawing::Size(23, 12);
+			this->db_xl->Size = System::Drawing::Size(22, 12);
 			this->db_xl->TabIndex = 6;
 			this->db_xl->Text = L"4";
 			this->db_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -783,9 +806,9 @@ private:
 			this->db_yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_yl->AutoSize = true;
-			this->db_yl->Location = System::Drawing::Point(96, 38);
+			this->db_yl->Location = System::Drawing::Point(93, 38);
 			this->db_yl->Name = L"db_yl";
-			this->db_yl->Size = System::Drawing::Size(32, 12);
+			this->db_yl->Size = System::Drawing::Size(35, 12);
 			this->db_yl->TabIndex = 7;
 			this->db_yl->Text = L"4";
 			this->db_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -1733,6 +1756,7 @@ private:
 			this->tabControl1->Controls->Add(this->tabPage1);
 			this->tabControl1->Controls->Add(this->tabPage2);
 			this->tabControl1->Controls->Add(this->tabPage3);
+			this->tabControl1->Controls->Add(this->tabPage4);
 			this->tabControl1->Location = System::Drawing::Point(-1, 1);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
@@ -1776,6 +1800,106 @@ private:
 			this->tabPage3->TabIndex = 2;
 			this->tabPage3->Text = L"電動雲台";
 			this->tabPage3->UseVisualStyleBackColor = true;
+			// 
+			// tabPage4
+			// 
+			this->tabPage4->Controls->Add(this->groupBox5);
+			this->tabPage4->Controls->Add(this->server_check);
+			this->tabPage4->Location = System::Drawing::Point(4, 22);
+			this->tabPage4->Name = L"tabPage4";
+			this->tabPage4->Padding = System::Windows::Forms::Padding(3);
+			this->tabPage4->Size = System::Drawing::Size(303, 374);
+			this->tabPage4->TabIndex = 3;
+			this->tabPage4->Text = L"外部連携";
+			this->tabPage4->UseVisualStyleBackColor = true;
+			// 
+			// groupBox5
+			// 
+			this->groupBox5->Controls->Add(this->label7);
+			this->groupBox5->Controls->Add(this->server_dir_label);
+			this->groupBox5->Controls->Add(this->server_dir_button);
+			this->groupBox5->Controls->Add(this->server_dir_box);
+			this->groupBox5->Controls->Add(this->b_radio);
+			this->groupBox5->Controls->Add(this->a_radio);
+			this->groupBox5->Location = System::Drawing::Point(10, 29);
+			this->groupBox5->Name = L"groupBox5";
+			this->groupBox5->Size = System::Drawing::Size(278, 93);
+			this->groupBox5->TabIndex = 2;
+			this->groupBox5->TabStop = false;
+			this->groupBox5->Text = L"送信設定";
+			// 
+			// label7
+			// 
+			this->label7->AutoSize = true;
+			this->label7->Location = System::Drawing::Point(136, 20);
+			this->label7->Name = L"label7";
+			this->label7->Size = System::Drawing::Size(52, 12);
+			this->label7->TabIndex = 6;
+			this->label7->Text = L"計測器ID";
+			this->label7->Click += gcnew System::EventHandler(this, &ParamShow::label7_Click_1);
+			// 
+			// server_dir_label
+			// 
+			this->server_dir_label->AutoSize = true;
+			this->server_dir_label->Location = System::Drawing::Point(10, 45);
+			this->server_dir_label->Name = L"server_dir_label";
+			this->server_dir_label->Size = System::Drawing::Size(185, 12);
+			this->server_dir_label->TabIndex = 5;
+			this->server_dir_label->Text = L"サーバー側書き込みフォルダディレクトリ";
+			// 
+			// server_dir_button
+			// 
+			this->server_dir_button->Location = System::Drawing::Point(247, 63);
+			this->server_dir_button->Name = L"server_dir_button";
+			this->server_dir_button->Size = System::Drawing::Size(22, 19);
+			this->server_dir_button->TabIndex = 4;
+			this->server_dir_button->Text = L"...";
+			this->server_dir_button->UseVisualStyleBackColor = true;
+			this->server_dir_button->Click += gcnew System::EventHandler(this, &ParamShow::server_dir_button_Click);
+			// 
+			// server_dir_box
+			// 
+			this->server_dir_box->Location = System::Drawing::Point(10, 63);
+			this->server_dir_box->Name = L"server_dir_box";
+			this->server_dir_box->Size = System::Drawing::Size(231, 19);
+			this->server_dir_box->TabIndex = 3;
+			// 
+			// b_radio
+			// 
+			this->b_radio->AutoSize = true;
+			this->b_radio->Location = System::Drawing::Point(231, 18);
+			this->b_radio->Name = L"b_radio";
+			this->b_radio->Size = System::Drawing::Size(31, 16);
+			this->b_radio->TabIndex = 2;
+			this->b_radio->Text = L"B";
+			this->b_radio->UseVisualStyleBackColor = true;
+			// 
+			// a_radio
+			// 
+			this->a_radio->AutoSize = true;
+			this->a_radio->Checked = true;
+			this->a_radio->Location = System::Drawing::Point(194, 18);
+			this->a_radio->Name = L"a_radio";
+			this->a_radio->Size = System::Drawing::Size(31, 16);
+			this->a_radio->TabIndex = 1;
+			this->a_radio->TabStop = true;
+			this->a_radio->Text = L"A";
+			this->a_radio->UseVisualStyleBackColor = true;
+			// 
+			// server_check
+			// 
+			this->server_check->AutoSize = true;
+			this->server_check->Location = System::Drawing::Point(10, 7);
+			this->server_check->Name = L"server_check";
+			this->server_check->Size = System::Drawing::Size(153, 16);
+			this->server_check->TabIndex = 1;
+			this->server_check->Text = L"サーバーにデータを送信する";
+			this->server_check->UseVisualStyleBackColor = true;
+			this->server_check->CheckedChanged += gcnew System::EventHandler(this, &ParamShow::server_check_CheckedChanged);
+			// 
+			// folderBrowserDialog1
+			// 
+			this->folderBrowserDialog1->HelpRequest += gcnew System::EventHandler(this, &ParamShow::folderBrowserDialog1_HelpRequest);
 			// 
 			// ParamShow
 			// 
@@ -1826,6 +1950,10 @@ private:
 			this->tabPage1->ResumeLayout(false);
 			this->tabPage2->ResumeLayout(false);
 			this->tabPage3->ResumeLayout(false);
+			this->tabPage4->ResumeLayout(false);
+			this->tabPage4->PerformLayout();
+			this->groupBox5->ResumeLayout(false);
+			this->groupBox5->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
@@ -1837,10 +1965,10 @@ private: System::Void input(){
 	int i = 0;
 	while (in && std::getline(in, str)){
 		i++;
-		if (i == 1) this->origin_measure_before->Text = ToSystemString(str);
-		if (i == 4) this->label1->Text = ToSystemString(str);
-		if (i == 5) this->label2->Text = ToSystemString(str);
-		if (i == 6) this->label3->Text = ToSystemString(str);
+		if (i == 1) this->origin_measure_before->Text = String::Format("{0:#0.00}",Convert::ToDouble(ToSystemString(str)));
+		if (i == 4) this->label1->Text = String::Format("{0:#0.00}", Convert::ToDouble(ToSystemString(str)));
+		if (i == 5) this->label2->Text = String::Format("{0:#0.00}", Convert::ToDouble(ToSystemString(str)));
+		if (i == 6) this->label3->Text = String::Format("{0:#0.00}", Convert::ToDouble(ToSystemString(str)));
 		if (i == 7) this->coor_xl->Text = ToSystemString(str);
 		if (i == 8) this->coor_yl->Text = ToSystemString(str);
 		if (i == 9) this->db_xl->Text = ToSystemString(str);
@@ -1856,10 +1984,10 @@ private: System::Void input(){
 		if (i == 19) if ("T" == ToSystemString(str)) this->reset_ack_r = false;
 		if (i == 20) if ("T" == ToSystemString(str)) this->all_ack_r = false;
 		if (i == 21) this->platform_state->Text = ToSystemString(str);
-		if (i == 22) this->theta->Text = ToSystemString(str);
-		if (i == 23) this->move_tilt->Text = ToSystemString(str);
-		if (i == 24) this->platform_pan->Text = ToSystemString(str);
-		if (i == 25) this->platform_tilt->Text = ToSystemString(str);
+		if (i == 22) this->theta->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
+		if (i == 23) this->move_tilt->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
+		if (i == 24) this->platform_pan->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
+		if (i == 25) this->platform_tilt->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
 		if (i == 26) if ("T" == ToSystemString(str)) this->plat_home_ack = false;
 		if (i == 27) if ("T" == ToSystemString(str)) this->plat_move_ack = false;
 		if (i == 28) if ("T" == ToSystemString(str)) this->plat_stop_ack = false;
@@ -1926,6 +2054,7 @@ private: System::Void output(){
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
 				 this->output();
 				 this->input();
+				 this->server_output();
 	}
 private: System::Void label8_Click(System::Object^  sender, System::EventArgs^  e) {
 }
@@ -2050,6 +2179,9 @@ private: System::Void output_button_Click(System::Object^  sender, System::Event
 			 /* 28 */swriter->WriteLine(this->true_value->Text);
 			 /* 29 */if (this->calib_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
 			 /* 30 */if (this->csv_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 31 */if (this->server_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 32 */if (this->a_radio->Checked) swriter->WriteLine("A"); else swriter->WriteLine("B");
+			 /* 33 */swriter->WriteLine(this->server_dir_box->Text);
 
 
 reset_ack_l=false;
@@ -2109,6 +2241,9 @@ private: System::Void read_button_Click(System::Object^  sender, System::EventAr
 				 if (i == 28){ this->true_value->Text = sreader->ReadLine(); }
 				 if (i == 29){ if (sreader->ReadLine() == "T") this->calib_check->Checked = true; else this->calib_check->Checked = false; }
 				 if (i == 30){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
+				 if (i == 31){ if (sreader->ReadLine() == "T") this->server_check->Checked = true; else this->server_check->Checked = false; }
+				 if (i == 32){ if (sreader->ReadLine() == "A") this->a_radio->Checked = true; else this->b_radio->Checked = true; }
+				 if (i == 33){ this->server_dir_box->Text = sreader->ReadLine(); }
 			 }			   
 			 sreader->Close();
 			 Invalidate();
@@ -2151,6 +2286,10 @@ private: System::Void reset_button_Click(System::Object^  sender, System::EventA
 				 if (i == 28){ this->true_value->Text = sreader->ReadLine(); }
 				 if (i == 29){ if (sreader->ReadLine() == "T") this->calib_check->Checked = true; else this->calib_check->Checked = false; }
 				 if (i == 30){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
+				 if (i == 31){ if (sreader->ReadLine() == "T") this->server_check->Checked = true; else this->server_check->Checked = false; }
+				 if (i == 32){ if (sreader->ReadLine() == "A") this->a_radio->Checked = true; else this->b_radio->Checked = true; }
+				 if (i == 33){ this->server_dir_box->Text = sreader->ReadLine(); }
+
 			 }
 			 sreader->Close();
 			 Invalidate();
@@ -2161,5 +2300,30 @@ private: System::Void linear_flag_CheckedChanged(System::Object^  sender, System
 }
 private: System::Void calib_check_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 }
+private: System::Void folderBrowserDialog1_HelpRequest(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void label7_Click_1(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void server_check_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void server_dir_button_Click(System::Object^  sender, System::EventArgs^  e) {
+			 if (folderBrowserDialog1->ShowDialog() == Windows::Forms::DialogResult::OK)
+			 {
+				 this->server_dir_box->Text = folderBrowserDialog1->SelectedPath;
+			 }
+}
+private: System::Void server_output(){
+			 if (this->server_check->Checked){
+				 String ^dir = this->server_dir_box->Text;
+				 if (this->a_radio->Checked) dir += "\\A";
+				 if (this->b_radio->Checked) dir += "\\B";
+				 StreamWriter^ swriter = gcnew StreamWriter(dir);
+				 swriter->WriteLine(this->label3->Text);
+				 swriter->WriteLine(this->platform_pan->Text);
+				 swriter->WriteLine(this->platform_tilt->Text);
+				 swriter->Close();
+			 }
+}
 };
 }
+
