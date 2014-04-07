@@ -26,6 +26,9 @@
     <ClInclude Include="MainForm.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
