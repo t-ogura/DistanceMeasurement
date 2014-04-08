@@ -326,6 +326,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->dir_box->Name = L"dir_box";
 			this->dir_box->Size = System::Drawing::Size(216, 19);
 			this->dir_box->TabIndex = 1;
+			this->dir_box->Text = L"C:\\Users\\Admin\\Desktop\\PKNU_data";
 			// 
 			// dir_browse
 			// 
@@ -355,7 +356,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				58.7156F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				51)));
+				52)));
 			this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel4, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->label4, 0, 1);
 			this->tableLayoutPanel1->Controls->Add(this->label2, 0, 0);
@@ -377,7 +378,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel4->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel4->Controls->Add(this->label19, 0, 0);
-			this->tableLayoutPanel4->Location = System::Drawing::Point(215, 3);
+			this->tableLayoutPanel4->Location = System::Drawing::Point(214, 3);
 			this->tableLayoutPanel4->Name = L"tableLayoutPanel4";
 			this->tableLayoutPanel4->RowCount = 1;
 			this->tableLayoutPanel4->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -437,14 +438,14 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel2->Size = System::Drawing::Size(119, 72);
+			this->tableLayoutPanel2->Size = System::Drawing::Size(118, 72);
 			this->tableLayoutPanel2->TabIndex = 8;
 			// 
 			// a_tilt_deg
 			// 
 			this->a_tilt_deg->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->a_tilt_deg->AutoSize = true;
-			this->a_tilt_deg->Location = System::Drawing::Point(105, 57);
+			this->a_tilt_deg->Location = System::Drawing::Point(104, 57);
 			this->a_tilt_deg->Name = L"a_tilt_deg";
 			this->a_tilt_deg->Size = System::Drawing::Size(11, 12);
 			this->a_tilt_deg->TabIndex = 15;
@@ -455,7 +456,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			// 
 			this->a_pan_deg->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->a_pan_deg->AutoSize = true;
-			this->a_pan_deg->Location = System::Drawing::Point(105, 39);
+			this->a_pan_deg->Location = System::Drawing::Point(104, 39);
 			this->a_pan_deg->Name = L"a_pan_deg";
 			this->a_pan_deg->Size = System::Drawing::Size(11, 12);
 			this->a_pan_deg->TabIndex = 14;
@@ -466,7 +467,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			// 
 			this->a_tilt_rad->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->a_tilt_rad->AutoSize = true;
-			this->a_tilt_rad->Location = System::Drawing::Point(105, 21);
+			this->a_tilt_rad->Location = System::Drawing::Point(104, 21);
 			this->a_tilt_rad->Name = L"a_tilt_rad";
 			this->a_tilt_rad->Size = System::Drawing::Size(11, 12);
 			this->a_tilt_rad->TabIndex = 13;
@@ -477,7 +478,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			// 
 			this->a_pan_rad->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->a_pan_rad->AutoSize = true;
-			this->a_pan_rad->Location = System::Drawing::Point(105, 3);
+			this->a_pan_rad->Location = System::Drawing::Point(104, 3);
 			this->a_pan_rad->Name = L"a_pan_rad";
 			this->a_pan_rad->Size = System::Drawing::Size(11, 12);
 			this->a_pan_rad->TabIndex = 12;
@@ -538,14 +539,14 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel5->Name = L"tableLayoutPanel5";
 			this->tableLayoutPanel5->RowCount = 1;
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel5->Size = System::Drawing::Size(119, 12);
+			this->tableLayoutPanel5->Size = System::Drawing::Size(118, 12);
 			this->tableLayoutPanel5->TabIndex = 11;
 			// 
 			// a_dist
 			// 
 			this->a_dist->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->a_dist->AutoSize = true;
-			this->a_dist->Location = System::Drawing::Point(105, 0);
+			this->a_dist->Location = System::Drawing::Point(104, 0);
 			this->a_dist->Name = L"a_dist";
 			this->a_dist->Size = System::Drawing::Size(11, 12);
 			this->a_dist->TabIndex = 1;
@@ -561,7 +562,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel3->Controls->Add(this->label11, 0, 0);
 			this->tableLayoutPanel3->Controls->Add(this->label12, 0, 2);
 			this->tableLayoutPanel3->Controls->Add(this->label13, 0, 3);
-			this->tableLayoutPanel3->Location = System::Drawing::Point(215, 22);
+			this->tableLayoutPanel3->Location = System::Drawing::Point(214, 22);
 			this->tableLayoutPanel3->Name = L"tableLayoutPanel3";
 			this->tableLayoutPanel3->RowCount = 4;
 			this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -629,7 +630,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				59.63303F)));
 			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				51)));
+				52)));
 			this->tableLayoutPanel6->Controls->Add(this->tableLayoutPanel7, 2, 0);
 			this->tableLayoutPanel6->Controls->Add(this->tableLayoutPanel8, 2, 1);
 			this->tableLayoutPanel6->Controls->Add(this->label17, 0, 1);
@@ -650,7 +651,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel7->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel7->Controls->Add(this->label3, 0, 0);
-			this->tableLayoutPanel7->Location = System::Drawing::Point(215, 3);
+			this->tableLayoutPanel7->Location = System::Drawing::Point(214, 3);
 			this->tableLayoutPanel7->Name = L"tableLayoutPanel7";
 			this->tableLayoutPanel7->RowCount = 1;
 			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -676,7 +677,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel8->Controls->Add(this->label14, 0, 0);
 			this->tableLayoutPanel8->Controls->Add(this->label15, 0, 2);
 			this->tableLayoutPanel8->Controls->Add(this->label16, 0, 3);
-			this->tableLayoutPanel8->Location = System::Drawing::Point(215, 22);
+			this->tableLayoutPanel8->Location = System::Drawing::Point(214, 22);
 			this->tableLayoutPanel8->Name = L"tableLayoutPanel8";
 			this->tableLayoutPanel8->RowCount = 4;
 			this->tableLayoutPanel8->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -768,14 +769,14 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel9->Size = System::Drawing::Size(121, 72);
+			this->tableLayoutPanel9->Size = System::Drawing::Size(120, 72);
 			this->tableLayoutPanel9->TabIndex = 8;
 			// 
 			// b_tilt_deg
 			// 
 			this->b_tilt_deg->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->b_tilt_deg->AutoSize = true;
-			this->b_tilt_deg->Location = System::Drawing::Point(107, 57);
+			this->b_tilt_deg->Location = System::Drawing::Point(106, 57);
 			this->b_tilt_deg->Name = L"b_tilt_deg";
 			this->b_tilt_deg->Size = System::Drawing::Size(11, 12);
 			this->b_tilt_deg->TabIndex = 15;
@@ -786,7 +787,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			// 
 			this->b_pan_deg->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->b_pan_deg->AutoSize = true;
-			this->b_pan_deg->Location = System::Drawing::Point(107, 39);
+			this->b_pan_deg->Location = System::Drawing::Point(106, 39);
 			this->b_pan_deg->Name = L"b_pan_deg";
 			this->b_pan_deg->Size = System::Drawing::Size(11, 12);
 			this->b_pan_deg->TabIndex = 14;
@@ -797,7 +798,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			// 
 			this->b_tilt_rad->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->b_tilt_rad->AutoSize = true;
-			this->b_tilt_rad->Location = System::Drawing::Point(107, 21);
+			this->b_tilt_rad->Location = System::Drawing::Point(106, 21);
 			this->b_tilt_rad->Name = L"b_tilt_rad";
 			this->b_tilt_rad->Size = System::Drawing::Size(11, 12);
 			this->b_tilt_rad->TabIndex = 13;
@@ -808,7 +809,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			// 
 			this->b_pan_rad->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->b_pan_rad->AutoSize = true;
-			this->b_pan_rad->Location = System::Drawing::Point(107, 3);
+			this->b_pan_rad->Location = System::Drawing::Point(106, 3);
 			this->b_pan_rad->Name = L"b_pan_rad";
 			this->b_pan_rad->Size = System::Drawing::Size(11, 12);
 			this->b_pan_rad->TabIndex = 12;
@@ -865,14 +866,14 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel10->Name = L"tableLayoutPanel10";
 			this->tableLayoutPanel10->RowCount = 1;
 			this->tableLayoutPanel10->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel10->Size = System::Drawing::Size(121, 12);
+			this->tableLayoutPanel10->Size = System::Drawing::Size(120, 12);
 			this->tableLayoutPanel10->TabIndex = 11;
 			// 
 			// b_dist
 			// 
 			this->b_dist->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->b_dist->AutoSize = true;
-			this->b_dist->Location = System::Drawing::Point(107, 0);
+			this->b_dist->Location = System::Drawing::Point(106, 0);
 			this->b_dist->Name = L"b_dist";
 			this->b_dist->Size = System::Drawing::Size(11, 12);
 			this->b_dist->TabIndex = 1;
@@ -904,7 +905,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->targets_distance->Name = L"targets_distance";
 			this->targets_distance->Size = System::Drawing::Size(109, 19);
 			this->targets_distance->TabIndex = 6;
-			this->targets_distance->Text = L"0";
+			this->targets_distance->Text = L"1080";
 			this->targets_distance->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
 			// measures_distance
