@@ -72,7 +72,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
-    <ClInclude Include="control_biclops.h" />
     <ClInclude Include="form_connection.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="measurement.h" />
@@ -80,28 +79,7 @@
     <ClInclude Include="view.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Biclops\src\angles.cpp" />
-    <ClCompile Include="Biclops\src\Biclops.cpp" />
-    <ClCompile Include="Biclops\src\Compass.cpp" />
-    <ClCompile Include="Biclops\src\geometry.cpp" />
-    <ClCompile Include="Biclops\src\joint.cpp" />
-    <ClCompile Include="Biclops\src\Kinematics.cpp" />
-    <ClCompile Include="Biclops\src\link.cpp" />
-    <ClCompile Include="Biclops\src\matvec.cpp" />
-    <ClCompile Include="Biclops\src\obstacle.cpp" />
-    <ClCompile Include="Biclops\src\PMD.cpp" />
-    <ClCompile Include="Biclops\src\PMDAxisControl.cpp" />
-    <ClCompile Include="Biclops\src\PMDController.cpp" />
-    <ClCompile Include="Biclops\src\PMDNetwork.cpp" />
-    <ClCompile Include="Biclops\src\PMDParallel.cpp" />
-    <ClCompile Include="Biclops\src\PMDSerial.cpp" />
-    <ClCompile Include="Biclops\src\PMDTransport.cpp" />
-    <ClCompile Include="Biclops\src\PMDUtils.cpp" />
-    <ClCompile Include="Biclops\src\PortableSerial.cpp" />
-    <ClCompile Include="Biclops\src\Sequencing.cpp" />
-    <ClCompile Include="Biclops\src\transform.cpp" />
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="control_biclops.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="measurement.cpp" />
     <ClCompile Include="vcc.cpp" />

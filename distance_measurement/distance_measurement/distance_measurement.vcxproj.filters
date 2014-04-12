@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Biclops">
-      <UniqueIdentifier>{0aa7fb28-408a-488b-aa33-7bc02aabe780}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="global.h">
@@ -25,9 +22,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="control_biclops.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="measurement.h">
@@ -47,9 +41,6 @@
     <ClCompile Include="camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="control_biclops.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="measurement.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -58,66 +49,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\angles.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\Biclops.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\Compass.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\geometry.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\joint.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\Kinematics.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\link.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\matvec.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\obstacle.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\PMD.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\PMDAxisControl.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\PMDController.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\PMDNetwork.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\PMDParallel.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\PMDSerial.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\PMDTransport.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\PMDUtils.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\PortableSerial.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\Sequencing.cpp">
-      <Filter>Biclops</Filter>
-    </ClCompile>
-    <ClCompile Include="Biclops\src\transform.cpp">
-      <Filter>Biclops</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
