@@ -25,6 +25,7 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	this->trackingThreshold = 170;
 	this->trackingHomeFlag = false;
 	this->trackingMoveFlag = true;
+	this->trackingTiming = false;
 
 	this->linear_a = 0.0;
 	this->linear_b = 0.0;
@@ -52,31 +53,41 @@ void Measurement::kalmanInitialize(){
 	this->KF->statePre.at<float>(1) = 0;
 }
 
-void Measurement::tracking(const char* path){
+void Measurement::tracking(char* com,int baudrate){
 	this->trackingState = "‰Šú‰»’†";
-	ControlBiclops cb(path);
+	PTU ptu(com, baudrate);
+	ptu.turnHome();
+	Sleep(2000);
 	this->trackingState = "‰Ò“­’†";
 	while (this->trackingLoopFlag){
 		if (this->trackingHomeFlag){
 			this->trackingState = "ƒz[ƒ€‚Ö";
-			cb.turnHome();
+			ptu.turnHome();
 			Sleep(2000);
 			this->trackingHomeFlag = false;
 			this->trackingState = "‰Ò“­’†";
 		}
-		cb.getPosition();
+		//cb.getPosition();
 		PanTilt pt,my;
-		my.pan = cb.pan_angle_rad;
-		my.tilt = cb.tilt_angle_rad;
+		//my.pan = cb.pan_angle_rad;
+		//my.tilt = cb.tilt_angle_rad;
 		this->mtx.lock();
-		this->platformState = my;
+		//this->platformState = my;
 		pt = this->trackingAngle;
 		this->mtx.unlock();
+		ptu.setSpeed();
+		while (!this->trackingTiming);
+		this->trackingTiming = false;
 		if (this->trackingMoveFlag){
 			this->trackingState = "‰Ò“­’†";
-			if (this->vcc_L->matchingParameters[8] < this->trackingThreshold && this->vcc_R->matchingParameters[8] < this->trackingThreshold){
-				cb.deviceTurn(pt.pan, pt.tilt);
-			}
+			this->mtx.lock();
+			int mL = this->vcc_L->matchingParameters[8];
+			int mR = this->vcc_R->matchingParameters[8];
+			this->mtx.unlock();
+			if (mL < this->trackingThreshold && mR < this->trackingThreshold){
+				ptu.turn(pt.pan, pt.tilt);
+			}			
+			else{ ptu.turn(0, 0); }
 		}
 		else{
 			this->trackingState = "’âŽ~’†";
@@ -84,9 +95,9 @@ void Measurement::tracking(const char* path){
 	}
 }
 
-void Measurement::threadTracking(const char* path){
+void Measurement::threadTracking(char* com, int baudrate){
 	this->trackingLoopFlag = true;
-	this->trackingThread = std::thread(std::bind(&Measurement::tracking, this, path));
+	this->trackingThread = std::thread(std::bind(&Measurement::tracking, this, com,baudrate));
 }
 
 void Measurement::threadTrackingJoin(){
@@ -108,10 +119,12 @@ void Measurement::measure(){
 	this->camera_R->getImage();
 	this->vcc_L->setInputImage(this->camera_L->grayImage);
 	this->vcc_R->setInputImage(this->camera_R->grayImage);
+	this->mtx.lock();
 	vccThread_L = std::thread(std::bind(&VCC::templateMatching, this->vcc_L));
 	vccThread_R = std::thread(std::bind(&VCC::templateMatching, this->vcc_R));
 	vccThread_L.join();
 	vccThread_R.join();
+	this->mtx.unlock();
 	this->angle_L = angleCalculation(vcc_L);
 	this->angle_R = angleCalculation(vcc_R);
 	this->non_offset.original = this->baselineLength / (tan(this->angle_L.pan) - tan(this->angle_R.pan));
@@ -133,4 +146,5 @@ void Measurement::measure(){
 	this->mtx.lock();
 	this->trackingAngle = pt;
 	this->mtx.unlock();
+	this->trackingTiming = true;
 }

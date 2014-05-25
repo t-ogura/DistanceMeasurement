@@ -2,8 +2,8 @@
 #define _MEASUREMENT_H_
 
 #include "camera.h"
-#include "control_biclops.h"
 #include "vcc.h"
+#include "turnPTU.h"
 #include <thread>
 #include <mutex>
 
@@ -15,8 +15,8 @@ public:
 	Measurement(double imagingDevicePixelSize, double lensFocalLength, double stereoBaselineLength, int VCC_Threshold = 12);
 	~Measurement();
 
-	void tracking(const char* biclopsConfigFilePath);
-	void threadTracking(const char* biclopsConfigFilePath);
+	void tracking(char* comPortNumber, int baudrate);
+	void threadTracking(char* comPortNumber, int baudrate);
 	void measure();
 	void threadTrackingJoin();
 
@@ -26,7 +26,6 @@ public:
 
 	Camera *camera_L;
 	Camera *camera_R;
-	ControlBiclops *controlBiclops;
 
 	VCC *vcc_L;
 	VCC *vcc_R;
@@ -36,6 +35,9 @@ public:
 	double linear_a;
 	double linear_b;
 
+	PTU *ptu;
+
+	bool trackingTiming;
 	bool trackingHomeFlag;
 	bool trackingMoveFlag;
 

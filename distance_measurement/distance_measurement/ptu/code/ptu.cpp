@@ -74,8 +74,8 @@ CHANGE HISTORY:
 #include <ctype.h>
 #include <string.h>
 #include <stdarg.h>
-#include "cpiver.h"
-#include "ptu.h"
+#include "../include/cpiver.h"
+#include "../include/ptu.h"
 
 static char err;
 

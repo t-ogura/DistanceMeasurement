@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="PTU">
+      <UniqueIdentifier>{368b62c6-6c9b-4782-8b88-1d4cb9694f12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PTU\Header">
+      <UniqueIdentifier>{d58b6256-6d77-4298-9f14-fa1222089258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PTU\Source">
+      <UniqueIdentifier>{247ddc13-80c7-4e87-b1c4-8b18840c559f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="global.h">
@@ -33,6 +42,18 @@
     <ClInclude Include="form_connection.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="ptu\include\opcodes.h">
+      <Filter>PTU\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ptu\include\ptu.h">
+      <Filter>PTU\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ptu\include\w32seria.h">
+      <Filter>PTU\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="turnPTU.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="vcc.cpp">
@@ -48,6 +69,15 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ptu\code\ptu.cpp">
+      <Filter>PTU\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ptu\code\w32seria.cpp">
+      <Filter>PTU\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="turnPTU.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
