@@ -1984,10 +1984,38 @@ private: System::Void input(){
 		if (i == 19) if ("T" == ToSystemString(str)) this->reset_ack_r = false;
 		if (i == 20) if ("T" == ToSystemString(str)) this->all_ack_r = false;
 		if (i == 21) this->platform_state->Text = ToSystemString(str);
-		if (i == 22) this->theta->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
-		if (i == 23) this->move_tilt->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
-		if (i == 24) this->platform_pan->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
-		if (i == 25) this->platform_tilt->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
+		if (i == 22){
+			try{
+				this->theta->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
+			}
+			catch (FormatException ^ex){
+				this->theta->Text = "ERROR";
+			}
+		}
+		if (i == 23){
+			try{
+				this->move_tilt->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
+			}
+			catch (FormatException ^ex){
+				this->move_tilt->Text = "ERROR";
+			}
+		}
+		if (i == 24){
+			try{
+				this->platform_pan->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
+			}
+			catch (FormatException ^ex){
+				this->platform_pan->Text = "ERROR";
+			}
+		}
+		if (i == 25){
+			try{
+				this->platform_tilt->Text = String::Format("{0:#0.00000}", Convert::ToDouble(ToSystemString(str)));
+			}
+			catch (FormatException ^ex){
+				this->platform_tilt->Text = "ERROR";
+			}
+		}
 		if (i == 26) if ("T" == ToSystemString(str)) this->plat_home_ack = false;
 		if (i == 27) if ("T" == ToSystemString(str)) this->plat_move_ack = false;
 		if (i == 28) if ("T" == ToSystemString(str)) this->plat_stop_ack = false;
@@ -2317,9 +2345,17 @@ private: System::Void server_output(){
 				 String ^dir = this->server_dir_box->Text;
 				 if (this->a_radio->Checked) dir += "\\A";
 				 if (this->b_radio->Checked) dir += "\\B";
-				 StreamWriter^ swriter = gcnew StreamWriter(dir);
+				 FileStream ^fs = gcnew FileStream(dir, FileMode::Open, FileAccess::Write, FileShare::ReadWrite);
+				 StreamWriter^ swriter = gcnew StreamWriter(fs);
+				 double angle;
+				 try{
+					 angle = Convert::ToDouble(this->platform_pan->Text) + Convert::ToDouble(this->theta->Text);
+				 }
+				 catch (FormatException ^ex){
+					 angle = Convert::ToDouble(this->platform_pan->Text);
+				 }
 				 swriter->WriteLine(this->label3->Text);
-				 swriter->WriteLine(this->platform_pan->Text);
+				 swriter->WriteLine(Convert::ToString(angle));
 				 swriter->WriteLine(this->platform_tilt->Text);
 				 swriter->Close();
 			 }

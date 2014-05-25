@@ -17,7 +17,7 @@ int main(){
 	View view_L("LEFT",320,400);
 	View view_R("RIGHT", 670, 400);
 	FormConnection connect;
-	//measurement.threadTracking("Biclops/data/BiclopsDefaultRight.cfg");
+	measurement.threadTracking("Biclops/data/BiclopsDefaultRight.cfg");
 	while (1){
 		int key = cv::waitKey(1);
 		if (key == 0x1b || key == 'q'){

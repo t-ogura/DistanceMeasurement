@@ -85,8 +85,8 @@ void ControlBiclops::deviceTurn(double pan_angle, double tilt_angle)
 	if (fabs(profile.pos) < 0.4  /*&& abs(dx) > 5*/)//前の条件→角度保障(revs)，後ろの条件→微小移動の制限（ピクセル）
 	{
 		profile.pos = PMDUtils::RadsToRevs(pan_angle) + PMDUtils::DegsToRevs(pan_pos / 33.33);
-		profile.vel = 0.4;  //回転台の速度の変更
-		profile.acc = 0.1;  //回転台の加速度の変更
+		//profile.vel = 0.4;  //回転台の速度の変更
+		//profile.acc = 0.1;  //回転台の加速度の変更
 		panAxis->SetProfile(profile);
 	}
 	tiltAxis->GetProfile(profile);

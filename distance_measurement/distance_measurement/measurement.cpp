@@ -55,6 +55,12 @@ void Measurement::kalmanInitialize(){
 void Measurement::tracking(const char* path){
 	this->trackingState = "‰Šú‰»’†";
 	ControlBiclops cb(path);
+	cb.turnHome();
+	Sleep(5000);
+	cb.getPosition();
+	PanTilt home;
+	home.pan = cb.pan_angle_rad -0.12201;
+	home.tilt = cb.tilt_angle_rad;
 	this->trackingState = "‰Ò“­’†";
 	while (this->trackingLoopFlag){
 		if (this->trackingHomeFlag){
@@ -66,8 +72,8 @@ void Measurement::tracking(const char* path){
 		}
 		cb.getPosition();
 		PanTilt pt,my;
-		my.pan = cb.pan_angle_rad;
-		my.tilt = cb.tilt_angle_rad;
+		my.pan = cb.pan_angle_rad - home.pan;
+		my.tilt = cb.tilt_angle_rad- home.tilt;
 		this->mtx.lock();
 		this->platformState = my;
 		pt = this->trackingAngle;

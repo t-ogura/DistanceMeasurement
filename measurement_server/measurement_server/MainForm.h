@@ -1,5 +1,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <time.h>
+#include <iostream>
+#include <string>
 
 #pragma once
 
@@ -905,7 +908,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->targets_distance->Name = L"targets_distance";
 			this->targets_distance->Size = System::Drawing::Size(109, 19);
 			this->targets_distance->TabIndex = 6;
-			this->targets_distance->Text = L"1080";
+			this->targets_distance->Text = L"1090";
 			this->targets_distance->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
 			// measures_distance
@@ -914,7 +917,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->measures_distance->Name = L"measures_distance";
 			this->measures_distance->Size = System::Drawing::Size(109, 19);
 			this->measures_distance->TabIndex = 8;
-			this->measures_distance->Text = L"0";
+			this->measures_distance->Text = L"840";
 			this->measures_distance->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
 			// label21
@@ -1656,18 +1659,22 @@ private: double basis_a_pan_angle;
 private: double basis_b_pan_angle;
 private: double basis_a_distance;
 private: double basis_b_distance;
+private: clock_t start, stamp;
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
 			 String ^ad, ^bd, ^ap, ^bp;
 			 double ca, cx, cy, ba, bx, by;
 			 this->readData("A",ad,ap);
 			 this->readData("B", bd, bp);
 			 this->vessel_pose_view(ca, cx, cy, ba, bx, by);
+			 this->stamp = clock();
 			 if (this->save_flag){
-				 sw->WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", ad, ap, bd, bp, ca, cx, cy, ba, bx, by);
+				 sw->WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}",this->stamp-this->start, ad, ap, bd, bp, ca, cx, cy, ba, bx, by);
 			 }
+			 this->outTimeFile(this->stamp - this->start);
 }
 private: System::Void folderBrowserDialog1_HelpRequest(System::Object^  sender, System::EventArgs^  e) {
 }
+private: void outTimeFile(long time);
 private: System::Void dir_browse_Click(System::Object^  sender, System::EventArgs^  e) {
 			 if (folderBrowserDialog1->ShowDialog() == Windows::Forms::DialogResult::OK)
 			 {
@@ -1712,7 +1719,7 @@ private: System::Void save_button_Click(System::Object^  sender, System::EventAr
 				 this->save_flag = false;
 				 return;
 			 }
-			 
+			 this->start = clock();
 			 this->toolStripStatusLabel2->Text = String::Format("Saving file \"{0}\"", this->savefilename_box->Text);
 			 this->save_flag = true;
 }
