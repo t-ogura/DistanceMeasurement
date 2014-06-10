@@ -58,6 +58,7 @@ void Measurement::tracking(char* com,int baudrate){
 	PTU ptu(com, baudrate);
 	ptu.turnHome();
 	Sleep(2000);
+	ptu.setSpeed();
 	this->trackingState = "‰Ò“­’†";
 	while (this->trackingLoopFlag){
 		if (this->trackingHomeFlag){
@@ -67,7 +68,7 @@ void Measurement::tracking(char* com,int baudrate){
 			this->trackingHomeFlag = false;
 			this->trackingState = "‰Ò“­’†";
 		}
-		//cb.getPosition();
+		ptu.getPosition();
 		PanTilt pt,my;
 		//my.pan = cb.pan_angle_rad;
 		//my.tilt = cb.tilt_angle_rad;
@@ -75,7 +76,6 @@ void Measurement::tracking(char* com,int baudrate){
 		//this->platformState = my;
 		pt = this->trackingAngle;
 		this->mtx.unlock();
-		ptu.setSpeed();
 		while (!this->trackingTiming);
 		this->trackingTiming = false;
 		if (this->trackingMoveFlag){
