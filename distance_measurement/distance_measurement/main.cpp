@@ -17,10 +17,11 @@ int main(){
 	View view_L("LEFT",320,400);
 	View view_R("RIGHT", 670, 400);
 	FormConnection connect;
-	measurement.threadTracking("\\\\.\\COM1",9600);
+	measurement.threadTracking("\\\\.\\COM5",9600);
 	while (1){
 		int key = cv::waitKey(1);
 		if (key == 0x1b || key == 'q'){
+			break;
 		}
 		connect.input(&measurement, INPUT_FILENAME);
 		connect.output(&measurement, OUTPUT_FILENAME);

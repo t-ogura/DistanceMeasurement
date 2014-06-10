@@ -94,6 +94,6 @@ int PTU::turnHome(){
 int PTU::getPosition(){
 	this->panAngle = DEG2RAD(PAN_STEP2DEG(get_desired(PAN, POSITION)));
 	this->tiltAngle = DEG2RAD(TILT_STEP2DEG(get_desired(TILT, POSITION)));
-	//std::cout << "pan:" << this->panAngle << " tilt:" << this->tiltAngle << std::endl;
+	std::cout << "pan:" << this->panAngle << " tilt:" << this->tiltAngle << std::endl;
 	return 0;
 }
