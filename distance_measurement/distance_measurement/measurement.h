@@ -31,9 +31,9 @@ public:
 	VCC *vcc_R;
 
 	//ï‚ê≥íl
-	double correctParallel;
-	double linear_a;
-	double linear_b;
+	double linear_a2;
+	double linear_a1;
+	double linear_a0;
 
 	PTU *ptu;
 
@@ -64,10 +64,14 @@ public:
 
 	PanTilt angleCalculation(VCC *vcc);
 
+	std::vector<double> prev_distances;
+
 private:
 
 
 	void kalmanInitialize();
+	double quadratic(double a2, double a1, double a0);
+
 	cv::KalmanFilter *KF;
 	cv::Mat_<float> *KF_State;
 	cv::Mat *KF_ProcessNoise;

@@ -56,8 +56,8 @@ int PTU::initialize(){
 int PTU::turn(double pan, double tilt){
 
 
-	pan *=0.4;
-	tilt *= 0.4;
+	pan *=0.2;
+	tilt *= 0.2;
 	{
 		short panPos = PAN_DEG2STEP(RAD2DEG(pan));
 		short tiltPos = TILT_DEG2STEP(RAD2DEG(tilt));

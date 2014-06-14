@@ -19,7 +19,6 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 
 	this->kalmanInitialize();
 
-	this->correctParallel = 0.0;
 	this->trackingLoopFlag = false;
 	this->trackingState = "–¢‰Ò“­";
 	this->trackingThreshold = 170;
@@ -27,8 +26,9 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	this->trackingMoveFlag = true;
 	this->trackingTiming = false;
 
-	this->linear_a = 0.0;
-	this->linear_b = 0.0;
+	this->linear_a2 = 0.0;
+	this->linear_a1 = 0.0;
+	this->linear_a0 = 0.0;
 }
 
 Measurement::~Measurement(){}
@@ -131,14 +131,30 @@ void Measurement::measure(){
 	this->non_offset.original = this->baselineLength / (tan(this->angle_L.pan) - tan(this->angle_R.pan));
 	this->non_offset.mid = sqrt(pow(this->non_offset.original, 2)*(pow(tan(angle_L.pan), 2) + pow(tan(angle_R.pan), 2) + 2) / 2 - pow((double)this->baselineLength, 2) / 4);
 	this->non_offset.theta = acos(this->non_offset.original / this->non_offset.mid);
-	double tmp = this->baselineLength / (tan(this->angle_L.pan + this->correctParallel / 2.0) - tan(this->angle_R.pan - this->correctParallel / 2.0));
-	this->distance.original = tmp / (1.0 + this->linear_a) - this->linear_b;
+
+	if (prev_distances.size()<5) prev_distances.push_back(this->distance.original);
+	else{
+		for (int i = 1; i < prev_distances.size(); i++){
+			prev_distances[i - 1] = prev_distances[i];
+		}
+		prev_distances.pop_back();
+		prev_distances.push_back(this->distance.original);
+	}
+	double prev_average_distance = 0;
+	for (int i = 0; i < prev_distances.size(); i++){
+		prev_average_distance += prev_distances[i];
+	}
+	prev_average_distance /= prev_distances.size();
+	double qua = quadratic(this->linear_a2, this->linear_a1 + 1, this->linear_a0 - this->non_offset.original);
+	if (qua < 0) this->distance.original = this->non_offset.original;
+	else this->distance.original = qua;
 	this->distance.mid = sqrt(pow(this->distance.original, 2)*(pow(tan(angle_L.pan), 2) + pow(tan(angle_R.pan), 2) + 2) / 2 - pow((double)this->baselineLength, 2) / 4);
 	this->distance.theta = acos(this->distance.original / this->distance.mid);
 	if (angle_L.pan + angle_R.pan < 0) this->distance.theta *= -1;
 	cv::Mat prediction = this->KF->predict();
 	double predictDist = prediction.at<float>(0);
-	(*this->KF_Measurement)(0) = this->distance.mid;
+	if (fabs(this->distance.mid - prev_average_distance)>200) (*this->KF_Measurement)(0) = prev_distances[prev_distances.size()-1];
+	else (*this->KF_Measurement)(0) = this->distance.mid;
 	cv::Mat estimated = this->KF->correct((*this->KF_Measurement));
 	this->distance.kf = estimated.at<float>(0);
 	PanTilt pt;
@@ -148,4 +164,37 @@ void Measurement::measure(){
 	this->trackingAngle = pt;
 	this->mtx.unlock();
 	this->trackingTiming = true;
+}
+
+
+double Measurement::quadratic(double a2, double a1, double a0)
+{
+			double Re1, Re2, Im1, Im2, D;
+
+			D = a1*a1 - 4.0*a2*a0;
+
+			if (D>0) {
+				Re1 = (-a1 + sqrt(D)) / (2.0*a2);
+				Re2 = (-a1 - sqrt(D)) / (2.0*a2);
+				Im1 = 0.0;
+				Im2 = 0.0;
+			}
+			else if (D == 0) {
+				Re1 = -a1 / (2.0*a2);
+				Im1 = 0.0;
+			}
+			else {
+				Re1 = Re2 = -a1 / (2.0*a2);
+				Im1 = sqrt(-D) / (2.0*a2);
+				Im2 = -Im1;
+			}
+
+			if (D == 0) {
+				return Re1;
+			}
+			else {
+				if (Re1 > 0) return Re1;
+				if (Re2 > 0) return Re2;
+			}
+			return -1;
 }

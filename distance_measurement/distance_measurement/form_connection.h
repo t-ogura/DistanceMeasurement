@@ -64,7 +64,7 @@ int FormConnection::input(Measurement *m, std::string filename){
 	std::string _save_folder_name, _save_file_name;
 	int _save_frame_num;
 	bool save_csv_flag;
-
+	
 	std::string str;
 	int i = 0;
 	while (in && std::getline(in, str)){
@@ -88,9 +88,9 @@ int FormConnection::input(Measurement *m, std::string filename){
 		if (i == 17){ if (str == "T") { m->vcc_R->databaseAllSearchFlag = true; db_all_ack_r = true; } }
 		if (i == 18){ if (str == "T") m->vcc_R->subpixelFlag = true; else m->vcc_R->subpixelFlag = false; }
 		if (i == 19){ if (str == "T") m->vcc_R->kalmanFlag = true; else m->vcc_R->kalmanFlag = false; }
-		if (i == 20){ std::stringstream ss; ss << str; ss >> m->correctParallel; }
-		if (i == 21){ std::stringstream ss; ss << str; ss >> m->linear_a; }
-		if (i == 22){ std::stringstream ss; ss << str; ss >> m->linear_b; }
+		if (i == 20){ std::stringstream ss; ss << str; ss >> m->linear_a2; }
+		if (i == 21){ std::stringstream ss; ss << str; ss >> m->linear_a1; }
+		if (i == 22){ std::stringstream ss; ss << str; ss >> m->linear_a0; }
 		if (i == 23){ std::stringstream ss; ss << str; ss >> m->trackingThreshold; }
 		if (i == 24){ if (str == "T") { m->trackingHomeFlag = true; this->plat_home_ack = true; } }
 		if (i == 25){ if (str == "T") { m->trackingMoveFlag = true; this->plat_move_ack = true; } }

@@ -16,7 +16,7 @@
 
 #define SPEED_PAN_MAX 2801
 #define SPEED_TILT_MAX 2833
-#define SPEED_FACTOR 3
+#define SPEED_FACTOR 5
 
 class PTU{
 public:
