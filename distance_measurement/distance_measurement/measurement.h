@@ -7,12 +7,13 @@
 #include <thread>
 #include <mutex>
 
-#define LEFT 0
-#define RIGHT 1
+#define CENTER 0
+#define LEFT 1
+#define RIGHT 2
 
 class Measurement{
 public:
-	Measurement(double imagingDevicePixelSize, double lensFocalLength, double stereoBaselineLength, int VCC_Threshold = 12);
+	Measurement(double imagingDevicePixelSize, double lensFocalLength, double stereoBaselineLength, int VCC_Threshold = 12, bool centerCamera = false, double senterCameraFocalLength = 8.);
 	~Measurement();
 
 	void tracking(char* comPortNumber, int baudrate);
@@ -24,11 +25,17 @@ public:
 	double focalLength;
 	double baselineLength;
 
+	int VCC_Th;
+	bool centerCameraFlag;
+	double centerCameraFocalLength;
+
 	Camera *camera_L;
 	Camera *camera_R;
+	Camera *camera_C;
 
 	VCC *vcc_L;
 	VCC *vcc_R;
+	VCC *vcc_C;
 
 	//ï‚ê≥íl
 	double linear_a2;
@@ -61,8 +68,9 @@ public:
 	PanTilt trackingAngle;
 	PanTilt angle_L;
 	PanTilt angle_R;
+	PanTilt angle_C;
 
-	PanTilt angleCalculation(VCC *vcc);
+	PanTilt angleCalculation(VCC *vcc, double cameraFocalLength);
 
 	std::vector<double> prev_distances;
 

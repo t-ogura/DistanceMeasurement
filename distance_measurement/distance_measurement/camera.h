@@ -8,7 +8,7 @@
 #define CAMERA_GET_IMAGE_HEIGHT 960
 #define CAMERA_RESIZE_IMAGE_WIDTH 640
 #define CAMERA_RESIZE_IMAGE_HEIGHT 480
-#define CAMERA_FPS 25
+#define CAMERA_FPS 15
 #define CAMERA_EXPOSURE 41
 
 class Camera{
@@ -17,7 +17,7 @@ private:
 	bool cameraColorFlag;
 
 public:
-	Camera(int cameraID, bool cameraIsColor = false);
+	Camera(int cameraID, bool cameraIsColor = false, int FPS = CAMERA_FPS);
 	~Camera();
 
 	cv::Mat cameraImage;

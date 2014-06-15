@@ -37,14 +37,13 @@ int PTU::initialize(){
 	const auto start = std::chrono::system_clock::now();
 	unsigned short getBase = 1;
 	set_desired(PAN, BASE, (PTU_PARM_PTR*)&getBase, ABSOLUTE);
-	getBase = 1;
 	set_desired(TILT, BASE, (PTU_PARM_PTR*)&getBase, ABSOLUTE);
 
 	long a = 1;
 	set_desired(PAN, ACCELERATION, (PTU_PARM_PTR*)&a, ABSOLUTE);
 	set_desired(TILT, ACCELERATION, (PTU_PARM_PTR*)&a, ABSOLUTE);
 
-	short low_power = PTU_LOW_POWER;
+	short low_power = PTU_REG_POWER;
 	set_desired(PAN, HOLD_POWER_LEVEL, (PTU_PARM_PTR*)&low_power, ABSOLUTE);
 	set_desired(TILT, HOLD_POWER_LEVEL, (PTU_PARM_PTR*)&low_power, ABSOLUTE);
 	set_desired(PAN, MOVE_POWER_LEVEL, (PTU_PARM_PTR*)&low_power, ABSOLUTE);
@@ -56,8 +55,8 @@ int PTU::initialize(){
 int PTU::turn(double pan, double tilt){
 
 
-	pan *=0.2;
-	tilt *= 0.2;
+	pan *=0.4;
+	tilt *= 0.4;
 	{
 		short panPos = PAN_DEG2STEP(RAD2DEG(pan));
 		short tiltPos = TILT_DEG2STEP(RAD2DEG(tilt));
@@ -94,6 +93,6 @@ int PTU::turnHome(){
 int PTU::getPosition(){
 	this->panAngle = DEG2RAD(PAN_STEP2DEG(get_desired(PAN, POSITION)));
 	this->tiltAngle = DEG2RAD(TILT_STEP2DEG(get_desired(TILT, POSITION)));
-	std::cout << "pan:" << this->panAngle << " tilt:" << this->tiltAngle << std::endl;
+	//std::cout << "pan:" << this->panAngle << " tilt:" << this->tiltAngle << std::endl;
 	return 0;
 }

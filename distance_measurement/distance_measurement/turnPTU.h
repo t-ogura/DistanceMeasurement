@@ -3,7 +3,7 @@
 #include "ptu\include\ptu.h"
 
 #define _USE_MATH_DEFINES
-#include <cmath>
+#include <math.h>
 
 #define PAN_RES 11109
 #define TILT_RES 2777

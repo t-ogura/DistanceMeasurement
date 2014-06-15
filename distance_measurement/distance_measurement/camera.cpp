@@ -4,18 +4,18 @@
 #include "ewclib21/ewclib.h"     //cv.hより後でインクルードする
 #include <fstream>
 
-Camera::Camera(int cameraID, bool cameraIsColor){
+Camera::Camera(int cameraID, bool cameraIsColor,int FPS){
 	this->ID = cameraID;
 	this->cameraColorFlag = cameraIsColor;
 
 	int cameraInitialize;
 	if (this->cameraColorFlag){
 		this->cameraImage = cv::Mat(cv::Size(CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT), CV_8UC3);
-		cameraInitialize = EWC_Open(this->ID, CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT, CAMERA_FPS, this->ID, MEDIASUBTYPE_RGB24);
+		cameraInitialize = EWC_Open(this->ID, CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT, FPS, this->ID, MEDIASUBTYPE_RGB24);
 	}
 	else{
 		this->cameraImage = cv::Mat(cv::Size(CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT), CV_8UC1);
-		cameraInitialize = EWC_Open(this->ID, CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT, CAMERA_FPS, this->ID,MEDIASUBTYPE_RGB8);
+		cameraInitialize = EWC_Open(this->ID, CAMERA_GET_IMAGE_WIDTH, CAMERA_GET_IMAGE_HEIGHT, FPS, this->ID, MEDIASUBTYPE_RGB8);
 	}
 	this->colorImage = cv::Mat(cv::Size(CAMERA_RESIZE_IMAGE_WIDTH, CAMERA_RESIZE_IMAGE_HEIGHT), CV_8UC3);
 	this->grayImage = cv::Mat(cv::Size(CAMERA_RESIZE_IMAGE_WIDTH, CAMERA_RESIZE_IMAGE_HEIGHT), CV_8UC1);
