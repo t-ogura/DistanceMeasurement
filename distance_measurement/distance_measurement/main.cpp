@@ -7,6 +7,7 @@
 #include "form_connection.h"
 
 #include <winbase.h>
+#include <chrono>
 
 #define MAIN_PIXEL_SIZE       0.0075
 #define MAIN_FOCAL_LENGTH     16.0
@@ -19,6 +20,55 @@
 
 #define GNUPLOT_PATH "C:\\gnuplot\\bin\\gnuplot.exe"	// pgnuplotの場所
 
+int frame = 0;
+std::mutex mtx;
+
+std::list<double> frame_list;
+std::list<double> origin_list;
+std::list<double> dist_list;
+std::list<double> kf_list;
+
+int gnuplot(){
+	FILE *gnu;
+
+	if ((gnu = _popen(GNUPLOT_PATH, "w")) == NULL) {
+		printf("gnuplot open error!!\n");
+		exit(EXIT_FAILURE);	// エラーの場合は通常、異常終了する
+	}
+	//fprintf(gnu, "set size square\n");		// figureを正方形に
+	fprintf(gnu, "unset key\n");		// 凡例を表示しない
+	std::ofstream plot("plot.dat");
+	int prev_frame = 0;
+
+	while (1){
+		cv::waitKey(100);
+		mtx.lock();
+		std::list<double> frame_list_copy(frame_list);
+		std::list<double> origin_list_copy(origin_list);
+		std::list<double> dist_list_copy(dist_list);
+		std::list<double> kf_list_copy(kf_list);
+		mtx.unlock();
+		std::list<double>::iterator frame_it = frame_list_copy.begin();
+		std::list<double>::iterator origin_it = origin_list_copy.begin();
+		std::list<double>::iterator dist_it = dist_list_copy.begin();
+		std::list<double>::iterator kf_it = kf_list_copy.begin();
+		if (frame == prev_frame) continue;
+
+		std::ofstream plot("plot.dat");
+		while (frame_it != frame_list_copy.end() || origin_it != origin_list_copy.end() || dist_it != dist_list_copy.end() || kf_it != kf_list_copy.end()){
+			plot << *(frame_it++) << " " << *(origin_it++) << " " << *(dist_it++) << " " << *(kf_it++) << std::endl;
+		}
+		fprintf(gnu, "set title 'frame = %d'\n", frame); // タイトルを設定
+		fprintf(gnu, "plot [%d:%d][%lf:%lf] 'plot.dat' u 1:2 w l,\'plot.dat' u 1:3 w l ,\'plot.dat' u 1:4 w l \n", frame - 500, frame, *(--kf_it) - 500, *(--kf_it) + 500);	// gnuplotで点を描く
+		fflush(gnu);	// バッファに格納されているデータを吐き出す（必須）
+		plot.close();
+		prev_frame = *(frame_list.end());
+	}
+	fprintf(gnu, "exit\n"); // gnuplotの終了
+	fflush(gnu); // バッファに格納されているデータを吐き出す（必須）
+	return 0;
+}
+
 
 int main(){
 	Measurement measurement(MAIN_PIXEL_SIZE, MAIN_FOCAL_LENGTH, MAIN_BASELINE_LENGTH, 12, USE_CENTER_CAMERA, MAIN_CENTER_CAMERA_FOCAL_LENGTH);
@@ -28,17 +78,26 @@ int main(){
 	FormConnection connect;
 	measurement.threadTracking("\\\\.\\COM5",9600);
 
-	FILE *gnu;
-	if ((gnu = _popen(GNUPLOT_PATH, "w")) == NULL) {
-		printf("gnuplot open error!!\n");
-		exit(EXIT_FAILURE);	// エラーの場合は通常、異常終了する
-	}
-	fprintf(gnu, "set size square\n");		// figureを正方形に
-	fprintf(gnu, "unset key\n");		// 凡例を表示しない
-	int frame = 0;
-	std::ofstream plot("plot.dat");
+	std::thread gnu_thread(gnuplot);
 
 	while (1){
+		const auto start = std::chrono::system_clock::now();
+		mtx.lock();
+		if (frame > 0){
+			if (origin_list.size() > 500){
+				frame_list.pop_front();
+				origin_list.pop_front();
+				dist_list.pop_front();
+				kf_list.pop_front();
+			}
+			frame_list.push_back(frame);
+			origin_list.push_back(measurement.non_offset.original);
+			dist_list.push_back(measurement.distance.original);
+			kf_list.push_back(measurement.distance.kf);
+		}
+		frame++;
+		mtx.unlock();
+
 		int key = cv::waitKey(1);
 		if (key == 0x1b || key == 'q'){
 			break;
@@ -51,18 +110,17 @@ int main(){
 		int *param_C = measurement.vcc_C->matchingParameters;
 		view_L.show(measurement.camera_L->colorImage, *(param_L + 2), *(param_L + 3), *(param_L + 6), *(param_L + 7), true);
 		view_R.show(measurement.camera_R->colorImage, *(param_R + 2), *(param_R + 3), *(param_R + 6), *(param_R + 7), true);
-		if (*(param_C+8)>20)view_C.show(measurement.camera_C->colorImage, *(param_C + 2), *(param_C + 3), *(param_C + 6), *(param_C + 7), true);
+		cv::Mat tmp_gray;
+		cv::cvtColor(measurement.camera_C->colorImage,tmp_gray, CV_BGR2GRAY);
+		cv::Mat tmp_color;
+		cv::cvtColor(tmp_gray, tmp_color, CV_GRAY2BGR);
+		if (*(param_C + 8)>20)view_C.show(tmp_color, *(param_C + 2), *(param_C + 3), *(param_C + 6), *(param_C + 7), true);
 		connect.doSave(&measurement);
 		//cv::imshow("test", measurement.vcc_L->templateImage[measurement.vcc_L->targetDB_x][measurement.vcc_L->targetDB_y]);
-		std::ofstream plot("plot.dat", std::ios::app);
-		fprintf(gnu, "set title 'frame = %d'\n", frame++); // タイトルを設定
-		plot << frame << " " << measurement.non_offset.original << " " << measurement.distance.kf << std::endl;
-		fprintf(gnu, "plot [%d:%d][%lf:%lf] 'plot.dat' u 1:2 w l,\'plot.dat' u 1:3 w l \n", frame - 500, frame,measurement.distance.kf-500,measurement.distance.kf+500);	// gnuplotで点を描く
-		fflush(gnu);	// バッファに格納されているデータを吐き出す（必須）
-		plot.close();
+		const auto end = std::chrono::system_clock::now();
+		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 	}
-	fprintf(gnu, "exit\n"); // gnuplotの終了
-	fflush(gnu); // バッファに格納されているデータを吐き出す（必須）
+	gnu_thread.join();
 	measurement.trackingLoopFlag = false;
 	measurement.threadTrackingJoin();
 	return 0;

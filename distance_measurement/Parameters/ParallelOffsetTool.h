@@ -183,9 +183,9 @@ namespace Parameters {
 			// 
 			// true_value_box
 			// 
-			this->true_value_box->Location = System::Drawing::Point(48, 112);
+			this->true_value_box->Location = System::Drawing::Point(56, 112);
 			this->true_value_box->Name = L"true_value_box";
-			this->true_value_box->Size = System::Drawing::Size(59, 19);
+			this->true_value_box->Size = System::Drawing::Size(53, 19);
 			this->true_value_box->TabIndex = 5;
 			this->true_value_box->Text = L"0.0";
 			this->true_value_box->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
@@ -197,15 +197,15 @@ namespace Parameters {
 			this->true_value_label->AutoSize = true;
 			this->true_value_label->Location = System::Drawing::Point(13, 115);
 			this->true_value_label->Name = L"true_value_label";
-			this->true_value_label->Size = System::Drawing::Size(29, 12);
+			this->true_value_label->Size = System::Drawing::Size(43, 12);
 			this->true_value_label->TabIndex = 4;
-			this->true_value_label->Text = L"真値";
+			this->true_value_label->Text = L"Correct";
 			// 
 			// measure_vaule_box
 			// 
-			this->measure_vaule_box->Location = System::Drawing::Point(160, 112);
+			this->measure_vaule_box->Location = System::Drawing::Point(163, 112);
 			this->measure_vaule_box->Name = L"measure_vaule_box";
-			this->measure_vaule_box->Size = System::Drawing::Size(59, 19);
+			this->measure_vaule_box->Size = System::Drawing::Size(56, 19);
 			this->measure_vaule_box->TabIndex = 7;
 			this->measure_vaule_box->Text = L"0.0";
 			this->measure_vaule_box->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
@@ -216,9 +216,9 @@ namespace Parameters {
 			this->label1->AutoSize = true;
 			this->label1->Location = System::Drawing::Point(115, 115);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(41, 12);
+			this->label1->Size = System::Drawing::Size(48, 12);
 			this->label1->TabIndex = 6;
-			this->label1->Text = L"計測値";
+			this->label1->Text = L"Measure";
 			this->label1->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::label1_Click);
 			// 
 			// get_distance_button
@@ -229,7 +229,7 @@ namespace Parameters {
 			this->get_distance_button->Name = L"get_distance_button";
 			this->get_distance_button->Size = System::Drawing::Size(47, 19);
 			this->get_distance_button->TabIndex = 8;
-			this->get_distance_button->Text = L"取得";
+			this->get_distance_button->Text = L"Get";
 			this->get_distance_button->UseVisualStyleBackColor = true;
 			this->get_distance_button->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::get_distance_button_Click);
 			// 
@@ -241,7 +241,7 @@ namespace Parameters {
 			this->add_button->Name = L"add_button";
 			this->add_button->Size = System::Drawing::Size(58, 19);
 			this->add_button->TabIndex = 9;
-			this->add_button->Text = L"追加";
+			this->add_button->Text = L"Add";
 			this->add_button->UseVisualStyleBackColor = true;
 			this->add_button->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::add_button_Click);
 			// 
@@ -277,7 +277,7 @@ namespace Parameters {
 			this->delete_button->Name = L"delete_button";
 			this->delete_button->Size = System::Drawing::Size(58, 19);
 			this->delete_button->TabIndex = 15;
-			this->delete_button->Text = L"削除";
+			this->delete_button->Text = L"Delete";
 			this->delete_button->UseVisualStyleBackColor = true;
 			this->delete_button->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::delete_button_Click);
 			// 
@@ -289,7 +289,7 @@ namespace Parameters {
 			this->exit_button->Name = L"exit_button";
 			this->exit_button->Size = System::Drawing::Size(58, 19);
 			this->exit_button->TabIndex = 16;
-			this->exit_button->Text = L"適用";
+			this->exit_button->Text = L"Apply";
 			this->exit_button->UseVisualStyleBackColor = true;
 			this->exit_button->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::exit_button_Click);
 			// 
@@ -301,7 +301,7 @@ namespace Parameters {
 			this->import->Name = L"import";
 			this->import->Size = System::Drawing::Size(58, 19);
 			this->import->TabIndex = 17;
-			this->import->Text = L"読込";
+			this->import->Text = L"Import";
 			this->import->UseVisualStyleBackColor = true;
 			this->import->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::import_Click);
 			// 
@@ -313,7 +313,7 @@ namespace Parameters {
 			this->output->Name = L"output";
 			this->output->Size = System::Drawing::Size(58, 19);
 			this->output->TabIndex = 18;
-			this->output->Text = L"出力";
+			this->output->Text = L"Export";
 			this->output->UseVisualStyleBackColor = true;
 			this->output->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::output_Click);
 			// 
@@ -325,7 +325,7 @@ namespace Parameters {
 			this->up_button->Name = L"up_button";
 			this->up_button->Size = System::Drawing::Size(58, 19);
 			this->up_button->TabIndex = 13;
-			this->up_button->Text = L"上へ";
+			this->up_button->Text = L"Up";
 			this->up_button->UseVisualStyleBackColor = true;
 			this->up_button->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::up_button_Click);
 			// 
@@ -337,7 +337,7 @@ namespace Parameters {
 			this->down_button->Name = L"down_button";
 			this->down_button->Size = System::Drawing::Size(58, 19);
 			this->down_button->TabIndex = 14;
-			this->down_button->Text = L"下へ";
+			this->down_button->Text = L"Down";
 			this->down_button->UseVisualStyleBackColor = true;
 			this->down_button->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::down_button_Click);
 			// 
@@ -348,9 +348,9 @@ namespace Parameters {
 			// 
 			// base_length
 			// 
-			this->base_length->Location = System::Drawing::Point(60, 73);
+			this->base_length->Location = System::Drawing::Point(15, 72);
 			this->base_length->Name = L"base_length";
-			this->base_length->Size = System::Drawing::Size(36, 19);
+			this->base_length->Size = System::Drawing::Size(67, 19);
 			this->base_length->TabIndex = 20;
 			this->base_length->Text = L"300";
 			this->base_length->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
@@ -358,11 +358,11 @@ namespace Parameters {
 			// base_length_label
 			// 
 			this->base_length_label->AutoSize = true;
-			this->base_length_label->Location = System::Drawing::Point(13, 76);
+			this->base_length_label->Location = System::Drawing::Point(13, 54);
 			this->base_length_label->Name = L"base_length_label";
-			this->base_length_label->Size = System::Drawing::Size(41, 12);
+			this->base_length_label->Size = System::Drawing::Size(69, 12);
 			this->base_length_label->TabIndex = 19;
-			this->base_length_label->Text = L"基線長";
+			this->base_length_label->Text = L"Base Length";
 			// 
 			// saveFileDialog1
 			// 
@@ -387,8 +387,8 @@ namespace Parameters {
 			// toolStripStatusLabel1
 			// 
 			this->toolStripStatusLabel1->Name = L"toolStripStatusLabel1";
-			this->toolStripStatusLabel1->Size = System::Drawing::Size(260, 18);
-			this->toolStripStatusLabel1->Text = L"補正値の算出には４組以上のデータが必要です";
+			this->toolStripStatusLabel1->Size = System::Drawing::Size(271, 18);
+			this->toolStripStatusLabel1->Text = L"Need 4+ data for computing correction value";
 			this->toolStripStatusLabel1->Click += gcnew System::EventHandler(this, &ParallelOffsetTool::toolStripStatusLabel1_Click);
 			// 
 			// linear_a1
@@ -470,9 +470,9 @@ namespace Parameters {
 			this->label8->AutoSize = true;
 			this->label8->Location = System::Drawing::Point(138, 9);
 			this->label8->Name = L"label8";
-			this->label8->Size = System::Drawing::Size(41, 12);
+			this->label8->Size = System::Drawing::Size(131, 12);
 			this->label8->TabIndex = 31;
-			this->label8->Text = L"補正値";
+			this->label8->Text = L"Quadratic Approximation";
 			// 
 			// ParallelOffsetTool
 			// 
@@ -704,7 +704,7 @@ private: System::Void output_Click(System::Object^  sender, System::EventArgs^  
 			 SaveFileDialog^ sfdlg = gcnew SaveFileDialog();
 			 String ^path = Path::GetFullPath("tool.cfg\\");
 			 sfdlg->InitialDirectory = path;
-			 sfdlg->Filter = "設定ファイル(*cfg)|*.cfg";
+			 sfdlg->Filter = "Configuration file(*cfg)|*.cfg";
 			 if (sfdlg->ShowDialog() != Windows::Forms::DialogResult::OK) return;
 			 fname = sfdlg->FileName;
 			 StreamWriter^ swriter = gcnew StreamWriter(fname);
@@ -720,9 +720,9 @@ private: System::Void output_Click(System::Object^  sender, System::EventArgs^  
 			 array<Char>^ splitchar = split->ToCharArray();
 			 array<String^>^ words;
 			 words = fname->Split(splitchar);
-			 notice = "[";
+			 notice = "Exported file[";
 			 notice += words[words->Length - 1];
-			 notice += "]を書き込みました";
+			 notice += "]";
 			 this->toolStripStatusLabel1->Text = notice;
 }
 private: System::Void saveFileDialog1_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
@@ -734,7 +734,7 @@ private: System::Void import_Click(System::Object^  sender, System::EventArgs^  
 			 OpenFileDialog^ ofdlg = gcnew OpenFileDialog();
 			 String ^path = Path::GetFullPath("tool.cfg\\");
 			 ofdlg->InitialDirectory = path;
-			 ofdlg->Filter = "設定ファイル(*cfg)|*.cfg";
+			 ofdlg->Filter = "Configuration file(*cfg)|*.cfg";
 			 if (ofdlg->ShowDialog() != Windows::Forms::DialogResult::OK) return;
 			 this->true_list->Items->Clear();
 			 this->measure_list->Items->Clear();
@@ -754,9 +754,9 @@ private: System::Void import_Click(System::Object^  sender, System::EventArgs^  
 			 array<Char>^ splitchar = split->ToCharArray();
 			 array<String^>^ words;
 			 words = fname->Split(splitchar);
-			 notice = "[";
+			 notice = "Imported file[";
 			 notice += words[words->Length-1];
-			 notice += "]を読み込みました";
+			 notice += "]";
 			 this->toolStripStatusLabel1->Text = notice;
 }
 private: System::Void toolStripStatusLabel1_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -777,9 +777,9 @@ public: System::Void savePrevData(){
 			 array<Char>^ splitchar = split->ToCharArray();
 			 array<String^>^ words;
 			 words = fname->Split(splitchar);
-			 notice = "[";
+			 notice = "Exported file[";
 			 notice += words[words->Length - 1];
-			 notice += "]を書き込みました";
+			 notice += "]";
 			 this->toolStripStatusLabel1->Text = notice;
 }
 public: System::Void readPrevData(){
@@ -802,9 +802,9 @@ public: System::Void readPrevData(){
 			 array<Char>^ splitchar = split->ToCharArray();
 			 array<String^>^ words;
 			 words = fname->Split(splitchar);
-			 notice = "[";
+			 notice = "Import file[";
 			 notice += words[words->Length - 1];
-			 notice += "]を読み込みました";
+			 notice += "]";
 			 this->toolStripStatusLabel1->Text = notice;
 }
 public: System::Void ApplyOffset();

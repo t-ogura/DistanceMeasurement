@@ -11,7 +11,7 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	this->camera_L = new Camera(LEFT);
 	this->camera_R = new Camera(RIGHT);
 	if (this->centerCameraFlag){
-		this->camera_C = new Camera(CENTER,false,25);
+		this->camera_C = new Camera(CENTER,true,25);
 	}
 
 	this->VCC_Th = VCC_Threshold;
@@ -21,6 +21,7 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	if (this->centerCameraFlag){
 		this->vcc_C = new VCC(this->VCC_Th);
 		this->vcc_C->kalmanFlag = false;
+		this->vcc_C->allSeekThreshold = 200;
 	}
 	this->vcc_L->kalmanInitialize(VCC_INPUT_IMAGE_SIZE_X / 2, VCC_INPUT_IMAGE_SIZE_Y / 2); //TEST
 	this->vcc_R->kalmanInitialize(VCC_INPUT_IMAGE_SIZE_X / 2, VCC_INPUT_IMAGE_SIZE_Y / 2); //TEST
@@ -35,7 +36,7 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	this->kalmanInitialize();
 
 	this->trackingLoopFlag = false;
-	this->trackingState = "–¢‰Ò“­";
+	this->trackingState = "No connect";
 	this->trackingThreshold = 170;
 	this->trackingHomeFlag = false;
 	this->trackingMoveFlag = true;
@@ -69,20 +70,19 @@ void Measurement::kalmanInitialize(){
 }
 
 void Measurement::tracking(char* com, int baudrate){
-	this->trackingState = "‰Šú‰»’†";
 	PTU ptu(com, baudrate);
 	//ptu.turnHome();
 	Sleep(2000);
 	ptu.setSpeed();
-	this->trackingState = "‰Ò“­’†";
+	this->trackingState = "Working";
 	while (this->trackingLoopFlag){
 		if (this->trackingHomeFlag){
-			this->trackingState = "ƒz[ƒ€‚Ö";
+			this->trackingState = "Turn home";
 			ptu.turnHome();
 			Sleep(2000);
 			ptu.setSpeed();
 			this->trackingHomeFlag = false;
-			this->trackingState = "‰Ò“­’†";
+			this->trackingState = "Working";
 		}
 		ptu.getPosition();
 		PanTilt pt, my;
@@ -108,12 +108,13 @@ void Measurement::tracking(char* com, int baudrate){
 			this->trackingTiming = false;
 		}
 		if (this->trackingMoveFlag){
-			this->trackingState = "‰Ò“­’†";
+			this->trackingState = "Working";
 			if (this->centerCameraFlag){
 				int mC = this->vcc_C->matchingParameters[8];
+				//std::cout << this->vcc_C->matchingParameters[8] << std::endl;
 				if (mC < this->trackingThreshold){
 					ptu.turn(this->angle_C.pan, this->angle_C.tilt);
-					std::cout << "pan[" << RAD2DEG(this->angle_C.pan) << "]\ttilt[" << RAD2DEG(this->angle_C.tilt) << "]" << std::endl;
+					//std::cout << "pan[" << RAD2DEG(this->angle_C.pan) << "]\ttilt[" << RAD2DEG(this->angle_C.tilt) << "]" << std::endl;
 				}
 				else{ ptu.turn(0, 0); }
 			}
@@ -129,7 +130,7 @@ void Measurement::tracking(char* com, int baudrate){
 			}
 		}
 		else{
-			this->trackingState = "’âŽ~’†";
+			this->trackingState = "Stoping";
 		}
 	}
 }
@@ -178,9 +179,11 @@ void Measurement::measure(){
 				prev_distances[i - 1] = prev_distances[i];
 			}
 			prev_distances.pop_back();
-			prev_distances.push_back(this->distance.original);
+			prev_distances.push_back(non_offset.original);
 		}
 	}
+	double prev_dist_kf = this->distance.kf;
+	double prev_dist_mid = this->distance.mid;
 	double prev_average_distance = 0;
 	for (int i = 0; i < prev_distances.size(); i++){
 		prev_average_distance += prev_distances[i];
@@ -194,7 +197,8 @@ void Measurement::measure(){
 	if (angle_L.pan + angle_R.pan < 0) this->distance.theta *= -1;
 	cv::Mat prediction = this->KF->predict();
 	double predictDist = prediction.at<float>(0);
-	if (fabs(this->distance.mid - prev_average_distance)>200) (*this->KF_Measurement)(0) = prev_distances[prev_distances.size()-1];
+	if (fabs(this->non_offset.mid - prev_average_distance)>200){ (*this->KF_Measurement)(0) = prev_dist_kf;}
+	else if (this->vcc_L->matchingParameters[8] > 180 && this->vcc_R->matchingParameters[8] > 180){ (*this->KF_Measurement)(0) = prev_dist_kf; }
 	else (*this->KF_Measurement)(0) = this->distance.mid;
 	cv::Mat estimated = this->KF->correct((*this->KF_Measurement));
 	this->distance.kf = estimated.at<float>(0);
