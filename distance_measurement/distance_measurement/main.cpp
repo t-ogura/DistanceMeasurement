@@ -16,6 +16,8 @@
 #define USE_CENTER_CAMERA true
 #define OUTPUT_FILENAME "../param_files/send.param"
 #define INPUT_FILENAME "../param_files/receive.param"
+#define CENTER_OUTPUT_FILENAME "../param_files/center_send.param"
+#define CENTER_INPUT_FILENAME "../param_files/center_receive.param"
 
 
 #define GNUPLOT_PATH "C:\\gnuplot\\bin\\gnuplot.exe"	// pgnuplot�̏ꏊ
@@ -74,7 +76,8 @@ int main(){
 	Measurement measurement(MAIN_PIXEL_SIZE, MAIN_FOCAL_LENGTH, MAIN_BASELINE_LENGTH, 12, USE_CENTER_CAMERA, MAIN_CENTER_CAMERA_FOCAL_LENGTH);
 	View view_L("LEFT", 320, 400);
 	View view_R("RIGHT", 670, 400);
-	View view_C("CENTER", 515, 100);
+	View *view_C;
+	if (USE_CENTER_CAMERA) view_C = new View("CENTER", 515, 100);
 	FormConnection connect;
 	measurement.threadTracking("\\\\.\\COM5",9600);
 
@@ -104,17 +107,24 @@ int main(){
 		}
 		connect.input(&measurement, INPUT_FILENAME);
 		connect.output(&measurement, OUTPUT_FILENAME);
+		if (USE_CENTER_CAMERA){
+			measurement.mtx.lock();
+			connect.center_input(&measurement, CENTER_INPUT_FILENAME);
+			connect.center_output(&measurement, CENTER_OUTPUT_FILENAME);
+			measurement.mtx.unlock();
+		}
 		measurement.measure();
 		int *param_L = measurement.vcc_L->matchingParameters;
 		int *param_R = measurement.vcc_R->matchingParameters;
-		int *param_C = measurement.vcc_C->matchingParameters;
+		int *param_C;
+		if (USE_CENTER_CAMERA) param_C = measurement.vcc_C->matchingParameters;
 		view_L.show(measurement.camera_L->colorImage, *(param_L + 2), *(param_L + 3), *(param_L + 6), *(param_L + 7), true);
 		view_R.show(measurement.camera_R->colorImage, *(param_R + 2), *(param_R + 3), *(param_R + 6), *(param_R + 7), true);
 		cv::Mat tmp_gray;
 		cv::cvtColor(measurement.camera_C->colorImage,tmp_gray, CV_BGR2GRAY);
 		cv::Mat tmp_color;
 		cv::cvtColor(tmp_gray, tmp_color, CV_GRAY2BGR);
-		if (*(param_C + 8)>20)view_C.show(tmp_color, *(param_C + 2), *(param_C + 3), *(param_C + 6), *(param_C + 7), true);
+		if (USE_CENTER_CAMERA) if (*(param_C + 8)>20) view_C->show(tmp_color, *(param_C + 2), *(param_C + 3), *(param_C + 6), *(param_C + 7), true);
 		connect.doSave(&measurement);
 		//cv::imshow("test", measurement.vcc_L->templateImage[measurement.vcc_L->targetDB_x][measurement.vcc_L->targetDB_y]);
 		const auto end = std::chrono::system_clock::now();

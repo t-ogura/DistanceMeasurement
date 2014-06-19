@@ -13,7 +13,9 @@ public:
 	FormConnection();
 	~FormConnection();
 	int output(Measurement *m, std::string filename);
+	int center_output(Measurement *m, std::string filename);
 	int input(Measurement *m, std::string filename);
+	int center_input(Measurement *m, std::string filename);
 	int doSave(Measurement *m);
 
 private:
@@ -30,8 +32,10 @@ private:
 
 	bool db_reset_ack_l;
 	bool db_reset_ack_r;
+	bool db_reset_ack_c;
 	bool db_all_ack_l;
 	bool db_all_ack_r;
+	bool db_all_ack_c;
 	bool save_ack;
 	bool plat_home_ack;
 	bool plat_move_ack;
@@ -41,8 +45,10 @@ private:
 FormConnection::FormConnection(){
 	db_reset_ack_l = false;
 	db_reset_ack_r = false;
+	db_reset_ack_c = false;
 	db_all_ack_l = false;
 	db_all_ack_r = false;
+	db_all_ack_c = false;
 	save_ack = false;
 	plat_home_ack = false;
 	plat_move_ack = false;
@@ -64,7 +70,7 @@ int FormConnection::input(Measurement *m, std::string filename){
 	std::string _save_folder_name, _save_file_name;
 	int _save_frame_num;
 	bool save_csv_flag;
-	
+
 	std::string str;
 	int i = 0;
 	while (in && std::getline(in, str)){
@@ -102,6 +108,31 @@ int FormConnection::input(Measurement *m, std::string filename){
 		if (i == 31){ if (str == "T") { setSave(_save_folder_name, _save_file_name, _save_frame_num, save_csv_flag); this->save_ack = true; } }
 	}
 
+	in.close();
+	return 0;
+}
+
+int FormConnection::center_input(Measurement *m, std::string filename){
+	std::ifstream in(filename);
+	if (in.fail())return -1;
+	std::string _save_folder_name, _save_file_name;
+	int _save_frame_num;
+	bool save_csv_flag;
+
+	std::string str;
+	int i = 0;
+	while (in && std::getline(in, str)){
+		i++;
+		if (i == 1){ std::stringstream ss; ss << str; ss >> m->centerCameraFocalLength; }
+		if (i == 2){ if (str == "T") m->vcc_C->allSeekFlag = true; else m->vcc_C->allSeekFlag = false; }
+		if (i == 3){ std::stringstream ss; ss << str; ss >> m->vcc_C->allSeekThreshold; }
+		if (i == 4){ if (str == "T") m->vcc_C->databaseFlag = true; else m->vcc_C->databaseFlag = false; }
+		if (i == 5){ std::stringstream ss; ss << str; ss >> m->vcc_C->databaseSearchThreshold; }
+		if (i == 6){ if (str == "T") { m->vcc_C->databaseClearFlag = true; db_reset_ack_c = true; } }
+		if (i == 7){ if (str == "T") { m->vcc_C->databaseAllSearchFlag = true; false; db_all_ack_c = true; } }
+		if (i == 8){ if (str == "T") m->vcc_C->subpixelFlag = true; else m->vcc_C->subpixelFlag = false; }
+		if (i == 9){ if (str == "T") m->vcc_C->kalmanFlag = true; else m->vcc_C->kalmanFlag = false; }
+	}
 	in.close();
 	return 0;
 }
@@ -152,6 +183,26 @@ int FormConnection::output(Measurement *m, std::string filename){
 	/* 29 */out << this->save_state << std::endl;
 	/* 30 */if (save_ack) out << "T" << std::endl; else out << "F" << std::endl;
 	/* -- */save_ack = false;
+	/* -- */
+	/* -- */out.close();
+	/* -- */return 0;
+}
+
+int FormConnection::center_output(Measurement *m, std::string filename){
+
+	/* -- *///‘‚«ž‚Ýˆ—
+	/* -- */std::ofstream out(filename);
+	/* -- */if (out.fail()) return -1;
+	/* 01 */out << m->vcc_C->matchingParameters[2] << std::endl;
+	/* 02 */out << m->vcc_C->matchingParameters[3] << std::endl;
+	/* 03 */out << m->vcc_C->targetDB_x << std::endl;
+	/* 04 */out << m->vcc_C->targetDB_y << std::endl;
+	/* 05 */out << m->vcc_C->matchingParameters[8] << std::endl;
+	/* -- *///ack
+	/* 06 */if (db_reset_ack_c) out << "T" << std::endl; else out << "F" << std::endl;
+	/* 07 */if (db_all_ack_c) out << "T" << std::endl; else out << "F" << std::endl;
+	/* -- */db_reset_ack_c = false;
+	/* -- */db_all_ack_c = false;
 	/* -- */
 	/* -- */out.close();
 	/* -- */return 0;

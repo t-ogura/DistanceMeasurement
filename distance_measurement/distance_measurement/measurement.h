@@ -73,6 +73,7 @@ public:
 	PanTilt angleCalculation(VCC *vcc, double cameraFocalLength);
 
 	std::vector<double> prev_distances;
+	std::mutex mtx;
 
 private:
 
@@ -89,7 +90,6 @@ private:
 
 	std::thread vccThread_L;
 	std::thread vccThread_R;
-	std::mutex mtx;
 };
 
 #endif
