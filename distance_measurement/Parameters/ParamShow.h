@@ -2789,8 +2789,8 @@ private: System::Void server_output(){
 				 if (this->b_radio->Checked) dir += "\\B";
 				 StreamWriter^ swriter = gcnew StreamWriter(dir);
 				 swriter->WriteLine(this->label3->Text);
-				 swriter->WriteLine(this->platform_pan->Text);
-				 swriter->WriteLine(this->platform_tilt->Text);
+				 swriter->WriteLine(Convert::ToDouble(this->platform_pan->Text) + Convert::ToDouble(this->theta->Text));
+				 swriter->WriteLine(Convert::ToDouble(this->platform_tilt->Text) + Convert::ToDouble(this->move_tilt->Text));
 				 swriter->Close();
 			 }
 }

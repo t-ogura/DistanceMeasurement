@@ -7,9 +7,9 @@
 #include <thread>
 #include <mutex>
 
-#define CENTER 0
-#define LEFT 1
-#define RIGHT 2
+#define CENTER 2
+#define LEFT 0
+#define RIGHT 1
 
 class Measurement{
 public:
