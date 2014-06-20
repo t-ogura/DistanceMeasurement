@@ -40,11 +40,11 @@ System::Void MainForm::vessel_pose_view(double &common_angle, double &common_x, 
 	int tb = SCALE / 2. + targetLength / maxsize*SCALE / 2.;
 	cv::rectangle(viewImage, cv::Rect(ta - 15, SCALE*0.1-15, 30, 30), cv::Scalar(0, 255, 0), 5);
 	cv::rectangle(viewImage, cv::Rect(tb - 15, SCALE*0.1 - 15, 30, 30), cv::Scalar(0, 255, 0), 5);
-	double measure_a_x = -1 * sin(aPan)*aDist - targetLength / 2.;
+	double measure_a_x = -1 * sin(aPan)*aDist - measureLength / 2.;
 	double measure_a_y = cos(aPan)*aDist;
-	double measure_b_x = -1 * sin(bPan)*bDist + targetLength / 2.;
+	double measure_b_x = -1 * sin(bPan)*bDist + measureLength / 2.;
 	double measure_b_y = cos(bPan)*bDist;
-	double vessel_angle = atan( (measure_a_y - measure_b_y)/(measure_a_x - measure_b_x));
+	double vessel_angle = atan2( measure_a_y - measure_b_y, measure_a_x - measure_b_x);
 	common_angle = vessel_angle;
 	common_x = (measure_a_x - measure_b_x) / 2.;
 	common_y = (measure_a_y - measure_b_y) / 2.;
