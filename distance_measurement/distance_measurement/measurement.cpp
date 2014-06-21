@@ -41,6 +41,8 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	this->trackingHomeFlag = false;
 	this->trackingMoveFlag = true;
 	this->trackingTiming = false;
+	this->outControlFlag = false;
+	this->outControlAbs = false;
 
 	this->linear_a2 = 0.0;
 	this->linear_a1 = 0.0;
@@ -107,13 +109,37 @@ void Measurement::tracking(char* com, int baudrate){
 			while (!this->trackingTiming)cv::waitKey(1);
 			this->trackingTiming = false;
 		}
+		this->mtx.lock();
+		bool pcFlag = this->outControlFlag;
+		this->mtx.unlock();
+		if (pcFlag){
+			this->mtx.lock();
+			this->trackingMoveFlag = false;
+			bool abs = this->outControlAbs;
+			PanTilt movePT = this->outControlPT;
+			this->mtx.unlock();
+			if (abs){
+				ptu.turn(movePT.pan, movePT.tilt, true);
+				this->mtx.lock();
+				this->outControlAbs = false;
+				this->mtx.unlock();
+			}
+			else{
+				ptu.turn(movePT.pan, movePT.tilt);
+			}
+
+			this->mtx.lock();
+			this->outControlFlag = false;
+			this->mtx.unlock();
+		}
+
 		if (this->trackingMoveFlag){
 			this->trackingState = "Working";
 			if (this->centerCameraFlag){
 				int mC = this->vcc_C->matchingParameters[8];
 				//std::cout << this->vcc_C->matchingParameters[8] << std::endl;
 				if (mC < this->trackingThreshold){
-					ptu.turn(this->angle_C.pan, this->angle_C.tilt);
+					ptu.turn(this->angle_C.pan*0.4, this->angle_C.tilt*0.4);
 					//std::cout << "pan[" << RAD2DEG(this->angle_C.pan) << "]\ttilt[" << RAD2DEG(this->angle_C.tilt) << "]" << std::endl;
 				}
 				else{ ptu.turn(0, 0); }
@@ -124,7 +150,7 @@ void Measurement::tracking(char* com, int baudrate){
 				int mR = this->vcc_R->matchingParameters[8];
 				this->mtx.unlock();
 				if (mL < this->trackingThreshold && mR < this->trackingThreshold){
-					ptu.turn(pt.pan, pt.tilt);
+					ptu.turn(pt.pan*0.4, pt.tilt*0.4);
 				}
 				else{ ptu.turn(0, 0); }
 			}

@@ -47,6 +47,9 @@ public:
 	bool trackingTiming;
 	bool trackingHomeFlag;
 	bool trackingMoveFlag;
+	bool outControlFlag;
+	bool outControlAbs;
+
 
 	int trackingThreshold;
 	std::string trackingState;
@@ -69,6 +72,8 @@ public:
 	PanTilt angle_L;
 	PanTilt angle_R;
 	PanTilt angle_C;
+
+	PanTilt outControlPT;
 
 	PanTilt angleCalculation(VCC *vcc, double cameraFocalLength);
 

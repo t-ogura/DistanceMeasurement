@@ -14,12 +14,16 @@ public:
 	~FormConnection();
 	int output(Measurement *m, std::string filename);
 	int center_output(Measurement *m, std::string filename);
+	int platform_output(Measurement *m, std::string filename);
 	int input(Measurement *m, std::string filename);
 	int center_input(Measurement *m, std::string filename);
+	int platform_input(Measurement *m, std::string filename);
 	int doSave(Measurement *m);
 
 private:
 	int setSave(std::string folder_name, std::string file_name, int frame_num, bool csv_log);
+	int control_platform(Measurement *m, std::string direction, double step_deg);
+	int control_platform(Measurement *m, std::string direction, double pan, double tilt);
 
 	std::string save_folder_name, save_file_name, save_file_path;
 	int save_frame_num;
@@ -40,6 +44,7 @@ private:
 	bool plat_home_ack;
 	bool plat_move_ack;
 	bool plat_stop_ack;
+	bool pc_ok;
 };
 
 FormConnection::FormConnection(){
@@ -53,6 +58,7 @@ FormConnection::FormConnection(){
 	plat_home_ack = false;
 	plat_move_ack = false;
 	plat_stop_ack = false;
+	pc_ok = false;
 	save_frame_num = 0;
 	std::string str = SAVE_FILE_DIR;
 	str += "NULL";
@@ -115,9 +121,6 @@ int FormConnection::input(Measurement *m, std::string filename){
 int FormConnection::center_input(Measurement *m, std::string filename){
 	std::ifstream in(filename);
 	if (in.fail())return -1;
-	std::string _save_folder_name, _save_file_name;
-	int _save_frame_num;
-	bool save_csv_flag;
 
 	std::string str;
 	int i = 0;
@@ -135,6 +138,96 @@ int FormConnection::center_input(Measurement *m, std::string filename){
 	}
 	in.close();
 	return 0;
+}
+
+int FormConnection::control_platform(Measurement *m, std::string direction, double step_deg){
+	if (direction == "UP"){
+		m->outControlFlag = true;
+		Measurement::PanTilt pt;
+		pt.pan = 0;
+		pt.tilt = DEG2RAD(-step_deg);
+		m->outControlPT = pt;
+	}
+	else if (direction == "DOWN"){
+		m->outControlFlag = true;
+		Measurement::PanTilt pt;
+		pt.pan = 0;
+		pt.tilt = DEG2RAD(step_deg);
+		m->outControlPT = pt;
+	}
+	else if (direction == "LEFT"){
+		m->outControlFlag = true;
+		Measurement::PanTilt pt;
+		pt.pan = DEG2RAD(-step_deg);
+		pt.tilt = 0;
+		m->outControlPT = pt;
+	}
+	else if (direction == "RIGHT"){
+		m->outControlFlag = true;
+		Measurement::PanTilt pt;
+		pt.pan = DEG2RAD(step_deg);
+		pt.tilt = 0;
+		m->outControlPT = pt;
+	}
+	else{
+		return 0;
+	}
+	this->pc_ok = true;
+	return 0;
+}
+
+int FormConnection::control_platform(Measurement *m, std::string direction, double pan, double tilt){
+		if (direction == "ABSOLUTE"){
+			m->outControlFlag = true;
+			m->outControlAbs = true;
+			Measurement::PanTilt pt;
+			pt.pan = DEG2RAD(pan);
+			pt.tilt = DEG2RAD(tilt);
+			m->outControlPT = pt;
+		}
+		else if (direction == "RELATIVE"){
+			m->outControlFlag = true;
+			Measurement::PanTilt pt;
+			pt.pan = DEG2RAD(pan);
+			pt.tilt = DEG2RAD(tilt);
+			m->outControlPT = pt;
+		}
+		else {
+			return 0;
+		}
+		this->pc_ok = true;
+		return 0;
+}
+
+int FormConnection::platform_input(Measurement *m, std::string filename){
+	std::ifstream in(filename);
+	if (in.fail())return -1;
+	double platform_deg;
+	double platform_pan,platform_tilt;
+
+	std::string str;
+	int i = 0;
+	while (in && std::getline(in, str)){
+		i++;
+		if (i == 1){ std::stringstream ss; ss << str; ss >> platform_deg; }
+		if (i == 2){ this->control_platform(m, str, platform_deg); }
+		if (i == 3){ std::stringstream ss; ss << str; ss >> platform_pan; }
+		if (i == 4){ std::stringstream ss; ss << str; ss >> platform_tilt; }
+		if (i == 5){ this->control_platform(m, str, platform_pan, platform_tilt); }
+	}
+	in.close();
+	return 0;
+}
+
+int FormConnection::platform_output(Measurement *m, std::string filename){
+
+	/* -- *///‘‚«‚İˆ—
+	/* -- */std::ofstream out(filename);
+	/* -- */if (out.fail()) return -1;
+	/* 01 */if (pc_ok) out << "T" << std::endl; else out << "F" << std::endl;
+	/* -- */pc_ok = false;
+	/* -- */out.close();
+	/* -- */return 0;
 }
 
 int FormConnection::output(Measurement *m, std::string filename){

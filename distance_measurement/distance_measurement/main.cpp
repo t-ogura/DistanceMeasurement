@@ -18,6 +18,8 @@
 #define INPUT_FILENAME "../param_files/receive.param"
 #define CENTER_OUTPUT_FILENAME "../param_files/center_send.param"
 #define CENTER_INPUT_FILENAME "../param_files/center_receive.param"
+#define PLATFORMCONTROLLER_OUTPUT_FILENAME "../param_files/pc_send.param"
+#define PLATFORMCONTROLLER_INPUT_FILENAME "../param_files/pc_receive.param"
 
 
 #define GNUPLOT_PATH "C:\\gnuplot\\bin\\gnuplot.exe"	// pgnuplot�̏ꏊ
@@ -107,6 +109,8 @@ int main(){
 		}
 		connect.input(&measurement, INPUT_FILENAME);
 		connect.output(&measurement, OUTPUT_FILENAME);
+		connect.platform_input(&measurement, PLATFORMCONTROLLER_INPUT_FILENAME);
+		connect.platform_output(&measurement, PLATFORMCONTROLLER_OUTPUT_FILENAME);
 		if (USE_CENTER_CAMERA){
 			measurement.mtx.lock();
 			connect.center_input(&measurement, CENTER_INPUT_FILENAME);

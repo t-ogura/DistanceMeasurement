@@ -52,12 +52,15 @@ int PTU::initialize(){
 	return 0;
 }
 
-int PTU::turn(double pan, double tilt){
+int PTU::turn(double pan, double tilt, bool absolute){
 
-
-	pan *=0.4;
-	tilt *= 0.4;
-	{
+	if (absolute){
+		short panPos = PAN_DEG2STEP(RAD2DEG(pan));
+		short tiltPos = TILT_DEG2STEP(RAD2DEG(tilt));
+		set_desired(PAN, POSITION, (PTU_PARM_PTR *)&panPos, ABSOLUTE);
+		set_desired(TILT, POSITION, (PTU_PARM_PTR *)&tiltPos, ABSOLUTE);
+	}
+	else{
 		short panPos = PAN_DEG2STEP(RAD2DEG(pan));
 		short tiltPos = TILT_DEG2STEP(RAD2DEG(tilt));
 		set_desired(PAN, POSITION, (PTU_PARM_PTR *)&panPos, RELATIVE);

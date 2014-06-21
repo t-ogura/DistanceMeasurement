@@ -7,7 +7,11 @@
 #define OUTFILE "../param_files/receive.param"
 #define CENTER_INPUT_FILENAME "../param_files/center_send.param"
 #define CENTER_OUTPUT_FILENAME "../param_files/center_receive.param"
+#define PLATFORMCONTROLLER_INPUT_FILENAME "../param_files/pc_send.param"
+#define PLATFORMCONTROLLER_OUTPUT_FILENAME "../param_files/pc_receive.param"
 
+#define DEG2RAD(X) (X/180.*M_PI)
+#define RAD2DEG(X) (X*180/M_PI)
 
 namespace Parameters {
 
@@ -271,6 +275,30 @@ private: System::Windows::Forms::Label^  db_yc;
 private: System::Windows::Forms::TextBox^  centercamera_focallength;
 private: System::Windows::Forms::Label^  label10;
 private: System::Windows::Forms::GroupBox^  groupBox6;
+private: System::Windows::Forms::GroupBox^  groupBox7;
+
+private: System::Windows::Forms::Label^  label1;
+private: System::Windows::Forms::NumericUpDown^  movestep;
+private: System::Windows::Forms::Button^  pc_absolute;
+
+
+private: System::Windows::Forms::TextBox^  pc_tilt;
+
+private: System::Windows::Forms::Label^  label20;
+private: System::Windows::Forms::TextBox^  pc_pan;
+
+private: System::Windows::Forms::Label^  label14;
+private: System::Windows::Forms::Button^  pc_down;
+
+private: System::Windows::Forms::Button^  pc_right;
+private: System::Windows::Forms::Button^  pc_left;
+
+
+private: System::Windows::Forms::Button^  pc_up;
+private: System::Windows::Forms::Button^  pc_relative;
+
+
+
 
 
 
@@ -419,6 +447,19 @@ private:
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
 			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
 			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
+			this->groupBox7 = (gcnew System::Windows::Forms::GroupBox());
+			this->pc_relative = (gcnew System::Windows::Forms::Button());
+			this->pc_absolute = (gcnew System::Windows::Forms::Button());
+			this->pc_tilt = (gcnew System::Windows::Forms::TextBox());
+			this->label20 = (gcnew System::Windows::Forms::Label());
+			this->pc_pan = (gcnew System::Windows::Forms::TextBox());
+			this->label14 = (gcnew System::Windows::Forms::Label());
+			this->pc_down = (gcnew System::Windows::Forms::Button());
+			this->pc_right = (gcnew System::Windows::Forms::Button());
+			this->pc_left = (gcnew System::Windows::Forms::Button());
+			this->pc_up = (gcnew System::Windows::Forms::Button());
+			this->movestep = (gcnew System::Windows::Forms::NumericUpDown());
+			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->tabPage4 = (gcnew System::Windows::Forms::TabPage());
 			this->groupBox5 = (gcnew System::Windows::Forms::GroupBox());
 			this->label7 = (gcnew System::Windows::Forms::Label());
@@ -481,6 +522,8 @@ private:
 			this->tabPage1->SuspendLayout();
 			this->tabPage2->SuspendLayout();
 			this->tabPage3->SuspendLayout();
+			this->groupBox7->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->movestep))->BeginInit();
 			this->tabPage4->SuspendLayout();
 			this->groupBox5->SuspendLayout();
 			this->tabPage5->SuspendLayout();
@@ -753,7 +796,7 @@ private:
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				31.31313F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				31)));
+				41)));
 			this->tableLayoutPanel1->Controls->Add(this->xl, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->yl, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->coodinatel, 0, 1);
@@ -777,9 +820,9 @@ private:
 			this->xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->xl->AutoSize = true;
-			this->xl->Location = System::Drawing::Point(71, 0);
+			this->xl->Location = System::Drawing::Point(64, 0);
 			this->xl->Name = L"xl";
-			this->xl->Size = System::Drawing::Size(25, 12);
+			this->xl->Size = System::Drawing::Size(22, 12);
 			this->xl->TabIndex = 0;
 			this->xl->Text = L"x";
 			this->xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -789,9 +832,9 @@ private:
 			this->yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->yl->AutoSize = true;
-			this->yl->Location = System::Drawing::Point(102, 0);
+			this->yl->Location = System::Drawing::Point(92, 0);
 			this->yl->Name = L"yl";
-			this->yl->Size = System::Drawing::Size(26, 12);
+			this->yl->Size = System::Drawing::Size(36, 12);
 			this->yl->TabIndex = 1;
 			this->yl->Text = L"y";
 			this->yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -803,7 +846,7 @@ private:
 			this->coodinatel->AutoSize = true;
 			this->coodinatel->Location = System::Drawing::Point(3, 19);
 			this->coodinatel->Name = L"coodinatel";
-			this->coodinatel->Size = System::Drawing::Size(62, 12);
+			this->coodinatel->Size = System::Drawing::Size(55, 19);
 			this->coodinatel->TabIndex = 2;
 			this->coodinatel->Text = L"Coordinate ";
 			this->coodinatel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -815,7 +858,7 @@ private:
 			this->databasel->AutoSize = true;
 			this->databasel->Location = System::Drawing::Point(3, 38);
 			this->databasel->Name = L"databasel";
-			this->databasel->Size = System::Drawing::Size(62, 12);
+			this->databasel->Size = System::Drawing::Size(55, 12);
 			this->databasel->TabIndex = 3;
 			this->databasel->Text = L"Database";
 			this->databasel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -826,9 +869,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_xl->AutoSize = true;
 			this->coor_xl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_xl->Location = System::Drawing::Point(71, 19);
+			this->coor_xl->Location = System::Drawing::Point(64, 19);
 			this->coor_xl->Name = L"coor_xl";
-			this->coor_xl->Size = System::Drawing::Size(25, 12);
+			this->coor_xl->Size = System::Drawing::Size(22, 19);
 			this->coor_xl->TabIndex = 4;
 			this->coor_xl->Text = L"000";
 			this->coor_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -839,9 +882,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_yl->AutoSize = true;
 			this->coor_yl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_yl->Location = System::Drawing::Point(102, 19);
+			this->coor_yl->Location = System::Drawing::Point(92, 19);
 			this->coor_yl->Name = L"coor_yl";
-			this->coor_yl->Size = System::Drawing::Size(26, 12);
+			this->coor_yl->Size = System::Drawing::Size(36, 12);
 			this->coor_yl->TabIndex = 5;
 			this->coor_yl->Text = L"000";
 			this->coor_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -851,9 +894,9 @@ private:
 			this->db_xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_xl->AutoSize = true;
-			this->db_xl->Location = System::Drawing::Point(71, 38);
+			this->db_xl->Location = System::Drawing::Point(64, 38);
 			this->db_xl->Name = L"db_xl";
-			this->db_xl->Size = System::Drawing::Size(25, 12);
+			this->db_xl->Size = System::Drawing::Size(22, 12);
 			this->db_xl->TabIndex = 6;
 			this->db_xl->Text = L"4";
 			this->db_xl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -863,9 +906,9 @@ private:
 			this->db_yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_yl->AutoSize = true;
-			this->db_yl->Location = System::Drawing::Point(102, 38);
+			this->db_yl->Location = System::Drawing::Point(92, 38);
 			this->db_yl->Name = L"db_yl";
-			this->db_yl->Size = System::Drawing::Size(26, 12);
+			this->db_yl->Size = System::Drawing::Size(36, 12);
 			this->db_yl->TabIndex = 7;
 			this->db_yl->Text = L"4";
 			this->db_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -1398,7 +1441,7 @@ private:
 			this->plat_th_box->Name = L"plat_th_box";
 			this->plat_th_box->Size = System::Drawing::Size(42, 19);
 			this->plat_th_box->TabIndex = 22;
-			this->plat_th_box->Text = L"200";
+			this->plat_th_box->Text = L"220";
 			this->plat_th_box->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
 			// plat_home_button
@@ -1417,7 +1460,7 @@ private:
 			this->plat_move_button->Name = L"plat_move_button";
 			this->plat_move_button->Size = System::Drawing::Size(43, 23);
 			this->plat_move_button->TabIndex = 3;
-			this->plat_move_button->Text = L"Move";
+			this->plat_move_button->Text = L"Auto";
 			this->plat_move_button->UseVisualStyleBackColor = true;
 			this->plat_move_button->Click += gcnew System::EventHandler(this, &ParamShow::plat_move_button_Click);
 			// 
@@ -1854,6 +1897,7 @@ private:
 			// 
 			// tabPage3
 			// 
+			this->tabPage3->Controls->Add(this->groupBox7);
 			this->tabPage3->Controls->Add(this->pan_tilt_unit_group);
 			this->tabPage3->Location = System::Drawing::Point(4, 22);
 			this->tabPage3->Name = L"tabPage3";
@@ -1862,6 +1906,141 @@ private:
 			this->tabPage3->TabIndex = 2;
 			this->tabPage3->Text = L"Platform";
 			this->tabPage3->UseVisualStyleBackColor = true;
+			// 
+			// groupBox7
+			// 
+			this->groupBox7->Controls->Add(this->pc_relative);
+			this->groupBox7->Controls->Add(this->pc_absolute);
+			this->groupBox7->Controls->Add(this->pc_tilt);
+			this->groupBox7->Controls->Add(this->label20);
+			this->groupBox7->Controls->Add(this->pc_pan);
+			this->groupBox7->Controls->Add(this->label14);
+			this->groupBox7->Controls->Add(this->pc_down);
+			this->groupBox7->Controls->Add(this->pc_right);
+			this->groupBox7->Controls->Add(this->pc_left);
+			this->groupBox7->Controls->Add(this->pc_up);
+			this->groupBox7->Controls->Add(this->movestep);
+			this->groupBox7->Controls->Add(this->label1);
+			this->groupBox7->Location = System::Drawing::Point(3, 101);
+			this->groupBox7->Name = L"groupBox7";
+			this->groupBox7->Size = System::Drawing::Size(292, 112);
+			this->groupBox7->TabIndex = 12;
+			this->groupBox7->TabStop = false;
+			this->groupBox7->Text = L"Platform Controller";
+			// 
+			// pc_relative
+			// 
+			this->pc_relative->Location = System::Drawing::Point(229, 77);
+			this->pc_relative->Name = L"pc_relative";
+			this->pc_relative->Size = System::Drawing::Size(56, 23);
+			this->pc_relative->TabIndex = 11;
+			this->pc_relative->Text = L"Relative";
+			this->pc_relative->UseVisualStyleBackColor = true;
+			this->pc_relative->Click += gcnew System::EventHandler(this, &ParamShow::pc_relative_Click);
+			// 
+			// pc_absolute
+			// 
+			this->pc_absolute->Location = System::Drawing::Point(161, 77);
+			this->pc_absolute->Name = L"pc_absolute";
+			this->pc_absolute->Size = System::Drawing::Size(62, 23);
+			this->pc_absolute->TabIndex = 10;
+			this->pc_absolute->Text = L"Absolute";
+			this->pc_absolute->UseVisualStyleBackColor = true;
+			this->pc_absolute->Click += gcnew System::EventHandler(this, &ParamShow::pc_absolute_Click);
+			// 
+			// pc_tilt
+			// 
+			this->pc_tilt->Location = System::Drawing::Point(116, 79);
+			this->pc_tilt->Name = L"pc_tilt";
+			this->pc_tilt->Size = System::Drawing::Size(39, 19);
+			this->pc_tilt->TabIndex = 9;
+			this->pc_tilt->Text = L"0";
+			this->pc_tilt->TextChanged += gcnew System::EventHandler(this, &ParamShow::textBox2_TextChanged);
+			// 
+			// label20
+			// 
+			this->label20->AutoSize = true;
+			this->label20->Location = System::Drawing::Point(82, 82);
+			this->label20->Name = L"label20";
+			this->label20->Size = System::Drawing::Size(28, 12);
+			this->label20->TabIndex = 8;
+			this->label20->Text = L"TILT";
+			// 
+			// pc_pan
+			// 
+			this->pc_pan->Location = System::Drawing::Point(37, 79);
+			this->pc_pan->Name = L"pc_pan";
+			this->pc_pan->Size = System::Drawing::Size(39, 19);
+			this->pc_pan->TabIndex = 7;
+			this->pc_pan->Text = L"0";
+			// 
+			// label14
+			// 
+			this->label14->AutoSize = true;
+			this->label14->Location = System::Drawing::Point(3, 82);
+			this->label14->Name = L"label14";
+			this->label14->Size = System::Drawing::Size(28, 12);
+			this->label14->TabIndex = 6;
+			this->label14->Text = L"PAN";
+			// 
+			// pc_down
+			// 
+			this->pc_down->Location = System::Drawing::Point(168, 42);
+			this->pc_down->Name = L"pc_down";
+			this->pc_down->Size = System::Drawing::Size(51, 23);
+			this->pc_down->TabIndex = 5;
+			this->pc_down->Text = L"DOWN";
+			this->pc_down->UseVisualStyleBackColor = true;
+			this->pc_down->Click += gcnew System::EventHandler(this, &ParamShow::pc_down_Click);
+			// 
+			// pc_right
+			// 
+			this->pc_right->Location = System::Drawing::Point(225, 26);
+			this->pc_right->Name = L"pc_right";
+			this->pc_right->Size = System::Drawing::Size(51, 23);
+			this->pc_right->TabIndex = 4;
+			this->pc_right->Text = L"RIGHT";
+			this->pc_right->UseVisualStyleBackColor = true;
+			this->pc_right->Click += gcnew System::EventHandler(this, &ParamShow::pc_right_Click);
+			// 
+			// pc_left
+			// 
+			this->pc_left->Location = System::Drawing::Point(111, 26);
+			this->pc_left->Name = L"pc_left";
+			this->pc_left->Size = System::Drawing::Size(51, 23);
+			this->pc_left->TabIndex = 3;
+			this->pc_left->Text = L"FEFT";
+			this->pc_left->UseVisualStyleBackColor = true;
+			this->pc_left->Click += gcnew System::EventHandler(this, &ParamShow::pc_left_Click);
+			// 
+			// pc_up
+			// 
+			this->pc_up->Location = System::Drawing::Point(168, 13);
+			this->pc_up->Name = L"pc_up";
+			this->pc_up->Size = System::Drawing::Size(51, 23);
+			this->pc_up->TabIndex = 2;
+			this->pc_up->Text = L"UP";
+			this->pc_up->UseVisualStyleBackColor = true;
+			this->pc_up->Click += gcnew System::EventHandler(this, &ParamShow::pc_up_Click_1);
+			// 
+			// movestep
+			// 
+			this->movestep->DecimalPlaces = 1;
+			this->movestep->Location = System::Drawing::Point(9, 39);
+			this->movestep->Name = L"movestep";
+			this->movestep->Size = System::Drawing::Size(89, 19);
+			this->movestep->TabIndex = 1;
+			this->movestep->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			this->movestep->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 5, 0, 0, 0 });
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(7, 23);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(91, 12);
+			this->label1->TabIndex = 0;
+			this->label1->Text = L"Move Step [deg.]";
 			// 
 			// tabPage4
 			// 
@@ -2040,7 +2219,7 @@ private:
 			this->tableLayoutPanel10->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				28.71287F)));
 			this->tableLayoutPanel10->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				30)));
+				39)));
 			this->tableLayoutPanel10->Controls->Add(this->label16, 1, 0);
 			this->tableLayoutPanel10->Controls->Add(this->label17, 2, 0);
 			this->tableLayoutPanel10->Controls->Add(this->label18, 0, 1);
@@ -2066,9 +2245,9 @@ private:
 			this->label16->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->label16->AutoSize = true;
-			this->label16->Location = System::Drawing::Point(76, 0);
+			this->label16->Location = System::Drawing::Point(70, 0);
 			this->label16->Name = L"label16";
-			this->label16->Size = System::Drawing::Size(23, 12);
+			this->label16->Size = System::Drawing::Size(20, 12);
 			this->label16->TabIndex = 0;
 			this->label16->Text = L"x";
 			this->label16->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2078,9 +2257,9 @@ private:
 			this->label17->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->label17->AutoSize = true;
-			this->label17->Location = System::Drawing::Point(105, 0);
+			this->label17->Location = System::Drawing::Point(96, 0);
 			this->label17->Name = L"label17";
-			this->label17->Size = System::Drawing::Size(25, 12);
+			this->label17->Size = System::Drawing::Size(34, 12);
 			this->label17->TabIndex = 1;
 			this->label17->Text = L"y";
 			this->label17->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2092,7 +2271,7 @@ private:
 			this->label18->AutoSize = true;
 			this->label18->Location = System::Drawing::Point(3, 19);
 			this->label18->Name = L"label18";
-			this->label18->Size = System::Drawing::Size(67, 12);
+			this->label18->Size = System::Drawing::Size(61, 12);
 			this->label18->TabIndex = 2;
 			this->label18->Text = L"Coordinate";
 			this->label18->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2104,7 +2283,7 @@ private:
 			this->label19->AutoSize = true;
 			this->label19->Location = System::Drawing::Point(3, 38);
 			this->label19->Name = L"label19";
-			this->label19->Size = System::Drawing::Size(67, 12);
+			this->label19->Size = System::Drawing::Size(61, 12);
 			this->label19->TabIndex = 3;
 			this->label19->Text = L"Database";
 			this->label19->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2115,9 +2294,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_xc->AutoSize = true;
 			this->coor_xc->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_xc->Location = System::Drawing::Point(76, 19);
+			this->coor_xc->Location = System::Drawing::Point(70, 19);
 			this->coor_xc->Name = L"coor_xc";
-			this->coor_xc->Size = System::Drawing::Size(23, 12);
+			this->coor_xc->Size = System::Drawing::Size(20, 19);
 			this->coor_xc->TabIndex = 4;
 			this->coor_xc->Text = L"000";
 			this->coor_xc->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2128,9 +2307,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_yc->AutoSize = true;
 			this->coor_yc->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_yc->Location = System::Drawing::Point(105, 19);
+			this->coor_yc->Location = System::Drawing::Point(96, 19);
 			this->coor_yc->Name = L"coor_yc";
-			this->coor_yc->Size = System::Drawing::Size(25, 12);
+			this->coor_yc->Size = System::Drawing::Size(34, 12);
 			this->coor_yc->TabIndex = 5;
 			this->coor_yc->Text = L"000";
 			this->coor_yc->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2140,9 +2319,9 @@ private:
 			this->db_xc->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_xc->AutoSize = true;
-			this->db_xc->Location = System::Drawing::Point(76, 38);
+			this->db_xc->Location = System::Drawing::Point(70, 38);
 			this->db_xc->Name = L"db_xc";
-			this->db_xc->Size = System::Drawing::Size(23, 12);
+			this->db_xc->Size = System::Drawing::Size(20, 12);
 			this->db_xc->TabIndex = 6;
 			this->db_xc->Text = L"4";
 			this->db_xc->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2152,9 +2331,9 @@ private:
 			this->db_yc->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_yc->AutoSize = true;
-			this->db_yc->Location = System::Drawing::Point(105, 38);
+			this->db_yc->Location = System::Drawing::Point(96, 38);
 			this->db_yc->Name = L"db_yc";
-			this->db_yc->Size = System::Drawing::Size(25, 12);
+			this->db_yc->Size = System::Drawing::Size(34, 12);
 			this->db_yc->TabIndex = 7;
 			this->db_yc->Text = L"4";
 			this->db_yc->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2369,6 +2548,9 @@ private:
 			this->tabPage1->ResumeLayout(false);
 			this->tabPage2->ResumeLayout(false);
 			this->tabPage3->ResumeLayout(false);
+			this->groupBox7->ResumeLayout(false);
+			this->groupBox7->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->movestep))->EndInit();
 			this->tabPage4->ResumeLayout(false);
 			this->tabPage4->PerformLayout();
 			this->groupBox5->ResumeLayout(false);
@@ -2434,10 +2616,10 @@ private: System::Void input(){
 		if (i == 19) if ("T" == ToSystemString(str)) this->reset_ack_r = false;
 		if (i == 20) if ("T" == ToSystemString(str)) this->all_ack_r = false;
 		if (i == 21) this->platform_state->Text = ToSystemString(str);
-		if (i == 22) this->theta->Text = String::Format("{0:#0.00000}", MyToDouble(str));
-		if (i == 23) this->move_tilt->Text = String::Format("{0:#0.00000}", MyToDouble(str));
-		if (i == 24) this->platform_pan->Text = String::Format("{0:#0.00000}", MyToDouble(str));
-		if (i == 25) this->platform_tilt->Text = String::Format("{0:#0.00000}", MyToDouble(str));
+		if (i == 22) this->theta->Text = String::Format("{0:#0.00000}", RAD2DEG(MyToDouble(str)));
+		if (i == 23) this->move_tilt->Text = String::Format("{0:#0.00000}", RAD2DEG(MyToDouble(str)));
+		if (i == 24) this->platform_pan->Text = String::Format("{0:#0.00000}", RAD2DEG(MyToDouble(str)));
+		if (i == 25) this->platform_tilt->Text = String::Format("{0:#0.00000}", RAD2DEG(MyToDouble(str)));
 		if (i == 26) if ("T" == ToSystemString(str)) this->plat_home_ack = false;
 		if (i == 27) if ("T" == ToSystemString(str)) this->plat_move_ack = false;
 		if (i == 28) if ("T" == ToSystemString(str)) this->plat_stop_ack = false;
@@ -2526,6 +2708,8 @@ private: System::Void output(){
 				 this->center_output();
 				 this->center_input();
 				 this->server_output();
+				 this->pc_input();
+				 this->pc_output();
 	}
 private: System::Void label8_Click(System::Object^  sender, System::EventArgs^  e) {
 }
@@ -2789,12 +2973,79 @@ private: System::Void server_output(){
 				 if (this->b_radio->Checked) dir += "\\B";
 				 StreamWriter^ swriter = gcnew StreamWriter(dir);
 				 swriter->WriteLine(this->label3->Text);
-				 swriter->WriteLine(Convert::ToDouble(this->platform_pan->Text) + Convert::ToDouble(this->theta->Text));
-				 swriter->WriteLine(Convert::ToDouble(this->platform_tilt->Text) + Convert::ToDouble(this->move_tilt->Text));
+				 swriter->WriteLine(DEG2RAD(Convert::ToDouble(this->platform_pan->Text)) + DEG2RAD(Convert::ToDouble(this->theta->Text)));
+				 swriter->WriteLine(DEG2RAD(Convert::ToDouble(this->platform_tilt->Text)) + DEG2RAD(Convert::ToDouble(this->move_tilt->Text)));
 				 swriter->Close();
 			 }
 }
 private: System::Void platform_state_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void domainUpDown1_SelectedItemChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void textBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+private: bool pc_up_ack;
+private: bool pc_down_ack;
+private: bool pc_left_ack;
+private: bool pc_right_ack;
+private: bool pc_absolute_ack;
+private: bool pc_relative_ack;
+private: System::Void pc_up_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->pc_up_ack = true;
+}
+private: System::Void pc_left_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->pc_left_ack = true;
+}
+private: System::Void pc_right_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->pc_right_ack = true;
+}
+private: System::Void pc_down_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->pc_down_ack = true;
+}
+private: System::Void pc_absolute_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->pc_absolute_ack = true; 
+}
+private: System::Void pc_relative_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->pc_relative_ack = true;
+}
+private: System::Void pc_output(){
+			 std::ofstream out(PLATFORMCONTROLLER_OUTPUT_FILENAME);
+
+			 /* 01 */out << this->ToStdString(this->movestep->Text) << std::endl;
+			 /* 02 */if (this->pc_up_ack) out << "UP" << std::endl;
+			 /* -- */else if (this->pc_down_ack) out << "DOWN" << std::endl;
+			 /* -- */else if (this->pc_left_ack) out << "LEFT" << std::endl;
+			 /* -- */else if (this->pc_right_ack) out << "RIGHT" << std::endl;
+			 /* -- */else out << "NON" << std::endl;
+			 /* 03 */out << this->ToStdString(this->pc_pan->Text) << std::endl;
+			 /* 04 */out << this->ToStdString(this->pc_tilt->Text) << std::endl;
+			 /* 05 */if (this->pc_absolute_ack) out << "ABSOLUTE" << std::endl;
+			 /* -- */else if (this->pc_relative_ack) out << "RELATIVE" << std::endl;
+			 /* -- */else out << "NON" << std::endl;
+
+			 out.close();
+}
+private: System::Void pc_input(){
+			 std::ifstream in(PLATFORMCONTROLLER_INPUT_FILENAME);
+			 std::string str;
+			 int i = 0;
+			 while (in && std::getline(in, str)){
+				 i++;
+				 if (i == 1){
+					 if ("T" == ToSystemString(str)) { 
+						 this->pc_up_ack = false;
+						 this->pc_down_ack = false;
+						 this->pc_left_ack = false;
+						 this->pc_right_ack = false;
+						 this->pc_absolute_ack = false;
+						 this->pc_relative_ack = false;
+					 }
+				 }
+			 }
+			 in.close();
+}
+private: System::Void pc_up_Click_1(System::Object^  sender, System::EventArgs^  e) {
+			 this->pc_up_ack = true;
 }
 };
 }

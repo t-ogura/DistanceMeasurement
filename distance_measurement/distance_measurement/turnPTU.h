@@ -23,7 +23,7 @@ public:
 	PTU(char* comPort,int baudrate = 9600,unsigned short deviceID = 0);
 	~PTU();
 	int turnHome();
-	int turn(double panAngleRadian, double tiltAngleRadian);
+	int turn(double panAngleRadian, double tiltAngleRadian, bool absolute = false);
 	int setSpeed();
 	int getPosition();
 
