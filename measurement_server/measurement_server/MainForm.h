@@ -104,9 +104,8 @@ namespace measurement_server {
 	private: System::Windows::Forms::Timer^  timer1;
 	private: System::Windows::Forms::FolderBrowserDialog^  folderBrowserDialog1;
 	private: System::Windows::Forms::Label^  label20;
-	private: System::Windows::Forms::TextBox^  targets_distance;
-
-	private: System::Windows::Forms::TextBox^  measures_distance;
+	private: System::Windows::Forms::TextBox^  f_distanceBetweenTargets;
+	private: System::Windows::Forms::TextBox^  f_distanceBetweenSystems;
 
 
 	private: System::Windows::Forms::Label^  label21;
@@ -231,8 +230,8 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->folderBrowserDialog1 = (gcnew System::Windows::Forms::FolderBrowserDialog());
 			this->label20 = (gcnew System::Windows::Forms::Label());
-			this->targets_distance = (gcnew System::Windows::Forms::TextBox());
-			this->measures_distance = (gcnew System::Windows::Forms::TextBox());
+			this->f_distanceBetweenTargets = (gcnew System::Windows::Forms::TextBox());
+			this->f_distanceBetweenSystems = (gcnew System::Windows::Forms::TextBox());
 			this->label21 = (gcnew System::Windows::Forms::Label());
 			this->savefilename_box = (gcnew System::Windows::Forms::TextBox());
 			this->label22 = (gcnew System::Windows::Forms::Label());
@@ -902,23 +901,23 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->label20->TabIndex = 5;
 			this->label20->Text = L"Distance between Targets";
 			// 
-			// targets_distance
+			// f_distanceBetweenTargets
 			// 
-			this->targets_distance->Location = System::Drawing::Point(180, 55);
-			this->targets_distance->Name = L"targets_distance";
-			this->targets_distance->Size = System::Drawing::Size(109, 19);
-			this->targets_distance->TabIndex = 6;
-			this->targets_distance->Text = L"1090";
-			this->targets_distance->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			this->f_distanceBetweenTargets->Location = System::Drawing::Point(180, 55);
+			this->f_distanceBetweenTargets->Name = L"f_distanceBetweenTargets";
+			this->f_distanceBetweenTargets->Size = System::Drawing::Size(109, 19);
+			this->f_distanceBetweenTargets->TabIndex = 6;
+			this->f_distanceBetweenTargets->Text = L"1090";
+			this->f_distanceBetweenTargets->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
-			// measures_distance
+			// f_distanceBetweenSystems
 			// 
-			this->measures_distance->Location = System::Drawing::Point(180, 80);
-			this->measures_distance->Name = L"measures_distance";
-			this->measures_distance->Size = System::Drawing::Size(109, 19);
-			this->measures_distance->TabIndex = 8;
-			this->measures_distance->Text = L"840";
-			this->measures_distance->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			this->f_distanceBetweenSystems->Location = System::Drawing::Point(180, 80);
+			this->f_distanceBetweenSystems->Name = L"f_distanceBetweenSystems";
+			this->f_distanceBetweenSystems->Size = System::Drawing::Size(109, 19);
+			this->f_distanceBetweenSystems->TabIndex = 8;
+			this->f_distanceBetweenSystems->Text = L"840";
+			this->f_distanceBetweenSystems->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
 			// label21
 			// 
@@ -1525,9 +1524,9 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->Controls->Add(this->menuStrip1);
 			this->Controls->Add(this->label22);
 			this->Controls->Add(this->savefilename_box);
-			this->Controls->Add(this->measures_distance);
+			this->Controls->Add(this->f_distanceBetweenSystems);
 			this->Controls->Add(this->label21);
-			this->Controls->Add(this->targets_distance);
+			this->Controls->Add(this->f_distanceBetweenTargets);
 			this->Controls->Add(this->label20);
 			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->groupBox1);
@@ -1628,52 +1627,52 @@ private: System::Void readData(String ^ab,String ^%distance,String ^%pan_angle){
 				 distance = sr->ReadLine();
 				 if (!distance) return;
 				 Console::WriteLine(distance);
-				 a_distance = Convert::ToDouble(distance);
-				 this->a_dist->Text = String::Format("{0:#0.00}", a_distance);
+				 distance_L = Convert::ToDouble(distance);
+				 this->a_dist->Text = String::Format("{0:#0.00}", distance_L);
 				 pan_angle = sr->ReadLine();
 				 String ^get_t = sr->ReadLine();
-				 a_pan_angle = Convert::ToDouble(pan_angle);
+				 pan_angle_L = Convert::ToDouble(pan_angle);
 				 double tilt_rad = Convert::ToDouble(get_t);
-				 this->a_pan_rad->Text = String::Format("{0:#0.##########}", a_pan_angle);
+				 this->a_pan_rad->Text = String::Format("{0:#0.##########}", pan_angle_L);
 				 this->a_tilt_rad->Text = String::Format("{0:#0.##########}", tilt_rad);
-				 this->a_pan_deg->Text = String::Format("{0:#0.##########}", a_pan_angle*180.0 / M_PI);
+				 this->a_pan_deg->Text = String::Format("{0:#0.##########}", pan_angle_L*180.0 / M_PI);
 				 this->a_tilt_deg->Text = String::Format("{0:#0.##########}", tilt_rad*180.0 / M_PI);
 			 }
 			 else if (ab == "B"){
 				 distance = sr->ReadLine();
 				 if (!distance) return;
-				 b_distance = Convert::ToDouble(distance);
-				 this->b_dist->Text = String::Format("{0:#0.00}", b_distance);
+				 distance_R = Convert::ToDouble(distance);
+				 this->b_dist->Text = String::Format("{0:#0.00}", distance_R);
 				 pan_angle = sr->ReadLine();
 				 String ^get_t = sr->ReadLine();
-				 b_pan_angle = Convert::ToDouble(pan_angle);
+				 pan_angle_R = Convert::ToDouble(pan_angle);
 				 double tilt_rad = Convert::ToDouble(get_t);
-				 this->b_pan_rad->Text = String::Format("{0:#0.##########}", b_pan_angle);
+				 this->b_pan_rad->Text = String::Format("{0:#0.##########}", pan_angle_R);
 				 this->b_tilt_rad->Text = String::Format("{0:#0.##########}", tilt_rad);
-				 this->b_pan_deg->Text = String::Format("{0:#0.##########}", b_pan_angle*180.0 / M_PI);
+				 this->b_pan_deg->Text = String::Format("{0:#0.##########}", pan_angle_R*180.0 / M_PI);
 				 this->b_tilt_deg->Text = String::Format("{0:#0.##########}", tilt_rad*180.0 / M_PI);
 
 			 }
 			 sr->Close();
 }
-private: double a_pan_angle;
-private: double b_pan_angle;
-private: double a_distance;
-private: double b_distance;
-private: double basis_a_pan_angle;
-private: double basis_b_pan_angle;
-private: double basis_a_distance;
-private: double basis_b_distance;
+private: double pan_angle_L;
+private: double pan_angle_R;
+private: double distance_L;
+private: double distance_R;
+private: double fiducial_pan_angle_L;
+private: double fiducial_pan_angle_R;
+private: double fiducial_distance_L;
+private: double fiducial_distance_R;
 private: clock_t start, stamp;
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
-			 String ^ad, ^bd, ^ap, ^bp;
+			 String ^dist_L, ^dist_R, ^pan_L, ^pan_R;
 			 double ca, cx, cy, ba, bx, by;
-			 this->readData("A",ad,ap);
-			 this->readData("B", bd, bp);
+			 this->readData("A", dist_L, pan_L);
+			 this->readData("B", dist_R, pan_R);
 			 this->vessel_pose_view(ca, cx, cy, ba, bx, by);
 			 this->stamp = clock();
 			 if (this->save_flag){
-				 sw->WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}",this->stamp-this->start, ad, ap, bd, bp, ca, cx, cy, ba, bx, by);
+				 sw->WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", this->stamp - this->start, dist_L, pan_L, dist_R, pan_R, ca, cx, cy, ba, bx, by);
 			 }
 			 this->outTimeFile(this->stamp - this->start);
 }
@@ -1735,18 +1734,18 @@ private: System::Void stop_button_Click(System::Object^  sender, System::EventAr
 			 }
 			 this->save_flag = false;
 }
-private: System::Void vessel_pose_view(double &common_angle,double &common_x,double &common_y,double &relative_angle,double &relative_x,double &relative_y);
+private: System::Void vessel_pose_view(double &vessel_angle, double &vessel_pos_x, double &vessel_pos_y, double &relative_angle, double &relative_x, double &relative_y);
 private: System::Void groupBox4_Enter(System::Object^  sender, System::EventArgs^  e) {
 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 }
-private: bool basisFlag;
+private: bool Flag_UseFiducialPoint;
 private: System::Void set_stay_button_Click(System::Object^  sender, System::EventArgs^  e) {
-			 this->basis_a_distance = this->a_distance;
-			 this->basis_a_pan_angle = this->a_pan_angle;
-			 this->basis_b_distance = this->b_distance;
-			 this->basis_b_pan_angle = this->b_pan_angle;
-			 this->basisFlag = true;
+			 this->fiducial_distance_L = this->distance_L;
+			 this->fiducial_pan_angle_L = this->pan_angle_L;
+			 this->fiducial_distance_R = this->distance_R;
+			 this->fiducial_pan_angle_R = this->pan_angle_R;
+			 this->Flag_UseFiducialPoint = true;
 }
 };
 }
