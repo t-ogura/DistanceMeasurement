@@ -5,7 +5,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define PAN_RES 11109
+//#define PAN_RES 11109
+#define PAN_RES 2777
 #define TILT_RES 2777
 #define PAN_DEG2STEP(X) (-X/(PAN_RES/ 3600. / 60.))
 #define TILT_DEG2STEP(X) (-X/(TILT_RES/ 3600. / 60.))
@@ -16,7 +17,7 @@
 
 #define SPEED_PAN_MAX 2801
 #define SPEED_TILT_MAX 2833
-#define SPEED_FACTOR 5
+#define SPEED_FACTOR 3
 
 class PTU{
 public:

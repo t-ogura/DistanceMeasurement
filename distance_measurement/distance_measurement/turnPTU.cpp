@@ -33,6 +33,9 @@ int PTU::initialize(){
 	}
 
 	Sleep(2000);
+
+	std::cout << "PAN  RESOLUTION [" << get_desired(PAN, RESOLUTION) << "]" << std::endl;
+	std::cout << "TILT RESOLUTION [" << get_desired(TILT, RESOLUTION) << "]" << std::endl;
 	
 	const auto start = std::chrono::system_clock::now();
 	unsigned short getBase = 1;
