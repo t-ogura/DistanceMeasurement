@@ -34,6 +34,7 @@ namespace Parameters {
 		ParamShow(void)
 		{
 			InitializeComponent();
+			kalmanInit();
 			this->readConfigFile("main.cfg\\Defalt.cfg");
 			this->readInitFile(INIT_FILE_DIRECTRY);
 			//
@@ -2958,7 +2959,7 @@ private: System::Void server_output(){
 				 if (this->b_radio->Checked) dir += "\\R";
 				 StreamWriter^ swriter = gcnew StreamWriter(dir);
 				 swriter->WriteLine(this->label3->Text);
-				 swriter->WriteLine(DEG2RAD(Convert::ToDouble(this->platform_pan->Text)) + DEG2RAD(Convert::ToDouble(this->theta->Text)));
+				 swriter->WriteLine(DEG2RAD(this->panKF(Convert::ToDouble(this->platform_pan->Text), Convert::ToDouble(this->theta->Text))));
 				 swriter->WriteLine(DEG2RAD(Convert::ToDouble(this->platform_tilt->Text)) + DEG2RAD(Convert::ToDouble(this->move_tilt->Text)));
 				 swriter->Close();
 			 }
@@ -3076,6 +3077,8 @@ private: System::Void Quit_Click(System::Object^  sender, System::EventArgs^  e)
 			 ofs.close();
 			 this->~ParamShow();
 }
+public: System::Void kalmanInit();
+public: double panKF(double platform, double ditected);
 };
 }
 
