@@ -27,13 +27,18 @@ Camera::Camera(int cameraID, bool cameraIsColor,int FPS){
 
 	EWC_SetBuffer(this->ID, cameraImage.data);
 
-	EWC_SetValue(this->ID, EWC_EXPOSURE, CAMERA_EXPOSURE);
-	//EWC_SetAuto(this->ID, EWC_EXPOSURE);
-	this->writeCameraParam();
+	//EWC_SetValue(this->ID, EWC_EXPOSURE, 41);
+	EWC_SetAuto(this->ID, EWC_EXPOSURE);
+	//this->writeCameraParam();
 }
 
 Camera::~Camera(){
 	EWC_CloseAll();
+}
+
+int Camera::setCameraExposure(int ex){
+	EWC_SetValue(this->ID, EWC_EXPOSURE, ex);
+	return 0;
 }
 
 void Camera::getImage(){

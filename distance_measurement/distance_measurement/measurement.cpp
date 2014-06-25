@@ -1,6 +1,10 @@
 #include "measurement.h"
 
 Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Threshold, bool centerCamera, double centerFocal){
+
+	initParams ip;
+	readInitFile(INIT_FILE_PATH, &ip);
+
 	this->pixelSize = pSize;
 	this->focalLength = fLength;
 	this->baselineLength = bLength;
@@ -8,11 +12,15 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	this->centerCameraFlag = centerCamera;
 	this->centerCameraFocalLength = centerFocal;
 
-	this->camera_L = new Camera(LEFT);
-	this->camera_R = new Camera(RIGHT);
+	this->camera_L = new Camera(ip.LEFT_CAMERA_ID);
+	this->camera_L->setCameraExposure(ip.LEFT_CAMERA_EXPOSURE);
+	this->camera_R = new Camera(ip.RIGHT_CAMERA_ID);
+	this->camera_R->setCameraExposure(ip.RIGHT_CAMERA_EXPOSURE);
 	if (this->centerCameraFlag){
-		this->camera_C = new Camera(CENTER,true,25);
+		this->camera_C = new Camera(ip.CENTER_CAMERA_ID, true, 25);
+		this->camera_C->setCameraExposure(ip.CENTER_CAMERA_EXPOSURE);
 	}
+
 
 	this->VCC_Th = VCC_Threshold;
 
@@ -33,7 +41,7 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	if (this->centerCameraFlag)this->vcc_C->matchingParameters[6] = VCC_INPUT_IMAGE_SIZE_X / 2;
 	if (this->centerCameraFlag)this->vcc_C->matchingParameters[7] = VCC_INPUT_IMAGE_SIZE_Y / 2;
 
-	this->kalmanInitialize();
+	this->kalmanInitialize(ip.MEASUREMENT_KALMANFILTER_PROCESS_NOISE_COV,ip.MEASUREMENT_KALMANFILTER_MEASUREMENT_NOISE_COV);
 
 	this->trackingLoopFlag = false;
 	this->trackingState = "No connect";
@@ -51,7 +59,39 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 
 Measurement::~Measurement(){}
 
-void Measurement::kalmanInitialize(){
+
+int Measurement::readInitFile(std::string filename, initParams *ini){
+	std::ifstream ifs(filename);
+	if (ifs.fail()){
+		std::cerr << "File open error [" << filename << "]" << std::endl;
+		std::cin.get();
+	}
+
+	std::string str;
+	while (ifs&&std::getline(ifs, str)){
+		if (str.size() > 1){
+			if (str.c_str()[0] == '%'){
+				continue; 
+			}
+		}
+		std::string token1, token2;
+		std::istringstream stream(str);
+		std::getline(stream, token1, ' ');
+		std::getline(stream, token2);
+		std::stringstream ss;
+		ss << token2;
+		if (token1 == "LEFT_CAMERA_EXPOSURE") ss >> ini->LEFT_CAMERA_EXPOSURE;
+		else if (token1 == "RIGHT_CAMERA_EXPOSURE") ss >> ini->RIGHT_CAMERA_EXPOSURE;
+		else if (token1 == "CENTER_CAMERA_EXPOSURE") ss >> ini->CENTER_CAMERA_EXPOSURE;
+		else if (token1 == "MEASUREMENT_KALMANFILTER_PROCESS_NOISE_COV") ss >> ini->MEASUREMENT_KALMANFILTER_PROCESS_NOISE_COV;
+		else if (token1 == "MEASUREMENT_KALMANFILTER_MEASUREMENT_NOISE_COV") ss >> ini->MEASUREMENT_KALMANFILTER_MEASUREMENT_NOISE_COV;
+		else if (token1 == "LEFT_CAMERA_ID") ss >> ini->LEFT_CAMERA_ID;
+		else if (token1 == "RIGHT_CAMERA_ID") ss >> ini->RIGHT_CAMERA_ID;
+		else if (token1 == "CENTER_CAMERA_ID") ss >> ini->CENTER_CAMERA_ID;
+	}
+}
+
+void Measurement::kalmanInitialize(double processNoisCov, double measurementNoiseCov){
 	this->KF = new cv::KalmanFilter(2, 1, 0);
 	this->KF_State = new cv::Mat_<float>(2, 1);
 	this->KF_ProcessNoise = new cv::Mat(2, 1, CV_32F);
@@ -63,8 +103,8 @@ void Measurement::kalmanInitialize(){
 	this->KF->transitionMatrix = *(cv::Mat_<float>(2, 2) << 1, 0, 0, 1);
 
 	cv::setIdentity(this->KF->measurementMatrix);
-	cv::setIdentity(this->KF->processNoiseCov, cv::Scalar::all(1e-4));
-	cv::setIdentity(this->KF->measurementNoiseCov, cv::Scalar::all(1e-1));
+	cv::setIdentity(this->KF->processNoiseCov, cv::Scalar::all(processNoisCov));
+	cv::setIdentity(this->KF->measurementNoiseCov, cv::Scalar::all(measurementNoiseCov));
 	cv::setIdentity(this->KF->errorCovPost, cv::Scalar::all(.1));
 
 	this->KF->statePre.at<float>(0) = 0;

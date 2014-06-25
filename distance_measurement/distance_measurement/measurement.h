@@ -7,14 +7,29 @@
 #include <thread>
 #include <mutex>
 
+#define INIT_FILE_PATH "initialize.cfg"
+
 #define CENTER 2
-#define LEFT 0
-#define RIGHT 1
+#define LEFT 1
+#define RIGHT 0
 
 class Measurement{
 public:
 	Measurement(double imagingDevicePixelSize, double lensFocalLength, double stereoBaselineLength, int VCC_Threshold = 12, bool centerCamera = false, double senterCameraFocalLength = 8.);
 	~Measurement();
+
+	struct initParams{
+		int LEFT_CAMERA_EXPOSURE = 41;
+		int RIGHT_CAMERA_EXPOSURE = 41;
+		int CENTER_CAMERA_EXPOSURE = 41;
+		double MEASUREMENT_KALMANFILTER_PROCESS_NOISE_COV = 1e-4;
+		double MEASUREMENT_KALMANFILTER_MEASUREMENT_NOISE_COV = 1e-1;
+		int LEFT_CAMERA_ID = 0;
+		int RIGHT_CAMERA_ID = 1;
+		int CENTER_CAMERA_ID = 2;
+	};
+
+	int readInitFile(std::string filename,initParams *ini);
 
 	void tracking(char* comPortNumber, int baudrate);
 	void threadTracking(char* comPortNumber, int baudrate);
@@ -80,16 +95,17 @@ public:
 	std::vector<double> prev_distances;
 	std::mutex mtx;
 
-private:
-
-
-	void kalmanInitialize();
-	double quadratic(double a2, double a1, double a0);
-
 	cv::KalmanFilter *KF;
 	cv::Mat_<float> *KF_State;
 	cv::Mat *KF_ProcessNoise;
 	cv::Mat_<float> *KF_Measurement;
+
+private:
+
+
+	void kalmanInitialize(double processNoisCov, double measurementNoiseCov);
+	double quadratic(double a2, double a1, double a0);
+
 
 	std::thread trackingThread;
 

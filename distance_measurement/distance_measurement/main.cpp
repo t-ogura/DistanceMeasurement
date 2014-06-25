@@ -20,12 +20,14 @@
 #define CENTER_INPUT_FILENAME "../param_files/center_receive.param"
 #define PLATFORMCONTROLLER_OUTPUT_FILENAME "../param_files/pc_send.param"
 #define PLATFORMCONTROLLER_INPUT_FILENAME "../param_files/pc_receive.param"
+#define QUIT_FILENAME "../param_files/quit.param"
 
 
-#define GNUPLOT_PATH "C:\\gnuplot\\bin\\gnuplot.exe"	// pgnuplotの場所
+std::string GNUPLOT_PATH = "C:\\gnuplot\\bin\\gnuplot.exe";	// pgnuplotの場所
 
 int frame = 0;
 std::mutex mtx;
+bool gnuLoop = true;
 
 std::list<double> frame_list;
 std::list<double> origin_list;
@@ -35,7 +37,7 @@ std::list<double> kf_list;
 int gnuplot(){
 	FILE *gnu;
 
-	if ((gnu = _popen(GNUPLOT_PATH, "w")) == NULL) {
+	if ((gnu = _popen(GNUPLOT_PATH.c_str(), "w")) == NULL) {
 		printf("gnuplot open error!!\n");
 		exit(EXIT_FAILURE);	// エラーの場合は通常、異常終了する
 	}
@@ -44,7 +46,7 @@ int gnuplot(){
 	std::ofstream plot("plot.dat");
 	int prev_frame = 0;
 
-	while (1){
+	while (gnuLoop){
 		cv::waitKey(100);
 		mtx.lock();
 		std::list<double> frame_list_copy(frame_list);
@@ -133,7 +135,14 @@ int main(){
 		//cv::imshow("test", measurement.vcc_L->templateImage[measurement.vcc_L->targetDB_x][measurement.vcc_L->targetDB_y]);
 		const auto end = std::chrono::system_clock::now();
 		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
+
+		std::ifstream ifs(QUIT_FILENAME);
+		if (ifs.fail()) continue;
+		std::string line;
+		std::getline(ifs, line);
+		if (line == "quit") break;
 	}
+	gnuLoop = false;
 	gnu_thread.join();
 	measurement.trackingLoopFlag = false;
 	measurement.threadTrackingJoin();
