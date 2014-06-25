@@ -12,7 +12,8 @@ using namespace measurement_server;
 
 System::Void MainForm::vessel_pose_view(double &vessel_angle, double &vessel_pos_x, double &vessel_pos_y, double &relative_angle, double &relative_x, double &relative_y){
 
-	cv::Mat viewImage = cv::Mat::zeros(cv::Size(SCALE, SCALE), CV_8UC3);
+	cv::Mat resultImage_vesselbased = cv::Mat::zeros(cv::Size(WIN_SIZE, WIN_SIZE), CV_8UC3);
+	//cv::Mat resultImage_targetbased = cv::Mat::zeros(cv::Size(WIN_SIZE, WIN_SIZE), CV_8UC3);
 
 	double distanceBetweenTargets = Convert::ToDouble(this->f_distanceBetweenTargets->Text);
 	double distanceBetweenSystems = Convert::ToDouble(this->f_distanceBetweenSystems->Text);
@@ -27,6 +28,7 @@ System::Void MainForm::vessel_pose_view(double &vessel_angle, double &vessel_pos
 	double fiducial_dist_L;
 	double fiducial_dist_R;
 
+	cv::Point2d originPoint;
 	cv::Point2d midpointOfSystem;
 	cv::Point2d midpointOftarget;
 	cv::Point2d systemPos_L, systemPos_R;
@@ -76,26 +78,50 @@ System::Void MainForm::vessel_pose_view(double &vessel_angle, double &vessel_pos
 	this->vessel_pos_x->Text = String::Format("{0:#0.00}", vessel_pos_x);
 	this->vessel_pos_y->Text = String::Format("{0:#0.00}", vessel_pos_y);
 
-	//
+	// 
 	double x_size = std::max(targetPos_R.x, systemPos_R.x) - std::min(targetPos_L.x, systemPos_L.x);
-	double y_size = std::min(targetPos_L.y, targetPos_R.y) - std::min(systemPos_L.y, systemPos_R.y);
-	double scale = std::max(x_size, y_size) / (WIN_SIZE - WIN_MARGIN * 2);
+	double y_size = std::max(targetPos_L.y, targetPos_R.y) - std::min(systemPos_L.y, systemPos_R.y);
+	double scale = (WIN_SIZE - WIN_MARGIN * 2) / std::max(x_size, y_size);
+	//std::cout << targetPos_R.x << " " << systemPos_R.x << std::endl;
+
+	// draw coordinate
+	int line_interval = 1000 * scale;
+	int itr_x_begin = WIN_MARGIN / (1000 * scale);
+	int itr_x_end = (WIN_SIZE - WIN_MARGIN) / (1000 * scale);
+	int itr_y = WIN_SIZE / (1000 * scale) / 2;
+	//std::cout << line_interval << std::endl;
+	for (int i = -itr_x_begin; i < itr_x_end + 1; i++){
+		cv::line(resultImage_vesselbased,
+			cv::Point(0, WIN_MARGIN + i*line_interval),
+			cv::Point(WIN_SIZE, WIN_MARGIN + i*line_interval),
+			cv::Scalar(50,50,50));
+	}
+	for (int i = -itr_y; i < itr_y + 1; i++){
+		cv::line(resultImage_vesselbased,
+			cv::Point(WIN_SIZE / 2 + i*itr_y*line_interval, 0),
+			cv::Point(WIN_SIZE / 2 + i*itr_y*line_interval, WIN_SIZE),
+			cv::Scalar(50, 50, 50));
+	}
 
 	// draw result
 	cv::Point2d shift = cv::Point2d(WIN_SIZE / 2, WIN_MARGIN);
-	cv::line(viewImage, shift, (midpointOftarget + shift)*scale, cv::Scalar(255, 255, 255));
+	cv::line(resultImage_vesselbased, shift, midpointOftarget*scale + shift, cv::Scalar(255, 255, 255));
+	cv::circle(resultImage_vesselbased, shift, 5, cv::Scalar(255, 255, 255), -1);
+	cv::circle(resultImage_vesselbased, midpointOftarget*scale + shift, 5, cv::Scalar(255, 255, 255));
 
 	// draw vessel
-	cv::line(viewImage, systemPos_L*scale + shift, systemPos_R*scale + shift, cv::Scalar(0, 0, 255));
-	cv::circle(viewImage, systemPos_L*scale + shift, 5, cv::Scalar(255, 255, 0));
-	cv::circle(viewImage, systemPos_R*scale + shift, 5, cv::Scalar(255, 255, 0));
+	cv::line(resultImage_vesselbased, systemPos_L*scale + shift, systemPos_R*scale + shift, cv::Scalar(0, 0, 255));
+	cv::circle(resultImage_vesselbased, systemPos_L*scale + shift, 5, cv::Scalar(255, 255, 0));
+	cv::circle(resultImage_vesselbased, systemPos_R*scale + shift, 5, cv::Scalar(255, 255, 0));
 
 	// draw target
-	cv::line(viewImage, targetPos_L*scale + shift, targetPos_R*scale + shift, cv::Scalar(0, 255, 0));
-	cv::circle(viewImage, targetPos_L*scale + shift, 5, cv::Scalar(255, 255, 0));
-	cv::circle(viewImage, targetPos_R*scale + shift, 5, cv::Scalar(255, 255, 0));
+	cv::line(resultImage_vesselbased, targetPos_L*scale + shift, targetPos_R*scale + shift, cv::Scalar(0, 255, 0));
+	cv::circle(resultImage_vesselbased, targetPos_L*scale + shift, 5, cv::Scalar(255, 255, 0));
+	cv::circle(resultImage_vesselbased, targetPos_R*scale + shift, 5, cv::Scalar(255, 255, 0));
 
-	cv::imshow("Vessel Position", viewImage);
+	cv::flip(resultImage_vesselbased, resultImage_vesselbased, 0);
+	cv::imshow("Vessel Position", resultImage_vesselbased);
+	//cv::imshow("result", resultImage_targetbased);
 	cv::waitKey(1);
 
 
@@ -115,8 +141,8 @@ System::Void MainForm::vessel_pose_view(double &vessel_angle, double &vessel_pos
 
 	int ta = SCALE / 2. - distanceBetweenTargets / maxsize*SCALE / 2.;
 	int tb = SCALE / 2. + distanceBetweenTargets / maxsize*SCALE / 2.;
-	cv::rectangle(viewImage, cv::Rect(ta - 15, SCALE*0.1 - 15, 30, 30), cv::Scalar(0, 255, 0), 5);
-	cv::rectangle(viewImage, cv::Rect(tb - 15, SCALE*0.1 - 15, 30, 30), cv::Scalar(0, 255, 0), 5);
+	cv::rectangle(resultImage_vesselbased, cv::Rect(ta - 15, SCALE*0.1 - 15, 30, 30), cv::Scalar(0, 255, 0), 5);
+	cv::rectangle(resultImage_vesselbased, cv::Rect(tb - 15, SCALE*0.1 - 15, 30, 30), cv::Scalar(0, 255, 0), 5);
 
 
 	//double systemPos_L_x = -1 * sin(pan_L)*dist_L - distanceBetweenSystems / 2.;
@@ -165,27 +191,27 @@ System::Void MainForm::vessel_pose_view(double &vessel_angle, double &vessel_pos
 		//int ax = -1 * sin(fiducial_pan_L)*fiducial_dist_L / maxsize*SCALE + ta;
 		int ax = sin(fiducial_pan_L)*fiducial_dist_L / maxsize*SCALE + ta;
 		int ay = cos(fiducial_pan_L)*fiducial_dist_L / maxsize*SCALE + SCALE*0.1;
-		cv::line(viewImage, cv::Point(ta, SCALE*0.1), cv::Point(ax, ay), cv::Scalar(0, 0, 128), 1);
+		cv::line(resultImage_vesselbased, cv::Point(ta, SCALE*0.1), cv::Point(ax, ay), cv::Scalar(0, 0, 128), 1);
 		//int bx = -1 * sin(fiducial_pan_R)*fiducial_dist_R / maxsize*SCALE + tb;
 		int bx = sin(fiducial_pan_R)*fiducial_dist_R / maxsize*SCALE + tb;
 		int by = cos(fiducial_pan_R)*fiducial_dist_R / maxsize*SCALE + SCALE*0.1;
-		cv::line(viewImage, cv::Point(tb, SCALE*0.1), cv::Point(bx, by), cv::Scalar(0, 0, 128), 1);
-		cv::circle(viewImage, cv::Point(ax, ay), 15, cv::Scalar(128, 128, 0), 5);
-		cv::circle(viewImage, cv::Point(bx, by), 15, cv::Scalar(128, 128, 0), 5);
-		cv::line(viewImage, cv::Point(ax, ay), cv::Point(bx, by), cv::Scalar(0, 128, 128), 5);
+		cv::line(resultImage_vesselbased, cv::Point(tb, SCALE*0.1), cv::Point(bx, by), cv::Scalar(0, 0, 128), 1);
+		cv::circle(resultImage_vesselbased, cv::Point(ax, ay), 15, cv::Scalar(128, 128, 0), 5);
+		cv::circle(resultImage_vesselbased, cv::Point(bx, by), 15, cv::Scalar(128, 128, 0), 5);
+		cv::line(resultImage_vesselbased, cv::Point(ax, ay), cv::Point(bx, by), cv::Scalar(0, 128, 128), 5);
 	}
 	{
 		//int ax = -1 * sin(pan_L)*dist_L / maxsize*SCALE + ta;
 		int ax = sin(pan_L)*dist_L / maxsize*SCALE + ta;
 		int ay = cos(pan_L)*dist_L / maxsize*SCALE + SCALE*0.1;
-		cv::line(viewImage, cv::Point(ta, SCALE*0.1), cv::Point(ax, ay), cv::Scalar(0, 0, 255), 1);
+		cv::line(resultImage_vesselbased, cv::Point(ta, SCALE*0.1), cv::Point(ax, ay), cv::Scalar(0, 0, 255), 1);
 		//int bx = -1 * sin(pan_R)*dist_R / maxsize*SCALE + tb;
 		int bx = sin(pan_R)*dist_R / maxsize*SCALE + tb;
 		int by = cos(pan_R)*dist_R / maxsize*SCALE + SCALE*0.1;
-		cv::line(viewImage, cv::Point(tb, SCALE*0.1), cv::Point(bx, by), cv::Scalar(0, 0, 255), 1);
-		cv::circle(viewImage, cv::Point(ax, ay), 15, cv::Scalar(255, 255, 0), 5);
-		cv::circle(viewImage, cv::Point(bx, by), 15, cv::Scalar(255, 255, 0), 5);
-		cv::line(viewImage, cv::Point(ax, ay), cv::Point(bx, by), cv::Scalar(0, 255, 255), 5);
+		cv::line(resultImage_vesselbased, cv::Point(tb, SCALE*0.1), cv::Point(bx, by), cv::Scalar(0, 0, 255), 1);
+		cv::circle(resultImage_vesselbased, cv::Point(ax, ay), 15, cv::Scalar(255, 255, 0), 5);
+		cv::circle(resultImage_vesselbased, cv::Point(bx, by), 15, cv::Scalar(255, 255, 0), 5);
+		cv::line(resultImage_vesselbased, cv::Point(ax, ay), cv::Point(bx, by), cv::Scalar(0, 255, 255), 5);
 	}
 
 	cv::Mat vessel = cv::Mat::zeros(SCALE, SCALE, CV_8UC3);
@@ -217,7 +243,7 @@ System::Void MainForm::vessel_pose_view(double &vessel_angle, double &vessel_pos
 	}
 
 	cv::Mat show, show2;
-	cv::resize(viewImage, show, cv::Size(SCALE / 4, SCALE / 4));
+	cv::resize(resultImage_vesselbased, show, cv::Size(SCALE / 4, SCALE / 4));
 	cv::resize(vessel, show2, cv::Size(SCALE / 4, SCALE / 4));
 	//cv::imshow("Vessel Position", show);;
 	cv::imshow("Vessel Position2", show2);
