@@ -89,18 +89,19 @@ System::Void MainForm::vessel_pose_view(double &vessel_angle, double &vessel_pos
 	int itr_x_begin = WIN_MARGIN / (1000 * scale);
 	int itr_x_end = (WIN_SIZE - WIN_MARGIN) / (1000 * scale);
 	int itr_y = WIN_SIZE / (1000 * scale) / 2;
-	//std::cout << line_interval << std::endl;
+	cv::Scalar lgray = cv::Scalar(80, 80, 80);
+	cv::Scalar dgray = cv::Scalar(40, 40, 40);
 	for (int i = -itr_x_begin; i < itr_x_end + 1; i++){
 		cv::line(resultImage_vesselbased,
 			cv::Point(0, WIN_MARGIN + i*line_interval),
 			cv::Point(WIN_SIZE, WIN_MARGIN + i*line_interval),
-			cv::Scalar(20, 20, 20));
+			dgray);
 	}
 	for (int i = -itr_y; i < itr_y + 1; i++){
 		cv::line(resultImage_vesselbased,
 			cv::Point(WIN_SIZE / 2 + i*itr_y*line_interval, 0),
 			cv::Point(WIN_SIZE / 2 + i*itr_y*line_interval, WIN_SIZE),
-			cv::Scalar(20, 20, 20));
+			dgray);
 	}
 
 	// draw result
@@ -337,13 +338,11 @@ System::Void MainForm::vessel_pose_view2(double &vessel_angle, double &vessel_po
 
 
 	// culculate size of result image
-	//double max_x = std::max(targetPos_R.x, systemPos_R.x) - std::min(targetPos_L.x, systemPos_L.x);
-	//double min_x;
-	//double max_y;
-	//double min_y;
-	double x_size = std::max(targetPos_R.x, systemPos_R.x) - std::min(targetPos_L.x, systemPos_L.x);
-	double y_size = std::max(targetPos_L.y, targetPos_R.y) - std::min(systemPos_L.y, systemPos_R.y);
-	double scale = (WIN_SIZE - WIN_MARGIN * 2) / std::max(x_size, y_size);
+	double max_x = std::max(std::max(targetPos_R.x, systemPos_R.x), vessel_pos_x + originPoint.x);
+	double min_x = std::min(std::min(targetPos_L.x, systemPos_L.x), vessel_pos_x + originPoint.x);
+	double max_y = std::max(std::max(targetPos_L.y, targetPos_R.y), vessel_pos_y + originPoint.y);
+	double min_y = std::min(std::min(systemPos_L.y, systemPos_R.y), vessel_pos_y + originPoint.y);
+	double scale = (WIN_SIZE - WIN_MARGIN * 2) / std::max(max_x - min_x, max_y - min_y);
 	cv::Point2d shift = cv::Point2d(WIN_SIZE / 2, WIN_SIZE - WIN_MARGIN);
 	midpointOftarget = shift;
 	
