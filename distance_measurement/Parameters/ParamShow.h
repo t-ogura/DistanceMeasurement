@@ -3,14 +3,15 @@
 #include <string>
 
 #include "ParallelOffsetTool.h"
-#define INFILE "../param_files/send.param"
-#define OUTFILE "../param_files/receive.param"
-#define CENTER_INPUT_FILENAME "../param_files/center_send.param"
-#define CENTER_OUTPUT_FILENAME "../param_files/center_receive.param"
-#define PLATFORMCONTROLLER_INPUT_FILENAME "../param_files/pc_send.param"
-#define PLATFORMCONTROLLER_OUTPUT_FILENAME "../param_files/pc_receive.param"
-#define QUIT_FILENAME "../param_files/quit.param"
+#define INFILE "param_files/send.param"
+#define OUTFILE "param_files/receive.param"
+#define CENTER_INPUT_FILENAME "param_files/center_send.param"
+#define CENTER_OUTPUT_FILENAME "param_files/center_receive.param"
+#define PLATFORMCONTROLLER_INPUT_FILENAME "param_files/pc_send.param"
+#define PLATFORMCONTROLLER_OUTPUT_FILENAME "param_files/pc_receive.param"
+#define QUIT_FILENAME "param_files/quit.param"
 #define INIT_FILE_DIRECTRY "initialize.cfg"
+#define DEFALT_CONFIG_FILE 
 
 #define DEG2RAD(X) (X/180.*M_PI)
 #define RAD2DEG(X) (X*180/M_PI)
@@ -2942,7 +2943,7 @@ private: System::Void readConfigFile(String ^filename){
 				 if (i == 32){ if (sreader->ReadLine() == "A") this->a_radio->Checked = true; else this->b_radio->Checked = true; }
 				 if (i == 33){ this->server_dir_box->Text = sreader->ReadLine(); }
 
-				 if (i == 34){ this->focal_box->Text = sreader->ReadLine(); }
+				 if (i == 34){ this->centercamera_focallength->Text = sreader->ReadLine(); }
 				 if (i == 35){ if (sreader->ReadLine() == "T") this->roll_flag_c->Checked = true; else this->roll_flag_c->Checked = false; }
 				 if (i == 36){ this->roll_box_c->Text = sreader->ReadLine(); }
 				 if (i == 37){ if (sreader->ReadLine() == "T") this->all_flag_c->Checked = true; else this->all_flag_c->Checked = false; }

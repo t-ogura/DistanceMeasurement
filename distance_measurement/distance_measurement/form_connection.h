@@ -6,7 +6,7 @@
 
 #include "measurement.h"
 
-#define SAVE_FILE_DIR "../save_files/"
+#define SAVE_FILE_DIR "save_files/"
 
 class FormConnection{
 public:

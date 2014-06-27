@@ -14,13 +14,13 @@
 #define MAIN_BASELINE_LENGTH  220
 #define MAIN_CENTER_CAMERA_FOCAL_LENGTH     8.0
 #define USE_CENTER_CAMERA true
-#define OUTPUT_FILENAME "../param_files/send.param"
-#define INPUT_FILENAME "../param_files/receive.param"
-#define CENTER_OUTPUT_FILENAME "../param_files/center_send.param"
-#define CENTER_INPUT_FILENAME "../param_files/center_receive.param"
-#define PLATFORMCONTROLLER_OUTPUT_FILENAME "../param_files/pc_send.param"
-#define PLATFORMCONTROLLER_INPUT_FILENAME "../param_files/pc_receive.param"
-#define QUIT_FILENAME "../param_files/quit.param"
+#define OUTPUT_FILENAME "param_files/send.param"
+#define INPUT_FILENAME "param_files/receive.param"
+#define CENTER_OUTPUT_FILENAME "param_files/center_send.param"
+#define CENTER_INPUT_FILENAME "param_files/center_receive.param"
+#define PLATFORMCONTROLLER_OUTPUT_FILENAME "param_files/pc_send.param"
+#define PLATFORMCONTROLLER_INPUT_FILENAME "param_files/pc_receive.param"
+#define QUIT_FILENAME "param_files/quit.param"
 
 
 std::string GNUPLOT_PATH = "C:\\gnuplot\\bin\\gnuplot.exe";	// pgnuplot�̏ꏊ
