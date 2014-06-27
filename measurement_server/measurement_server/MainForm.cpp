@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define SCALE 1000
+//#define SCALE 1000
 
 #define WIN_SIZE 300
 #define WIN_MARGIN 10
@@ -72,11 +72,11 @@ System::Void MainForm::vessel_pose_view(double &vessel_angle, double &vessel_pos
 	vessel_pos_x = cos(targetRotation)*cv::norm(midpointOftarget);
 	vessel_pos_y = sin(targetRotation)*cv::norm(midpointOftarget);
 
-	// update output value
-	this->vessel_angle_rad->Text = String::Format("{0:#0.##########}", vessel_angle);
-	this->vessel_angle_deg->Text = String::Format("{0:#0.##########}", vessel_angle / M_PI*180.);
-	this->vessel_pos_x->Text = String::Format("{0:#0.00}", vessel_pos_x);
-	this->vessel_pos_y->Text = String::Format("{0:#0.00}", vessel_pos_y);
+	//// update output value
+	//this->vessel_angle_rad->Text = String::Format("{0:#0.##########}", vessel_angle);
+	//this->vessel_angle_deg->Text = String::Format("{0:#0.##########}", vessel_angle / M_PI*180.);
+	//this->vessel_pos_x->Text = String::Format("{0:#0.00}", vessel_pos_x);
+	//this->vessel_pos_y->Text = String::Format("{0:#0.00}", vessel_pos_y);
 
 	// 
 	double x_size = std::max(targetPos_R.x, systemPos_R.x) - std::min(targetPos_L.x, systemPos_L.x);
@@ -94,13 +94,13 @@ System::Void MainForm::vessel_pose_view(double &vessel_angle, double &vessel_pos
 		cv::line(resultImage_vesselbased,
 			cv::Point(0, WIN_MARGIN + i*line_interval),
 			cv::Point(WIN_SIZE, WIN_MARGIN + i*line_interval),
-			cv::Scalar(50,50,50));
+			cv::Scalar(20, 20, 20));
 	}
 	for (int i = -itr_y; i < itr_y + 1; i++){
 		cv::line(resultImage_vesselbased,
 			cv::Point(WIN_SIZE / 2 + i*itr_y*line_interval, 0),
 			cv::Point(WIN_SIZE / 2 + i*itr_y*line_interval, WIN_SIZE),
-			cv::Scalar(50, 50, 50));
+			cv::Scalar(20, 20, 20));
 	}
 
 	// draw result
@@ -249,6 +249,186 @@ System::Void MainForm::vessel_pose_view(double &vessel_angle, double &vessel_pos
 	cv::imshow("Vessel Position2", show2);
 	cv::waitKey(1);
 	*/
+}
+System::Void MainForm::vessel_pose_view2(double &vessel_angle, double &vessel_pos_x, double &vessel_pos_y){
+
+	cv::Mat resultImage = cv::Mat::zeros(cv::Size(WIN_SIZE, WIN_SIZE), CV_8UC3);
+
+	double distanceBetweenTargets = Convert::ToDouble(this->f_distanceBetweenTargets->Text);
+	double distanceBetweenSystems = Convert::ToDouble(this->f_distanceBetweenSystems->Text);
+	double distanceBetweenTargetsHalf = distanceBetweenTargets / 2;
+	double distanceBetweenSystemsHalf = distanceBetweenSystems / 2;
+	double pan_L = -this->pan_angle_L; // pan_angle * (-1)
+	double pan_R = -this->pan_angle_R; // pan_angle * (-1)
+	double dist_L = this->distance_L;
+	double dist_R = this->distance_R;
+	double fiducial_pan_L;
+	double fiducial_pan_R;
+	double fiducial_dist_L;
+	double fiducial_dist_R;
+
+	cv::Point2d midpointOfSystem;
+	cv::Point2d midpointOftarget;
+	cv::Point2d systemPos_L, systemPos_R;
+	cv::Point2d targetPos_L, targetPos_R;
+	cv::Point2d targetPos_L_predicted, targetPos_R_predicted;
+	cv::Point2d systemPos_L_predicted, systemPos_R_predicted;
+
+	cv::Point2d vesselPos;
+
+	double targetRotation;
+	double systemRotation;
+
+	// origin point (center of coordinate system for positioning)
+	cv::Point2d originPoint;
+	originPoint.x = 0.0;
+	originPoint.y = -1000.0;
+
+	// installed position (displacement between center of systems and center of vessel)
+	cv::Point2d installedPos;
+	installedPos.x = 0.0;
+	installedPos.y = -200.0;
+
+
+	// desired position
+	//cv::Point2d desiredPos;
+
+	// target(template) position
+	targetPos_L.x = -distanceBetweenTargetsHalf;
+	targetPos_L.y = 0;
+	targetPos_R.x = distanceBetweenTargetsHalf;
+	targetPos_R.y = 0;
+	midpointOftarget.x = 0;
+	midpointOftarget.y = 0;
+
+	// system position
+	systemPos_L.x = targetPos_L.x - sin(pan_angle_L)*distance_L;
+	systemPos_L.y = targetPos_L.y - cos(pan_angle_L)*distance_L;
+	systemPos_R.x = targetPos_R.x - sin(pan_angle_R)*distance_R;
+	systemPos_R.y = targetPos_R.y - cos(pan_angle_R)*distance_R;
+	midpointOfSystem.x = (systemPos_L.x + systemPos_R.x) / 2;
+	midpointOfSystem.y = (systemPos_L.y + systemPos_R.y) / 2;
+
+	// predict system position (simply correct positional and rotational error)
+	double dx = systemPos_R.x - systemPos_L.x;
+	double dy = systemPos_R.y - systemPos_L.y;
+	systemRotation = atan2(dy, dx);
+	double cosVal = cos(systemRotation)*distanceBetweenSystemsHalf;
+	double sinVal = sin(systemRotation)*distanceBetweenSystemsHalf;
+	targetPos_L_predicted.x = midpointOfSystem.x - cosVal;
+	targetPos_L_predicted.y = midpointOfSystem.y - sinVal;
+	targetPos_R_predicted.x = midpointOfSystem.x + cosVal;
+	targetPos_R_predicted.y = midpointOfSystem.y + sinVal;
+
+	// vessel position and rotation
+	double inst_x = installedPos.x*cos(systemRotation) + installedPos.x*sin(systemRotation);
+	double inst_y = installedPos.y*cos(systemRotation) - installedPos.y*sin(systemRotation);
+	vesselPos.x = midpointOfSystem.x - midpointOftarget.x - originPoint.x + inst_x;
+	vesselPos.y = midpointOfSystem.y - midpointOftarget.y - originPoint.y + inst_y;
+	vessel_angle = -systemRotation;
+	vessel_pos_x = vesselPos.x;
+	vessel_pos_y = vesselPos.y;
+
+	// update output value
+	this->vessel_angle_rad->Text = String::Format("{0:#0.##########}", vessel_angle);
+	this->vessel_angle_deg->Text = String::Format("{0:#0.##########}", vessel_angle / M_PI*180.);
+	this->vessel_pos_x->Text = String::Format("{0:#0.00}", vessel_pos_x);
+	this->vessel_pos_y->Text = String::Format("{0:#0.00}", vessel_pos_y);
+
+
+	// culculate size of result image
+	//double max_x = std::max(targetPos_R.x, systemPos_R.x) - std::min(targetPos_L.x, systemPos_L.x);
+	//double min_x;
+	//double max_y;
+	//double min_y;
+	double x_size = std::max(targetPos_R.x, systemPos_R.x) - std::min(targetPos_L.x, systemPos_L.x);
+	double y_size = std::max(targetPos_L.y, targetPos_R.y) - std::min(systemPos_L.y, systemPos_R.y);
+	double scale = (WIN_SIZE - WIN_MARGIN * 2) / std::max(x_size, y_size);
+	cv::Point2d shift = cv::Point2d(WIN_SIZE / 2, WIN_SIZE - WIN_MARGIN);
+	midpointOftarget = shift;
+	
+	// draw coordinate
+	int line_interval = 1000 * scale;
+	int itr_x_begin = originPoint.y / line_interval;
+	int itr_x_end = (WIN_SIZE) / line_interval;
+	int itr_y = WIN_SIZE / (1000 * scale) / 2;
+	cv::Scalar lgray = cv::Scalar(80, 80, 80);
+	cv::Scalar dgray = cv::Scalar(40, 40, 40);
+	int i = 1;
+	while(1){
+		double y = originPoint.y*scale + shift.y - i*line_interval;
+		if (y < 0){
+			break;
+		}
+		cv::line(resultImage, cv::Point(0, y), cv::Point(WIN_SIZE, y), dgray);
+		i++;
+	}
+	i = 1;
+	while (1){
+		double y = originPoint.y*scale + shift.y + i*line_interval;
+		if (y > WIN_SIZE){
+			break;
+		}
+		cv::line(resultImage, cv::Point(0, y), cv::Point(WIN_SIZE, y), dgray);
+		i++;
+	}
+	i = 1;
+	while (1){
+		double x = originPoint.x*scale + shift.x - i*line_interval;
+		if (x < 0){
+			break;
+		}
+		cv::line(resultImage, cv::Point(x, 0), cv::Point(x, WIN_SIZE), dgray);
+		i++;
+	}
+	i = 1;
+	while (1){
+		double x = originPoint.x*scale + shift.x + i*line_interval;
+		if (x > WIN_SIZE){
+			break;
+		}
+		cv::line(resultImage, cv::Point(x, 0), cv::Point(x, WIN_SIZE), dgray);
+		i++;
+	}
+
+	cv::line(resultImage,
+		cv::Point(0, originPoint.y*scale + shift.y),
+		cv::Point(WIN_SIZE, originPoint.y*scale + shift.y),
+		lgray);
+	cv::line(resultImage,
+		cv::Point(shift.x + originPoint.x*scale, 0),
+		cv::Point(shift.x + originPoint.x*scale, WIN_SIZE),
+		lgray);
+
+
+	// draw result
+	cv::circle(resultImage, originPoint*scale + shift, 1, cv::Scalar(255, 255, 255), -1);
+	cv::circle(resultImage, midpointOftarget, 5, cv::Scalar(255, 255, 255), -1);
+	//cv::circle(resultImage, midpointOfSystem*scale + shift, 5, cv::Scalar(255, 255, 255));
+	cv::circle(resultImage, (originPoint + vesselPos)*scale + shift, 5, cv::Scalar(255, 255, 255));
+
+	// draw vessel
+	cv::line(resultImage, systemPos_L*scale + shift, systemPos_R*scale + shift, cv::Scalar(0, 0, 255));
+	cv::circle(resultImage, systemPos_L*scale + shift, 5, cv::Scalar(255, 255, 0), -1);
+	cv::circle(resultImage, systemPos_R*scale + shift, 5, cv::Scalar(255, 255, 0));
+
+	// draw target
+	//cv::line(resultImage, targetPos_L*scale + shift, targetPos_R*scale + shift, cv::Scalar(0, 255, 0));
+	cv::rectangle(resultImage,
+		cv::Rect(targetPos_L*scale + shift - cv::Point2d(4, 4), targetPos_L*scale + shift + cv::Point2d(4, 4)),
+		cv::Scalar(255, 255, 0),
+		-1);
+	cv::rectangle(resultImage,
+		cv::Rect(targetPos_R*scale + shift - cv::Point2d(4, 4), targetPos_R*scale + shift + cv::Point2d(4, 4)),
+		cv::Scalar(255, 255, 0),
+		1);
+	//cv::circle(resultImage, targetPos_L*scale + shift, 5, cv::Scalar(255, 255, 0), -1);
+	//cv::circle(resultImage, targetPos_R*scale + shift, 5, cv::Scalar(255, 255, 0));
+
+	cv::flip(resultImage, resultImage, 0);
+	cv::imshow("Vessel Position 2", resultImage);
+	cv::waitKey(1);
+
 }
 void MainForm::outTimeFile(long time){
 	std::ofstream ofs("C:\\Users\\Admin\\Desktop\\PKNU_data\\time.dat");
