@@ -2873,7 +2873,17 @@ private: System::Void saveConfigFile(String ^filename){
 			 /* 31 */if (this->server_check->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
 			 /* 32 */if (this->a_radio->Checked) swriter->WriteLine("A"); else swriter->WriteLine("B");
 			 /* 33 */swriter->WriteLine(this->server_dir_box->Text);
-
+			 /* -- */
+			 /* -- */
+			 /* 34 */swriter->WriteLine(this->centercamera_focallength->Text);
+			 /* 35 */if (this->roll_flag_c->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 36 */swriter->WriteLine(this->roll_box_c->Text);
+			 /* 37 */if (this->all_flag_c->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 38 */swriter->WriteLine(this->th_box_c->Text);
+			 /* 39 */if (this->db_flag_c->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 40*/swriter->WriteLine(this->db_th_box_c->Text);
+			 /* 41*/if (this->sub_flag_c->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
+			 /* 42*/if (this->kalman_flag_c->Checked) swriter->WriteLine("T"); else swriter->WriteLine("F");
 
 			 reset_ack_l = false;
 			 reset_ack_r = false;
@@ -2931,6 +2941,16 @@ private: System::Void readConfigFile(String ^filename){
 				 if (i == 31){ if (sreader->ReadLine() == "T") this->server_check->Checked = true; else this->server_check->Checked = false; }
 				 if (i == 32){ if (sreader->ReadLine() == "A") this->a_radio->Checked = true; else this->b_radio->Checked = true; }
 				 if (i == 33){ this->server_dir_box->Text = sreader->ReadLine(); }
+
+				 if (i == 34){ this->focal_box->Text = sreader->ReadLine(); }
+				 if (i == 35){ if (sreader->ReadLine() == "T") this->roll_flag_c->Checked = true; else this->roll_flag_c->Checked = false; }
+				 if (i == 36){ this->roll_box_c->Text = sreader->ReadLine(); }
+				 if (i == 37){ if (sreader->ReadLine() == "T") this->all_flag_c->Checked = true; else this->all_flag_c->Checked = false; }
+				 if (i == 38){ this->th_box_c->Text = sreader->ReadLine(); }
+				 if (i == 39){ if (sreader->ReadLine() == "T") this->db_flag_c->Checked = true; else this->db_flag_c->Checked = false; }
+				 if (i == 40){ this->db_th_box_c->Text = sreader->ReadLine(); }
+				 if (i == 41){ if (sreader->ReadLine() == "T") this->sub_flag_c->Checked = true; else this->sub_flag_c->Checked = false; }
+				 if (i == 42){ if (sreader->ReadLine() == "T") this->kalman_flag_c->Checked = true; else this->kalman_flag_c->Checked = false; }
 
 			 }
 			 sreader->Close();
