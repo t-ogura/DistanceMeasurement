@@ -1670,7 +1670,8 @@ private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e
 			 this->readData("L", dist_L, pan_L);
 			 this->readData("R", dist_R, pan_R);
 			 this->vessel_pose_view(ca, cx, cy, ba, bx, by);
-			 this->vessel_pose_view2(ca, cx, cy);
+			 //this->vessel_pose_view2(ca, cx, cy);
+			 this->vessel_pose_view3(ca, cx, cy);
 			 this->stamp = clock();
 			 if (this->save_flag){
 				 sw->WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", this->stamp - this->start, dist_L, pan_L, dist_R, pan_R, ca, cx, cy, ba, bx, by);
@@ -1737,6 +1738,7 @@ private: System::Void stop_button_Click(System::Object^  sender, System::EventAr
 }
 private: System::Void vessel_pose_view(double &vessel_angle, double &vessel_pos_x, double &vessel_pos_y, double &relative_angle, double &relative_x, double &relative_y);
 private: System::Void vessel_pose_view2(double &vessel_angle, double &vessel_pos_x, double &vessel_pos_y);
+private: System::Void vessel_pose_view3(double &vessel_angle, double &vessel_pos_x, double &vessel_pos_y);
 private: System::Void groupBox4_Enter(System::Object^  sender, System::EventArgs^  e) {
 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
