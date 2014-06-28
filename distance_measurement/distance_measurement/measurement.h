@@ -27,7 +27,10 @@ public:
 		int LEFT_CAMERA_ID = 0;
 		int RIGHT_CAMERA_ID = 1;
 		int CENTER_CAMERA_ID = 2;
+		std::string COM_PORT_NUMBER = "\\\\.\\COM5";
 	};
+
+	std::string platform_comnumber;
 
 	int readInitFile(std::string filename,initParams *ini);
 

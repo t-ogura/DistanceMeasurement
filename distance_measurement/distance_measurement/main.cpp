@@ -14,13 +14,13 @@
 #define MAIN_BASELINE_LENGTH  220
 #define MAIN_CENTER_CAMERA_FOCAL_LENGTH     8.0
 #define USE_CENTER_CAMERA true
-#define OUTPUT_FILENAME "../param_files/send.param"
-#define INPUT_FILENAME "../param_files/receive.param"
-#define CENTER_OUTPUT_FILENAME "../param_files/center_send.param"
-#define CENTER_INPUT_FILENAME "../param_files/center_receive.param"
-#define PLATFORMCONTROLLER_OUTPUT_FILENAME "../param_files/pc_send.param"
-#define PLATFORMCONTROLLER_INPUT_FILENAME "../param_files/pc_receive.param"
-#define QUIT_FILENAME "../param_files/quit.param"
+#define OUTPUT_FILENAME "param_files/send.param"
+#define INPUT_FILENAME "param_files/receive.param"
+#define CENTER_OUTPUT_FILENAME "param_files/center_send.param"
+#define CENTER_INPUT_FILENAME "param_files/center_receive.param"
+#define PLATFORMCONTROLLER_OUTPUT_FILENAME "param_files/pc_send.param"
+#define PLATFORMCONTROLLER_INPUT_FILENAME "param_files/pc_receive.param"
+#define QUIT_FILENAME "param_files/quit.param"
 
 
 std::string GNUPLOT_PATH = "C:\\gnuplot\\bin\\gnuplot.exe";	// pgnuplot�̏ꏊ
@@ -82,8 +82,11 @@ int main(){
 	View view_R("RIGHT", 670, 400);
 	View *view_C;
 	if (USE_CENTER_CAMERA) view_C = new View("CENTER", 515, 100);
-	FormConnection connect;
-	measurement.threadTracking("\\\\.\\COM5",9600);
+	FormConnection connect; 
+	char *cstr = new char[measurement.platform_comnumber.length() + 1];
+	strcpy(cstr, measurement.platform_comnumber.c_str());
+	std::cout << "com port [" << cstr << "]" << std::endl;
+	measurement.threadTracking(cstr, 9600);
 
 	std::thread gnu_thread(gnuplot);
 
@@ -134,7 +137,7 @@ int main(){
 		connect.doSave(&measurement);
 		//cv::imshow("test", measurement.vcc_L->templateImage[measurement.vcc_L->targetDB_x][measurement.vcc_L->targetDB_y]);
 		const auto end = std::chrono::system_clock::now();
-		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
+		//std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 
 		std::ifstream ifs(QUIT_FILENAME);
 		if (ifs.fail()) continue;
@@ -146,5 +149,6 @@ int main(){
 	gnu_thread.join();
 	measurement.trackingLoopFlag = false;
 	measurement.threadTrackingJoin();
+	delete[] cstr;
 	return 0;
 }
