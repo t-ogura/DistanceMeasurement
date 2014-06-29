@@ -2,6 +2,7 @@
 #include <math.h>
 #include <time.h>
 #include <iostream>
+#include <fstream>
 #include <string>
 #define CONFIG_FILENAME "server.cfg"
 
@@ -30,6 +31,18 @@ namespace measurement_server {
 			//
 			//TODO: ここにコンストラクター コードを追加します
 			//
+		}
+		/// std::string -> System::String への変換
+		String^ ToSystemString(const std::string& i_src){
+			return  gcnew System::String(i_src.data(), 0, i_src.size());
+		}
+		/// System::String^ -> std::string の変換
+		std::string ToStdString(String^ i_src){
+			using namespace Runtime::InteropServices;
+			const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(i_src)).ToPointer();
+			std::string os = chars;
+			Marshal::FreeHGlobal(IntPtr((void*)chars));
+			return os;
 		}
 
 	protected:
@@ -121,10 +134,10 @@ namespace measurement_server {
 	private: System::Windows::Forms::Button^  stop_button;
 
 
-	private: System::Windows::Forms::MenuStrip^  menuStrip1;
-	private: System::Windows::Forms::ToolStripMenuItem^  fileToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  loadToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  saveToolStripMenuItem;
+
+
+
+
 private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel11;
 private: System::Windows::Forms::Label^  label23;
 private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel12;
@@ -236,6 +249,12 @@ private: System::Windows::Forms::Label^  label57;
 private: System::Windows::Forms::Label^  label58;
 private: System::Windows::Forms::FontDialog^  fontDialog1;
 private: System::Windows::Forms::GroupBox^  groupBox6;
+private: System::Windows::Forms::Label^  label75;
+private: System::Windows::Forms::TextBox^  output_dir;
+private: System::Windows::Forms::Button^  output_dir_browse;
+
+
+private: System::Windows::Forms::Label^  label74;
 	private: System::ComponentModel::IContainer^  components;
 
 
@@ -313,10 +332,6 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->toolStripStatusLabel2 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
 			this->save_button = (gcnew System::Windows::Forms::Button());
 			this->stop_button = (gcnew System::Windows::Forms::Button());
-			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
-			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->loadToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->saveToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->tableLayoutPanel11 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->label23 = (gcnew System::Windows::Forms::Label());
 			this->tableLayoutPanel12 = (gcnew System::Windows::Forms::TableLayoutPanel());
@@ -336,6 +351,30 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->label37 = (gcnew System::Windows::Forms::Label());
 			this->label38 = (gcnew System::Windows::Forms::Label());
 			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
+			this->label73 = (gcnew System::Windows::Forms::Label());
+			this->groupBox5 = (gcnew System::Windows::Forms::GroupBox());
+			this->tableLayoutPanel23 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->label59 = (gcnew System::Windows::Forms::Label());
+			this->tableLayoutPanel24 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->label60 = (gcnew System::Windows::Forms::Label());
+			this->label61 = (gcnew System::Windows::Forms::Label());
+			this->tableLayoutPanel25 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->label62 = (gcnew System::Windows::Forms::Label());
+			this->label63 = (gcnew System::Windows::Forms::Label());
+			this->tableLayoutPanel26 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->label64 = (gcnew System::Windows::Forms::Label());
+			this->label65 = (gcnew System::Windows::Forms::Label());
+			this->tableLayoutPanel27 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->label66 = (gcnew System::Windows::Forms::Label());
+			this->label67 = (gcnew System::Windows::Forms::Label());
+			this->tableLayoutPanel28 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->label68 = (gcnew System::Windows::Forms::Label());
+			this->label69 = (gcnew System::Windows::Forms::Label());
+			this->label70 = (gcnew System::Windows::Forms::Label());
+			this->label72 = (gcnew System::Windows::Forms::Label());
+			this->label71 = (gcnew System::Windows::Forms::Label());
+			this->textBox9 = (gcnew System::Windows::Forms::TextBox());
+			this->textBox10 = (gcnew System::Windows::Forms::TextBox());
 			this->label30 = (gcnew System::Windows::Forms::Label());
 			this->label31 = (gcnew System::Windows::Forms::Label());
 			this->label32 = (gcnew System::Windows::Forms::Label());
@@ -375,32 +414,12 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->offset_angle_right = (gcnew System::Windows::Forms::TextBox());
 			this->label57 = (gcnew System::Windows::Forms::Label());
 			this->label58 = (gcnew System::Windows::Forms::Label());
-			this->groupBox5 = (gcnew System::Windows::Forms::GroupBox());
-			this->tableLayoutPanel23 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->label59 = (gcnew System::Windows::Forms::Label());
-			this->tableLayoutPanel24 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->label60 = (gcnew System::Windows::Forms::Label());
-			this->label61 = (gcnew System::Windows::Forms::Label());
-			this->tableLayoutPanel25 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->label62 = (gcnew System::Windows::Forms::Label());
-			this->label63 = (gcnew System::Windows::Forms::Label());
-			this->tableLayoutPanel26 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->label64 = (gcnew System::Windows::Forms::Label());
-			this->label65 = (gcnew System::Windows::Forms::Label());
-			this->tableLayoutPanel27 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->label66 = (gcnew System::Windows::Forms::Label());
-			this->label67 = (gcnew System::Windows::Forms::Label());
-			this->tableLayoutPanel28 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->label68 = (gcnew System::Windows::Forms::Label());
-			this->label69 = (gcnew System::Windows::Forms::Label());
-			this->label70 = (gcnew System::Windows::Forms::Label());
-			this->label71 = (gcnew System::Windows::Forms::Label());
-			this->textBox9 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox10 = (gcnew System::Windows::Forms::TextBox());
-			this->label72 = (gcnew System::Windows::Forms::Label());
-			this->label73 = (gcnew System::Windows::Forms::Label());
 			this->fontDialog1 = (gcnew System::Windows::Forms::FontDialog());
 			this->groupBox6 = (gcnew System::Windows::Forms::GroupBox());
+			this->label74 = (gcnew System::Windows::Forms::Label());
+			this->label75 = (gcnew System::Windows::Forms::Label());
+			this->output_dir = (gcnew System::Windows::Forms::TextBox());
+			this->output_dir_browse = (gcnew System::Windows::Forms::Button());
 			this->groupBox1->SuspendLayout();
 			this->tableLayoutPanel1->SuspendLayout();
 			this->tableLayoutPanel4->SuspendLayout();
@@ -414,7 +433,6 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel9->SuspendLayout();
 			this->tableLayoutPanel10->SuspendLayout();
 			this->statusStrip1->SuspendLayout();
-			this->menuStrip1->SuspendLayout();
 			this->tableLayoutPanel11->SuspendLayout();
 			this->tableLayoutPanel12->SuspendLayout();
 			this->tableLayoutPanel13->SuspendLayout();
@@ -422,13 +440,6 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel15->SuspendLayout();
 			this->tableLayoutPanel16->SuspendLayout();
 			this->groupBox4->SuspendLayout();
-			this->groupBox3->SuspendLayout();
-			this->tableLayoutPanel17->SuspendLayout();
-			this->tableLayoutPanel18->SuspendLayout();
-			this->tableLayoutPanel19->SuspendLayout();
-			this->tableLayoutPanel20->SuspendLayout();
-			this->tableLayoutPanel21->SuspendLayout();
-			this->tableLayoutPanel22->SuspendLayout();
 			this->groupBox5->SuspendLayout();
 			this->tableLayoutPanel23->SuspendLayout();
 			this->tableLayoutPanel24->SuspendLayout();
@@ -436,13 +447,20 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel26->SuspendLayout();
 			this->tableLayoutPanel27->SuspendLayout();
 			this->tableLayoutPanel28->SuspendLayout();
+			this->groupBox3->SuspendLayout();
+			this->tableLayoutPanel17->SuspendLayout();
+			this->tableLayoutPanel18->SuspendLayout();
+			this->tableLayoutPanel19->SuspendLayout();
+			this->tableLayoutPanel20->SuspendLayout();
+			this->tableLayoutPanel21->SuspendLayout();
+			this->tableLayoutPanel22->SuspendLayout();
 			this->groupBox6->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(13, 13);
+			this->label1->Location = System::Drawing::Point(8, 18);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(103, 12);
 			this->label1->TabIndex = 0;
@@ -450,15 +468,15 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			// dir_box
 			// 
-			this->dir_box->Location = System::Drawing::Point(6, 18);
+			this->dir_box->Location = System::Drawing::Point(51, 36);
 			this->dir_box->Name = L"dir_box";
-			this->dir_box->Size = System::Drawing::Size(196, 19);
+			this->dir_box->Size = System::Drawing::Size(161, 19);
 			this->dir_box->TabIndex = 1;
 			this->dir_box->Text = L"C:\\share";
 			// 
 			// dir_browse
 			// 
-			this->dir_browse->Location = System::Drawing::Point(215, 17);
+			this->dir_browse->Location = System::Drawing::Point(215, 35);
 			this->dir_browse->Name = L"dir_browse";
 			this->dir_browse->Size = System::Drawing::Size(54, 20);
 			this->dir_browse->TabIndex = 2;
@@ -469,7 +487,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// groupBox1
 			// 
 			this->groupBox1->Controls->Add(this->tableLayoutPanel1);
-			this->groupBox1->Location = System::Drawing::Point(11, 351);
+			this->groupBox1->Location = System::Drawing::Point(11, 381);
 			this->groupBox1->Name = L"groupBox1";
 			this->groupBox1->Size = System::Drawing::Size(277, 122);
 			this->groupBox1->TabIndex = 3;
@@ -484,7 +502,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				58.7156F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				57)));
+				58)));
 			this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel4, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->label4, 0, 1);
 			this->tableLayoutPanel1->Controls->Add(this->label2, 0, 0);
@@ -506,7 +524,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel4->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel4->Controls->Add(this->label19, 0, 0);
-			this->tableLayoutPanel4->Location = System::Drawing::Point(209, 3);
+			this->tableLayoutPanel4->Location = System::Drawing::Point(208, 3);
 			this->tableLayoutPanel4->Name = L"tableLayoutPanel4";
 			this->tableLayoutPanel4->RowCount = 1;
 			this->tableLayoutPanel4->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -566,14 +584,14 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel2->Size = System::Drawing::Size(115, 72);
+			this->tableLayoutPanel2->Size = System::Drawing::Size(114, 72);
 			this->tableLayoutPanel2->TabIndex = 8;
 			// 
 			// a_tilt_deg
 			// 
 			this->a_tilt_deg->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->a_tilt_deg->AutoSize = true;
-			this->a_tilt_deg->Location = System::Drawing::Point(101, 57);
+			this->a_tilt_deg->Location = System::Drawing::Point(100, 57);
 			this->a_tilt_deg->Name = L"a_tilt_deg";
 			this->a_tilt_deg->Size = System::Drawing::Size(11, 12);
 			this->a_tilt_deg->TabIndex = 15;
@@ -584,7 +602,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			this->a_pan_deg->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->a_pan_deg->AutoSize = true;
-			this->a_pan_deg->Location = System::Drawing::Point(101, 39);
+			this->a_pan_deg->Location = System::Drawing::Point(100, 39);
 			this->a_pan_deg->Name = L"a_pan_deg";
 			this->a_pan_deg->Size = System::Drawing::Size(11, 12);
 			this->a_pan_deg->TabIndex = 14;
@@ -595,7 +613,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			this->a_tilt_rad->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->a_tilt_rad->AutoSize = true;
-			this->a_tilt_rad->Location = System::Drawing::Point(101, 21);
+			this->a_tilt_rad->Location = System::Drawing::Point(100, 21);
 			this->a_tilt_rad->Name = L"a_tilt_rad";
 			this->a_tilt_rad->Size = System::Drawing::Size(11, 12);
 			this->a_tilt_rad->TabIndex = 13;
@@ -606,7 +624,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			this->a_pan_rad->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->a_pan_rad->AutoSize = true;
-			this->a_pan_rad->Location = System::Drawing::Point(101, 3);
+			this->a_pan_rad->Location = System::Drawing::Point(100, 3);
 			this->a_pan_rad->Name = L"a_pan_rad";
 			this->a_pan_rad->Size = System::Drawing::Size(11, 12);
 			this->a_pan_rad->TabIndex = 12;
@@ -667,14 +685,14 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel5->Name = L"tableLayoutPanel5";
 			this->tableLayoutPanel5->RowCount = 1;
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel5->Size = System::Drawing::Size(115, 12);
+			this->tableLayoutPanel5->Size = System::Drawing::Size(114, 12);
 			this->tableLayoutPanel5->TabIndex = 11;
 			// 
 			// a_dist
 			// 
 			this->a_dist->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->a_dist->AutoSize = true;
-			this->a_dist->Location = System::Drawing::Point(101, 0);
+			this->a_dist->Location = System::Drawing::Point(100, 0);
 			this->a_dist->Name = L"a_dist";
 			this->a_dist->Size = System::Drawing::Size(11, 12);
 			this->a_dist->TabIndex = 1;
@@ -690,7 +708,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel3->Controls->Add(this->label11, 0, 0);
 			this->tableLayoutPanel3->Controls->Add(this->label12, 0, 2);
 			this->tableLayoutPanel3->Controls->Add(this->label13, 0, 3);
-			this->tableLayoutPanel3->Location = System::Drawing::Point(209, 22);
+			this->tableLayoutPanel3->Location = System::Drawing::Point(208, 22);
 			this->tableLayoutPanel3->Name = L"tableLayoutPanel3";
 			this->tableLayoutPanel3->RowCount = 4;
 			this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -743,7 +761,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// groupBox2
 			// 
 			this->groupBox2->Controls->Add(this->tableLayoutPanel6);
-			this->groupBox2->Location = System::Drawing::Point(11, 479);
+			this->groupBox2->Location = System::Drawing::Point(11, 509);
 			this->groupBox2->Name = L"groupBox2";
 			this->groupBox2->Size = System::Drawing::Size(277, 122);
 			this->groupBox2->TabIndex = 4;
@@ -758,7 +776,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				59.63303F)));
 			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				57)));
+				58)));
 			this->tableLayoutPanel6->Controls->Add(this->tableLayoutPanel7, 2, 0);
 			this->tableLayoutPanel6->Controls->Add(this->tableLayoutPanel8, 2, 1);
 			this->tableLayoutPanel6->Controls->Add(this->label17, 0, 1);
@@ -779,7 +797,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel7->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel7->Controls->Add(this->label3, 0, 0);
-			this->tableLayoutPanel7->Location = System::Drawing::Point(209, 3);
+			this->tableLayoutPanel7->Location = System::Drawing::Point(208, 3);
 			this->tableLayoutPanel7->Name = L"tableLayoutPanel7";
 			this->tableLayoutPanel7->RowCount = 1;
 			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -805,7 +823,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel8->Controls->Add(this->label14, 0, 0);
 			this->tableLayoutPanel8->Controls->Add(this->label15, 0, 2);
 			this->tableLayoutPanel8->Controls->Add(this->label16, 0, 3);
-			this->tableLayoutPanel8->Location = System::Drawing::Point(209, 22);
+			this->tableLayoutPanel8->Location = System::Drawing::Point(208, 22);
 			this->tableLayoutPanel8->Name = L"tableLayoutPanel8";
 			this->tableLayoutPanel8->RowCount = 4;
 			this->tableLayoutPanel8->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -897,14 +915,14 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel9->Size = System::Drawing::Size(117, 72);
+			this->tableLayoutPanel9->Size = System::Drawing::Size(116, 72);
 			this->tableLayoutPanel9->TabIndex = 8;
 			// 
 			// b_tilt_deg
 			// 
 			this->b_tilt_deg->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->b_tilt_deg->AutoSize = true;
-			this->b_tilt_deg->Location = System::Drawing::Point(103, 57);
+			this->b_tilt_deg->Location = System::Drawing::Point(102, 57);
 			this->b_tilt_deg->Name = L"b_tilt_deg";
 			this->b_tilt_deg->Size = System::Drawing::Size(11, 12);
 			this->b_tilt_deg->TabIndex = 15;
@@ -915,7 +933,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			this->b_pan_deg->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->b_pan_deg->AutoSize = true;
-			this->b_pan_deg->Location = System::Drawing::Point(103, 39);
+			this->b_pan_deg->Location = System::Drawing::Point(102, 39);
 			this->b_pan_deg->Name = L"b_pan_deg";
 			this->b_pan_deg->Size = System::Drawing::Size(11, 12);
 			this->b_pan_deg->TabIndex = 14;
@@ -926,7 +944,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			this->b_tilt_rad->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->b_tilt_rad->AutoSize = true;
-			this->b_tilt_rad->Location = System::Drawing::Point(103, 21);
+			this->b_tilt_rad->Location = System::Drawing::Point(102, 21);
 			this->b_tilt_rad->Name = L"b_tilt_rad";
 			this->b_tilt_rad->Size = System::Drawing::Size(11, 12);
 			this->b_tilt_rad->TabIndex = 13;
@@ -937,7 +955,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			this->b_pan_rad->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->b_pan_rad->AutoSize = true;
-			this->b_pan_rad->Location = System::Drawing::Point(103, 3);
+			this->b_pan_rad->Location = System::Drawing::Point(102, 3);
 			this->b_pan_rad->Name = L"b_pan_rad";
 			this->b_pan_rad->Size = System::Drawing::Size(11, 12);
 			this->b_pan_rad->TabIndex = 12;
@@ -948,7 +966,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			this->label24->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label24->AutoSize = true;
-			this->label24->Location = System::Drawing::Point(4, 21);
+			this->label24->Location = System::Drawing::Point(3, 21);
 			this->label24->Name = L"label24";
 			this->label24->Size = System::Drawing::Size(22, 12);
 			this->label24->TabIndex = 9;
@@ -958,9 +976,9 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			this->label25->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label25->AutoSize = true;
-			this->label25->Location = System::Drawing::Point(3, 3);
+			this->label25->Location = System::Drawing::Point(5, 0);
 			this->label25->Name = L"label25";
-			this->label25->Size = System::Drawing::Size(24, 12);
+			this->label25->Size = System::Drawing::Size(18, 18);
 			this->label25->TabIndex = 8;
 			this->label25->Text = L"Pan";
 			// 
@@ -968,9 +986,9 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			this->label26->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label26->AutoSize = true;
-			this->label26->Location = System::Drawing::Point(3, 39);
+			this->label26->Location = System::Drawing::Point(5, 36);
 			this->label26->Name = L"label26";
-			this->label26->Size = System::Drawing::Size(24, 12);
+			this->label26->Size = System::Drawing::Size(18, 18);
 			this->label26->TabIndex = 10;
 			this->label26->Text = L"Pan";
 			// 
@@ -978,7 +996,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			this->label27->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label27->AutoSize = true;
-			this->label27->Location = System::Drawing::Point(4, 57);
+			this->label27->Location = System::Drawing::Point(3, 57);
 			this->label27->Name = L"label27";
 			this->label27->Size = System::Drawing::Size(22, 12);
 			this->label27->TabIndex = 11;
@@ -994,14 +1012,14 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel10->Name = L"tableLayoutPanel10";
 			this->tableLayoutPanel10->RowCount = 1;
 			this->tableLayoutPanel10->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel10->Size = System::Drawing::Size(117, 12);
+			this->tableLayoutPanel10->Size = System::Drawing::Size(116, 12);
 			this->tableLayoutPanel10->TabIndex = 11;
 			// 
 			// b_dist
 			// 
 			this->b_dist->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->b_dist->AutoSize = true;
-			this->b_dist->Location = System::Drawing::Point(103, 0);
+			this->b_dist->Location = System::Drawing::Point(102, 0);
 			this->b_dist->Name = L"b_dist";
 			this->b_dist->Size = System::Drawing::Size(11, 12);
 			this->b_dist->TabIndex = 1;
@@ -1021,7 +1039,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// label20
 			// 
 			this->label20->AutoSize = true;
-			this->label20->Location = System::Drawing::Point(5, 47);
+			this->label20->Location = System::Drawing::Point(5, 97);
 			this->label20->Name = L"label20";
 			this->label20->Size = System::Drawing::Size(139, 12);
 			this->label20->TabIndex = 5;
@@ -1029,7 +1047,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			// f_distanceBetweenTargets
 			// 
-			this->f_distanceBetweenTargets->Location = System::Drawing::Point(173, 44);
+			this->f_distanceBetweenTargets->Location = System::Drawing::Point(173, 94);
 			this->f_distanceBetweenTargets->Name = L"f_distanceBetweenTargets";
 			this->f_distanceBetweenTargets->Size = System::Drawing::Size(96, 19);
 			this->f_distanceBetweenTargets->TabIndex = 6;
@@ -1038,7 +1056,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			// f_distanceBetweenSystems
 			// 
-			this->f_distanceBetweenSystems->Location = System::Drawing::Point(173, 69);
+			this->f_distanceBetweenSystems->Location = System::Drawing::Point(173, 119);
 			this->f_distanceBetweenSystems->Name = L"f_distanceBetweenSystems";
 			this->f_distanceBetweenSystems->Size = System::Drawing::Size(96, 19);
 			this->f_distanceBetweenSystems->TabIndex = 8;
@@ -1048,7 +1066,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// label21
 			// 
 			this->label21->AutoSize = true;
-			this->label21->Location = System::Drawing::Point(5, 72);
+			this->label21->Location = System::Drawing::Point(5, 122);
 			this->label21->Name = L"label21";
 			this->label21->Size = System::Drawing::Size(149, 12);
 			this->label21->TabIndex = 7;
@@ -1056,7 +1074,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			// savefilename_box
 			// 
-			this->savefilename_box->Location = System::Drawing::Point(101, 607);
+			this->savefilename_box->Location = System::Drawing::Point(101, 637);
 			this->savefilename_box->Name = L"savefilename_box";
 			this->savefilename_box->Size = System::Drawing::Size(94, 19);
 			this->savefilename_box->TabIndex = 9;
@@ -1065,7 +1083,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// label22
 			// 
 			this->label22->AutoSize = true;
-			this->label22->Location = System::Drawing::Point(9, 610);
+			this->label22->Location = System::Drawing::Point(9, 640);
 			this->label22->Name = L"label22";
 			this->label22->Size = System::Drawing::Size(86, 12);
 			this->label22->TabIndex = 10;
@@ -1077,7 +1095,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 				this->toolStripStatusLabel1,
 					this->toolStripStatusLabel2
 			});
-			this->statusStrip1->Location = System::Drawing::Point(0, 635);
+			this->statusStrip1->Location = System::Drawing::Point(0, 664);
 			this->statusStrip1->Name = L"statusStrip1";
 			this->statusStrip1->Size = System::Drawing::Size(299, 22);
 			this->statusStrip1->SizingGrip = false;
@@ -1097,7 +1115,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			// save_button
 			// 
-			this->save_button->Location = System::Drawing::Point(201, 607);
+			this->save_button->Location = System::Drawing::Point(201, 637);
 			this->save_button->Name = L"save_button";
 			this->save_button->Size = System::Drawing::Size(41, 19);
 			this->save_button->TabIndex = 12;
@@ -1107,45 +1125,13 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			// 
 			// stop_button
 			// 
-			this->stop_button->Location = System::Drawing::Point(248, 607);
+			this->stop_button->Location = System::Drawing::Point(248, 637);
 			this->stop_button->Name = L"stop_button";
 			this->stop_button->Size = System::Drawing::Size(43, 19);
 			this->stop_button->TabIndex = 13;
 			this->stop_button->Text = L"Stop";
 			this->stop_button->UseVisualStyleBackColor = true;
 			this->stop_button->Click += gcnew System::EventHandler(this, &MainForm::stop_button_Click);
-			// 
-			// menuStrip1
-			// 
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
-			this->menuStrip1->Location = System::Drawing::Point(0, 0);
-			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->RenderMode = System::Windows::Forms::ToolStripRenderMode::System;
-			this->menuStrip1->Size = System::Drawing::Size(299, 24);
-			this->menuStrip1->TabIndex = 14;
-			this->menuStrip1->Text = L"menuStrip1";
-			// 
-			// fileToolStripMenuItem
-			// 
-			this->fileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
-				this->loadToolStripMenuItem,
-					this->saveToolStripMenuItem
-			});
-			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
-			this->fileToolStripMenuItem->Size = System::Drawing::Size(39, 20);
-			this->fileToolStripMenuItem->Text = L"File";
-			// 
-			// loadToolStripMenuItem
-			// 
-			this->loadToolStripMenuItem->Name = L"loadToolStripMenuItem";
-			this->loadToolStripMenuItem->Size = System::Drawing::Size(103, 22);
-			this->loadToolStripMenuItem->Text = L"Load";
-			// 
-			// saveToolStripMenuItem
-			// 
-			this->saveToolStripMenuItem->Name = L"saveToolStripMenuItem";
-			this->saveToolStripMenuItem->Size = System::Drawing::Size(103, 22);
-			this->saveToolStripMenuItem->Text = L"Save";
 			// 
 			// tableLayoutPanel11
 			// 
@@ -1385,7 +1371,7 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->groupBox4->Controls->Add(this->label71);
 			this->groupBox4->Controls->Add(this->textBox9);
 			this->groupBox4->Controls->Add(this->textBox10);
-			this->groupBox4->Location = System::Drawing::Point(12, 254);
+			this->groupBox4->Location = System::Drawing::Point(12, 284);
 			this->groupBox4->Name = L"groupBox4";
 			this->groupBox4->Size = System::Drawing::Size(276, 91);
 			this->groupBox4->TabIndex = 18;
@@ -1393,428 +1379,14 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->groupBox4->Text = L"Common Information";
 			this->groupBox4->Enter += gcnew System::EventHandler(this, &MainForm::groupBox4_Enter);
 			// 
-			// label30
-			// 
-			this->label30->AutoSize = true;
-			this->label30->Location = System::Drawing::Point(5, 105);
-			this->label30->Name = L"label30";
-			this->label30->Size = System::Drawing::Size(110, 12);
-			this->label30->TabIndex = 19;
-			this->label30->Text = L"Install position [mm]";
-			// 
-			// label31
-			// 
-			this->label31->AutoSize = true;
-			this->label31->Location = System::Drawing::Point(6, 129);
-			this->label31->Name = L"label31";
-			this->label31->Size = System::Drawing::Size(103, 12);
-			this->label31->TabIndex = 20;
-			this->label31->Text = L"Shift position [mm]";
-			// 
-			// label32
-			// 
-			this->label32->AutoSize = true;
-			this->label32->Location = System::Drawing::Point(6, 164);
-			this->label32->Name = L"label32";
-			this->label32->Size = System::Drawing::Size(100, 12);
-			this->label32->TabIndex = 21;
-			this->label32->Text = L"Offset angle [deg.]";
-			this->label32->Click += gcnew System::EventHandler(this, &MainForm::label32_Click);
-			// 
-			// inst_pos_x
-			// 
-			this->inst_pos_x->Location = System::Drawing::Point(137, 99);
-			this->inst_pos_x->Name = L"inst_pos_x";
-			this->inst_pos_x->Size = System::Drawing::Size(54, 19);
-			this->inst_pos_x->TabIndex = 22;
-			this->inst_pos_x->Text = L"0";
-			this->inst_pos_x->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			this->inst_pos_x->TextChanged += gcnew System::EventHandler(this, &MainForm::textBox1_TextChanged);
-			// 
-			// inst_pos_y
-			// 
-			this->inst_pos_y->Location = System::Drawing::Point(215, 99);
-			this->inst_pos_y->Name = L"inst_pos_y";
-			this->inst_pos_y->Size = System::Drawing::Size(54, 19);
-			this->inst_pos_y->TabIndex = 23;
-			this->inst_pos_y->Text = L"0";
-			this->inst_pos_y->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			// 
-			// label33
-			// 
-			this->label33->AutoSize = true;
-			this->label33->Location = System::Drawing::Point(120, 102);
-			this->label33->Name = L"label33";
-			this->label33->Size = System::Drawing::Size(11, 12);
-			this->label33->TabIndex = 24;
-			this->label33->Text = L"x";
-			// 
-			// label39
-			// 
-			this->label39->AutoSize = true;
-			this->label39->Location = System::Drawing::Point(201, 102);
-			this->label39->Name = L"label39";
-			this->label39->Size = System::Drawing::Size(11, 12);
-			this->label39->TabIndex = 25;
-			this->label39->Text = L"y";
-			// 
-			// label40
-			// 
-			this->label40->AutoSize = true;
-			this->label40->Location = System::Drawing::Point(201, 129);
-			this->label40->Name = L"label40";
-			this->label40->Size = System::Drawing::Size(11, 12);
-			this->label40->TabIndex = 29;
-			this->label40->Text = L"y";
-			// 
-			// label41
-			// 
-			this->label41->AutoSize = true;
-			this->label41->Location = System::Drawing::Point(120, 129);
-			this->label41->Name = L"label41";
-			this->label41->Size = System::Drawing::Size(11, 12);
-			this->label41->TabIndex = 28;
-			this->label41->Text = L"x";
-			// 
-			// shift_pos_y
-			// 
-			this->shift_pos_y->Location = System::Drawing::Point(215, 126);
-			this->shift_pos_y->Name = L"shift_pos_y";
-			this->shift_pos_y->Size = System::Drawing::Size(54, 19);
-			this->shift_pos_y->TabIndex = 27;
-			this->shift_pos_y->Text = L"0";
-			this->shift_pos_y->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			// 
-			// shift_pos_x
-			// 
-			this->shift_pos_x->Location = System::Drawing::Point(137, 126);
-			this->shift_pos_x->Name = L"shift_pos_x";
-			this->shift_pos_x->Size = System::Drawing::Size(54, 19);
-			this->shift_pos_x->TabIndex = 26;
-			this->shift_pos_x->Text = L"0";
-			this->shift_pos_x->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			// 
-			// label43
-			// 
-			this->label43->AutoSize = true;
-			this->label43->Location = System::Drawing::Point(130, 164);
-			this->label43->Name = L"label43";
-			this->label43->Size = System::Drawing::Size(52, 12);
-			this->label43->TabIndex = 32;
-			this->label43->Text = L"theta left";
-			// 
-			// textBox5
-			// 
-			this->textBox5->Location = System::Drawing::Point(193, 186);
-			this->textBox5->Name = L"textBox5";
-			this->textBox5->Size = System::Drawing::Size(76, 19);
-			this->textBox5->TabIndex = 31;
-			this->textBox5->Text = L"0";
-			this->textBox5->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			// 
-			// textBox6
-			// 
-			this->textBox6->Location = System::Drawing::Point(193, 161);
-			this->textBox6->Name = L"textBox6";
-			this->textBox6->Size = System::Drawing::Size(76, 19);
-			this->textBox6->TabIndex = 30;
-			this->textBox6->Text = L"0";
-			this->textBox6->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			// 
-			// label42
-			// 
-			this->label42->AutoSize = true;
-			this->label42->Location = System::Drawing::Point(130, 189);
-			this->label42->Name = L"label42";
-			this->label42->Size = System::Drawing::Size(58, 12);
-			this->label42->TabIndex = 33;
-			this->label42->Text = L"theta right";
-			// 
-			// groupBox3
-			// 
-			this->groupBox3->Controls->Add(this->tableLayoutPanel17);
-			this->groupBox3->Location = System::Drawing::Point(12, 254);
-			this->groupBox3->Name = L"groupBox3";
-			this->groupBox3->Size = System::Drawing::Size(276, 91);
-			this->groupBox3->TabIndex = 18;
-			this->groupBox3->TabStop = false;
-			this->groupBox3->Text = L"Common Information";
-			this->groupBox3->Enter += gcnew System::EventHandler(this, &MainForm::groupBox4_Enter);
-			// 
-			// tableLayoutPanel17
-			// 
-			this->tableLayoutPanel17->ColumnCount = 4;
-			this->tableLayoutPanel17->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				55.43478F)));
-			this->tableLayoutPanel17->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				22)));
-			this->tableLayoutPanel17->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				103)));
-			this->tableLayoutPanel17->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				43)));
-			this->tableLayoutPanel17->Controls->Add(this->label44, 0, 0);
-			this->tableLayoutPanel17->Controls->Add(this->tableLayoutPanel18, 3, 0);
-			this->tableLayoutPanel17->Controls->Add(this->tableLayoutPanel19, 2, 0);
-			this->tableLayoutPanel17->Controls->Add(this->tableLayoutPanel20, 2, 1);
-			this->tableLayoutPanel17->Controls->Add(this->tableLayoutPanel21, 3, 1);
-			this->tableLayoutPanel17->Controls->Add(this->tableLayoutPanel22, 1, 1);
-			this->tableLayoutPanel17->Controls->Add(this->label55, 0, 1);
-			this->tableLayoutPanel17->Location = System::Drawing::Point(6, 18);
-			this->tableLayoutPanel17->Name = L"tableLayoutPanel17";
-			this->tableLayoutPanel17->RowCount = 2;
-			this->tableLayoutPanel17->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50.74627F)));
-			this->tableLayoutPanel17->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 49.25373F)));
-			this->tableLayoutPanel17->Size = System::Drawing::Size(264, 67);
-			this->tableLayoutPanel17->TabIndex = 15;
-			// 
-			// label44
-			// 
-			this->label44->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->label44->AutoSize = true;
-			this->label44->Location = System::Drawing::Point(11, 11);
-			this->label44->Name = L"label44";
-			this->label44->Size = System::Drawing::Size(73, 12);
-			this->label44->TabIndex = 1;
-			this->label44->Text = L"Vessel Angle";
-			// 
-			// tableLayoutPanel18
-			// 
-			this->tableLayoutPanel18->ColumnCount = 1;
-			this->tableLayoutPanel18->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				100)));
-			this->tableLayoutPanel18->Controls->Add(this->label45, 0, 1);
-			this->tableLayoutPanel18->Controls->Add(this->label46, 0, 0);
-			this->tableLayoutPanel18->Location = System::Drawing::Point(224, 3);
-			this->tableLayoutPanel18->Name = L"tableLayoutPanel18";
-			this->tableLayoutPanel18->RowCount = 2;
-			this->tableLayoutPanel18->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel18->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel18->Size = System::Drawing::Size(37, 28);
-			this->tableLayoutPanel18->TabIndex = 10;
-			// 
-			// label45
-			// 
-			this->label45->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->label45->AutoSize = true;
-			this->label45->Location = System::Drawing::Point(6, 15);
-			this->label45->Name = L"label45";
-			this->label45->Size = System::Drawing::Size(25, 12);
-			this->label45->TabIndex = 9;
-			this->label45->Text = L"deg.";
-			// 
-			// label46
-			// 
-			this->label46->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->label46->AutoSize = true;
-			this->label46->Location = System::Drawing::Point(7, 1);
-			this->label46->Name = L"label46";
-			this->label46->Size = System::Drawing::Size(23, 12);
-			this->label46->TabIndex = 8;
-			this->label46->Text = L"rad.";
-			// 
-			// tableLayoutPanel19
-			// 
-			this->tableLayoutPanel19->ColumnCount = 1;
-			this->tableLayoutPanel19->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				100)));
-			this->tableLayoutPanel19->Controls->Add(this->label47, 0, 1);
-			this->tableLayoutPanel19->Controls->Add(this->label48, 0, 0);
-			this->tableLayoutPanel19->Location = System::Drawing::Point(121, 3);
-			this->tableLayoutPanel19->Name = L"tableLayoutPanel19";
-			this->tableLayoutPanel19->RowCount = 2;
-			this->tableLayoutPanel19->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel19->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel19->Size = System::Drawing::Size(97, 28);
-			this->tableLayoutPanel19->TabIndex = 11;
-			// 
-			// label47
-			// 
-			this->label47->Anchor = System::Windows::Forms::AnchorStyles::Right;
-			this->label47->AutoSize = true;
-			this->label47->Location = System::Drawing::Point(83, 15);
-			this->label47->Name = L"label47";
-			this->label47->Size = System::Drawing::Size(11, 12);
-			this->label47->TabIndex = 9;
-			this->label47->Text = L"0";
-			this->label47->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
-			// 
-			// label48
-			// 
-			this->label48->Anchor = System::Windows::Forms::AnchorStyles::Right;
-			this->label48->AutoSize = true;
-			this->label48->Location = System::Drawing::Point(83, 1);
-			this->label48->Name = L"label48";
-			this->label48->Size = System::Drawing::Size(11, 12);
-			this->label48->TabIndex = 8;
-			this->label48->Text = L"0";
-			this->label48->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
-			// 
-			// tableLayoutPanel20
-			// 
-			this->tableLayoutPanel20->ColumnCount = 1;
-			this->tableLayoutPanel20->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				100)));
-			this->tableLayoutPanel20->Controls->Add(this->label49, 0, 1);
-			this->tableLayoutPanel20->Controls->Add(this->label50, 0, 0);
-			this->tableLayoutPanel20->Location = System::Drawing::Point(121, 37);
-			this->tableLayoutPanel20->Name = L"tableLayoutPanel20";
-			this->tableLayoutPanel20->RowCount = 2;
-			this->tableLayoutPanel20->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel20->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel20->Size = System::Drawing::Size(97, 27);
-			this->tableLayoutPanel20->TabIndex = 12;
-			// 
-			// label49
-			// 
-			this->label49->Anchor = System::Windows::Forms::AnchorStyles::Right;
-			this->label49->AutoSize = true;
-			this->label49->Location = System::Drawing::Point(83, 14);
-			this->label49->Name = L"label49";
-			this->label49->Size = System::Drawing::Size(11, 12);
-			this->label49->TabIndex = 9;
-			this->label49->Text = L"0";
-			this->label49->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
-			// 
-			// label50
-			// 
-			this->label50->Anchor = System::Windows::Forms::AnchorStyles::Right;
-			this->label50->AutoSize = true;
-			this->label50->Location = System::Drawing::Point(83, 0);
-			this->label50->Name = L"label50";
-			this->label50->Size = System::Drawing::Size(11, 12);
-			this->label50->TabIndex = 8;
-			this->label50->Text = L"0";
-			this->label50->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
-			// 
-			// tableLayoutPanel21
-			// 
-			this->tableLayoutPanel21->ColumnCount = 1;
-			this->tableLayoutPanel21->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				100)));
-			this->tableLayoutPanel21->Controls->Add(this->label51, 0, 1);
-			this->tableLayoutPanel21->Controls->Add(this->label52, 0, 0);
-			this->tableLayoutPanel21->Location = System::Drawing::Point(224, 37);
-			this->tableLayoutPanel21->Name = L"tableLayoutPanel21";
-			this->tableLayoutPanel21->RowCount = 2;
-			this->tableLayoutPanel21->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel21->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel21->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute,
-				20)));
-			this->tableLayoutPanel21->Size = System::Drawing::Size(37, 27);
-			this->tableLayoutPanel21->TabIndex = 13;
-			// 
-			// label51
-			// 
-			this->label51->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->label51->AutoSize = true;
-			this->label51->Location = System::Drawing::Point(7, 14);
-			this->label51->Name = L"label51";
-			this->label51->Size = System::Drawing::Size(23, 12);
-			this->label51->TabIndex = 9;
-			this->label51->Text = L"mm";
-			// 
-			// label52
-			// 
-			this->label52->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->label52->AutoSize = true;
-			this->label52->Location = System::Drawing::Point(7, 0);
-			this->label52->Name = L"label52";
-			this->label52->Size = System::Drawing::Size(23, 12);
-			this->label52->TabIndex = 8;
-			this->label52->Text = L"mm";
-			// 
-			// tableLayoutPanel22
-			// 
-			this->tableLayoutPanel22->ColumnCount = 1;
-			this->tableLayoutPanel22->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				100)));
-			this->tableLayoutPanel22->Controls->Add(this->label53, 0, 1);
-			this->tableLayoutPanel22->Controls->Add(this->label54, 0, 0);
-			this->tableLayoutPanel22->Location = System::Drawing::Point(99, 37);
-			this->tableLayoutPanel22->Name = L"tableLayoutPanel22";
-			this->tableLayoutPanel22->RowCount = 2;
-			this->tableLayoutPanel22->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel22->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel22->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute,
-				20)));
-			this->tableLayoutPanel22->Size = System::Drawing::Size(16, 27);
-			this->tableLayoutPanel22->TabIndex = 14;
-			// 
-			// label53
-			// 
-			this->label53->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->label53->AutoSize = true;
-			this->label53->Location = System::Drawing::Point(3, 14);
-			this->label53->Name = L"label53";
-			this->label53->Size = System::Drawing::Size(10, 12);
-			this->label53->TabIndex = 9;
-			this->label53->Text = L"y";
-			// 
-			// label54
-			// 
-			this->label54->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->label54->AutoSize = true;
-			this->label54->Location = System::Drawing::Point(3, 0);
-			this->label54->Name = L"label54";
-			this->label54->Size = System::Drawing::Size(10, 12);
-			this->label54->TabIndex = 8;
-			this->label54->Text = L"x";
-			// 
-			// label55
-			// 
-			this->label55->Anchor = System::Windows::Forms::AnchorStyles::None;
-			this->label55->AutoSize = true;
-			this->label55->Location = System::Drawing::Point(5, 44);
-			this->label55->Name = L"label55";
-			this->label55->Size = System::Drawing::Size(85, 12);
-			this->label55->TabIndex = 15;
-			this->label55->Text = L"Vessel Position";
-			// 
-			// label56
-			// 
-			this->label56->AutoSize = true;
-			this->label56->Location = System::Drawing::Point(6, 164);
-			this->label56->Name = L"label56";
-			this->label56->Size = System::Drawing::Size(100, 12);
-			this->label56->TabIndex = 21;
-			this->label56->Text = L"Offset angle [deg.]";
-			this->label56->Click += gcnew System::EventHandler(this, &MainForm::label32_Click);
-			// 
-			// offset_angle_left
-			// 
-			this->offset_angle_left->Location = System::Drawing::Point(193, 161);
-			this->offset_angle_left->Name = L"offset_angle_left";
-			this->offset_angle_left->Size = System::Drawing::Size(76, 19);
-			this->offset_angle_left->TabIndex = 30;
-			this->offset_angle_left->Text = L"0";
-			this->offset_angle_left->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			// 
-			// offset_angle_right
-			// 
-			this->offset_angle_right->Location = System::Drawing::Point(193, 186);
-			this->offset_angle_right->Name = L"offset_angle_right";
-			this->offset_angle_right->Size = System::Drawing::Size(76, 19);
-			this->offset_angle_right->TabIndex = 31;
-			this->offset_angle_right->Text = L"0";
-			this->offset_angle_right->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-			// 
-			// label57
-			// 
-			this->label57->AutoSize = true;
-			this->label57->Location = System::Drawing::Point(130, 164);
-			this->label57->Name = L"label57";
-			this->label57->Size = System::Drawing::Size(52, 12);
-			this->label57->TabIndex = 32;
-			this->label57->Text = L"theta left";
-			// 
-			// label58
-			// 
-			this->label58->AutoSize = true;
-			this->label58->Location = System::Drawing::Point(130, 189);
-			this->label58->Name = L"label58";
-			this->label58->Size = System::Drawing::Size(58, 12);
-			this->label58->TabIndex = 33;
-			this->label58->Text = L"theta right";
+			// label73
+			// 
+			this->label73->AutoSize = true;
+			this->label73->Location = System::Drawing::Point(138, -34);
+			this->label73->Name = L"label73";
+			this->label73->Size = System::Drawing::Size(58, 12);
+			this->label73->TabIndex = 33;
+			this->label73->Text = L"theta right";
 			// 
 			// groupBox5
 			// 
@@ -2056,6 +1628,15 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->label70->TabIndex = 15;
 			this->label70->Text = L"Vessel Position";
 			// 
+			// label72
+			// 
+			this->label72->AutoSize = true;
+			this->label72->Location = System::Drawing::Point(138, -59);
+			this->label72->Name = L"label72";
+			this->label72->Size = System::Drawing::Size(52, 12);
+			this->label72->TabIndex = 32;
+			this->label72->Text = L"theta left";
+			// 
 			// label71
 			// 
 			this->label71->AutoSize = true;
@@ -2084,32 +1665,442 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->textBox10->Text = L"0";
 			this->textBox10->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
-			// label72
+			// label30
 			// 
-			this->label72->AutoSize = true;
-			this->label72->Location = System::Drawing::Point(138, -59);
-			this->label72->Name = L"label72";
-			this->label72->Size = System::Drawing::Size(52, 12);
-			this->label72->TabIndex = 32;
-			this->label72->Text = L"theta left";
+			this->label30->AutoSize = true;
+			this->label30->Location = System::Drawing::Point(5, 155);
+			this->label30->Name = L"label30";
+			this->label30->Size = System::Drawing::Size(110, 12);
+			this->label30->TabIndex = 19;
+			this->label30->Text = L"Install position [mm]";
 			// 
-			// label73
+			// label31
 			// 
-			this->label73->AutoSize = true;
-			this->label73->Location = System::Drawing::Point(138, -34);
-			this->label73->Name = L"label73";
-			this->label73->Size = System::Drawing::Size(58, 12);
-			this->label73->TabIndex = 33;
-			this->label73->Text = L"theta right";
+			this->label31->AutoSize = true;
+			this->label31->Location = System::Drawing::Point(6, 179);
+			this->label31->Name = L"label31";
+			this->label31->Size = System::Drawing::Size(103, 12);
+			this->label31->TabIndex = 20;
+			this->label31->Text = L"Shift position [mm]";
+			// 
+			// label32
+			// 
+			this->label32->AutoSize = true;
+			this->label32->Location = System::Drawing::Point(6, 214);
+			this->label32->Name = L"label32";
+			this->label32->Size = System::Drawing::Size(100, 12);
+			this->label32->TabIndex = 21;
+			this->label32->Text = L"Offset angle [deg.]";
+			this->label32->Click += gcnew System::EventHandler(this, &MainForm::label32_Click);
+			// 
+			// inst_pos_x
+			// 
+			this->inst_pos_x->Location = System::Drawing::Point(137, 149);
+			this->inst_pos_x->Name = L"inst_pos_x";
+			this->inst_pos_x->Size = System::Drawing::Size(54, 19);
+			this->inst_pos_x->TabIndex = 22;
+			this->inst_pos_x->Text = L"0";
+			this->inst_pos_x->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			this->inst_pos_x->TextChanged += gcnew System::EventHandler(this, &MainForm::textBox1_TextChanged);
+			// 
+			// inst_pos_y
+			// 
+			this->inst_pos_y->Location = System::Drawing::Point(215, 149);
+			this->inst_pos_y->Name = L"inst_pos_y";
+			this->inst_pos_y->Size = System::Drawing::Size(54, 19);
+			this->inst_pos_y->TabIndex = 23;
+			this->inst_pos_y->Text = L"0";
+			this->inst_pos_y->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// label33
+			// 
+			this->label33->AutoSize = true;
+			this->label33->Location = System::Drawing::Point(120, 152);
+			this->label33->Name = L"label33";
+			this->label33->Size = System::Drawing::Size(11, 12);
+			this->label33->TabIndex = 24;
+			this->label33->Text = L"x";
+			// 
+			// label39
+			// 
+			this->label39->AutoSize = true;
+			this->label39->Location = System::Drawing::Point(201, 152);
+			this->label39->Name = L"label39";
+			this->label39->Size = System::Drawing::Size(11, 12);
+			this->label39->TabIndex = 25;
+			this->label39->Text = L"y";
+			// 
+			// label40
+			// 
+			this->label40->AutoSize = true;
+			this->label40->Location = System::Drawing::Point(201, 179);
+			this->label40->Name = L"label40";
+			this->label40->Size = System::Drawing::Size(11, 12);
+			this->label40->TabIndex = 29;
+			this->label40->Text = L"y";
+			// 
+			// label41
+			// 
+			this->label41->AutoSize = true;
+			this->label41->Location = System::Drawing::Point(120, 179);
+			this->label41->Name = L"label41";
+			this->label41->Size = System::Drawing::Size(11, 12);
+			this->label41->TabIndex = 28;
+			this->label41->Text = L"x";
+			// 
+			// shift_pos_y
+			// 
+			this->shift_pos_y->Location = System::Drawing::Point(215, 176);
+			this->shift_pos_y->Name = L"shift_pos_y";
+			this->shift_pos_y->Size = System::Drawing::Size(54, 19);
+			this->shift_pos_y->TabIndex = 27;
+			this->shift_pos_y->Text = L"0";
+			this->shift_pos_y->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// shift_pos_x
+			// 
+			this->shift_pos_x->Location = System::Drawing::Point(137, 176);
+			this->shift_pos_x->Name = L"shift_pos_x";
+			this->shift_pos_x->Size = System::Drawing::Size(54, 19);
+			this->shift_pos_x->TabIndex = 26;
+			this->shift_pos_x->Text = L"0";
+			this->shift_pos_x->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// label43
+			// 
+			this->label43->AutoSize = true;
+			this->label43->Location = System::Drawing::Point(130, 214);
+			this->label43->Name = L"label43";
+			this->label43->Size = System::Drawing::Size(52, 12);
+			this->label43->TabIndex = 32;
+			this->label43->Text = L"theta left";
+			// 
+			// textBox5
+			// 
+			this->textBox5->Location = System::Drawing::Point(193, 236);
+			this->textBox5->Name = L"textBox5";
+			this->textBox5->Size = System::Drawing::Size(76, 19);
+			this->textBox5->TabIndex = 31;
+			this->textBox5->Text = L"0";
+			this->textBox5->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// textBox6
+			// 
+			this->textBox6->Location = System::Drawing::Point(193, 211);
+			this->textBox6->Name = L"textBox6";
+			this->textBox6->Size = System::Drawing::Size(76, 19);
+			this->textBox6->TabIndex = 30;
+			this->textBox6->Text = L"0";
+			this->textBox6->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// label42
+			// 
+			this->label42->AutoSize = true;
+			this->label42->Location = System::Drawing::Point(130, 239);
+			this->label42->Name = L"label42";
+			this->label42->Size = System::Drawing::Size(58, 12);
+			this->label42->TabIndex = 33;
+			this->label42->Text = L"theta right";
+			// 
+			// groupBox3
+			// 
+			this->groupBox3->Controls->Add(this->tableLayoutPanel17);
+			this->groupBox3->Location = System::Drawing::Point(12, 284);
+			this->groupBox3->Name = L"groupBox3";
+			this->groupBox3->Size = System::Drawing::Size(276, 91);
+			this->groupBox3->TabIndex = 18;
+			this->groupBox3->TabStop = false;
+			this->groupBox3->Text = L"Common Information";
+			this->groupBox3->Enter += gcnew System::EventHandler(this, &MainForm::groupBox4_Enter);
+			// 
+			// tableLayoutPanel17
+			// 
+			this->tableLayoutPanel17->ColumnCount = 4;
+			this->tableLayoutPanel17->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				55.43478F)));
+			this->tableLayoutPanel17->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
+				22)));
+			this->tableLayoutPanel17->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
+				103)));
+			this->tableLayoutPanel17->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
+				43)));
+			this->tableLayoutPanel17->Controls->Add(this->label44, 0, 0);
+			this->tableLayoutPanel17->Controls->Add(this->tableLayoutPanel18, 3, 0);
+			this->tableLayoutPanel17->Controls->Add(this->tableLayoutPanel19, 2, 0);
+			this->tableLayoutPanel17->Controls->Add(this->tableLayoutPanel20, 2, 1);
+			this->tableLayoutPanel17->Controls->Add(this->tableLayoutPanel21, 3, 1);
+			this->tableLayoutPanel17->Controls->Add(this->tableLayoutPanel22, 1, 1);
+			this->tableLayoutPanel17->Controls->Add(this->label55, 0, 1);
+			this->tableLayoutPanel17->Location = System::Drawing::Point(6, 18);
+			this->tableLayoutPanel17->Name = L"tableLayoutPanel17";
+			this->tableLayoutPanel17->RowCount = 2;
+			this->tableLayoutPanel17->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50.74627F)));
+			this->tableLayoutPanel17->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 49.25373F)));
+			this->tableLayoutPanel17->Size = System::Drawing::Size(264, 67);
+			this->tableLayoutPanel17->TabIndex = 15;
+			// 
+			// label44
+			// 
+			this->label44->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->label44->AutoSize = true;
+			this->label44->Location = System::Drawing::Point(11, 11);
+			this->label44->Name = L"label44";
+			this->label44->Size = System::Drawing::Size(73, 12);
+			this->label44->TabIndex = 1;
+			this->label44->Text = L"Vessel Angle";
+			// 
+			// tableLayoutPanel18
+			// 
+			this->tableLayoutPanel18->ColumnCount = 1;
+			this->tableLayoutPanel18->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				100)));
+			this->tableLayoutPanel18->Controls->Add(this->label45, 0, 1);
+			this->tableLayoutPanel18->Controls->Add(this->label46, 0, 0);
+			this->tableLayoutPanel18->Location = System::Drawing::Point(224, 3);
+			this->tableLayoutPanel18->Name = L"tableLayoutPanel18";
+			this->tableLayoutPanel18->RowCount = 2;
+			this->tableLayoutPanel18->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel18->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel18->Size = System::Drawing::Size(37, 28);
+			this->tableLayoutPanel18->TabIndex = 10;
+			// 
+			// label45
+			// 
+			this->label45->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->label45->AutoSize = true;
+			this->label45->Location = System::Drawing::Point(6, 15);
+			this->label45->Name = L"label45";
+			this->label45->Size = System::Drawing::Size(25, 12);
+			this->label45->TabIndex = 9;
+			this->label45->Text = L"deg.";
+			// 
+			// label46
+			// 
+			this->label46->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->label46->AutoSize = true;
+			this->label46->Location = System::Drawing::Point(7, 1);
+			this->label46->Name = L"label46";
+			this->label46->Size = System::Drawing::Size(23, 12);
+			this->label46->TabIndex = 8;
+			this->label46->Text = L"rad.";
+			// 
+			// tableLayoutPanel19
+			// 
+			this->tableLayoutPanel19->ColumnCount = 1;
+			this->tableLayoutPanel19->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				100)));
+			this->tableLayoutPanel19->Controls->Add(this->label47, 0, 1);
+			this->tableLayoutPanel19->Controls->Add(this->label48, 0, 0);
+			this->tableLayoutPanel19->Location = System::Drawing::Point(121, 3);
+			this->tableLayoutPanel19->Name = L"tableLayoutPanel19";
+			this->tableLayoutPanel19->RowCount = 2;
+			this->tableLayoutPanel19->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel19->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel19->Size = System::Drawing::Size(97, 28);
+			this->tableLayoutPanel19->TabIndex = 11;
+			// 
+			// label47
+			// 
+			this->label47->Anchor = System::Windows::Forms::AnchorStyles::Right;
+			this->label47->AutoSize = true;
+			this->label47->Location = System::Drawing::Point(83, 15);
+			this->label47->Name = L"label47";
+			this->label47->Size = System::Drawing::Size(11, 12);
+			this->label47->TabIndex = 9;
+			this->label47->Text = L"0";
+			this->label47->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
+			// label48
+			// 
+			this->label48->Anchor = System::Windows::Forms::AnchorStyles::Right;
+			this->label48->AutoSize = true;
+			this->label48->Location = System::Drawing::Point(83, 1);
+			this->label48->Name = L"label48";
+			this->label48->Size = System::Drawing::Size(11, 12);
+			this->label48->TabIndex = 8;
+			this->label48->Text = L"0";
+			this->label48->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
+			// tableLayoutPanel20
+			// 
+			this->tableLayoutPanel20->ColumnCount = 1;
+			this->tableLayoutPanel20->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				100)));
+			this->tableLayoutPanel20->Controls->Add(this->label49, 0, 1);
+			this->tableLayoutPanel20->Controls->Add(this->label50, 0, 0);
+			this->tableLayoutPanel20->Location = System::Drawing::Point(121, 37);
+			this->tableLayoutPanel20->Name = L"tableLayoutPanel20";
+			this->tableLayoutPanel20->RowCount = 2;
+			this->tableLayoutPanel20->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel20->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel20->Size = System::Drawing::Size(97, 27);
+			this->tableLayoutPanel20->TabIndex = 12;
+			// 
+			// label49
+			// 
+			this->label49->Anchor = System::Windows::Forms::AnchorStyles::Right;
+			this->label49->AutoSize = true;
+			this->label49->Location = System::Drawing::Point(83, 14);
+			this->label49->Name = L"label49";
+			this->label49->Size = System::Drawing::Size(11, 12);
+			this->label49->TabIndex = 9;
+			this->label49->Text = L"0";
+			this->label49->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
+			// label50
+			// 
+			this->label50->Anchor = System::Windows::Forms::AnchorStyles::Right;
+			this->label50->AutoSize = true;
+			this->label50->Location = System::Drawing::Point(83, 0);
+			this->label50->Name = L"label50";
+			this->label50->Size = System::Drawing::Size(11, 12);
+			this->label50->TabIndex = 8;
+			this->label50->Text = L"0";
+			this->label50->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			// 
+			// tableLayoutPanel21
+			// 
+			this->tableLayoutPanel21->ColumnCount = 1;
+			this->tableLayoutPanel21->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				100)));
+			this->tableLayoutPanel21->Controls->Add(this->label51, 0, 1);
+			this->tableLayoutPanel21->Controls->Add(this->label52, 0, 0);
+			this->tableLayoutPanel21->Location = System::Drawing::Point(224, 37);
+			this->tableLayoutPanel21->Name = L"tableLayoutPanel21";
+			this->tableLayoutPanel21->RowCount = 2;
+			this->tableLayoutPanel21->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel21->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel21->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute,
+				20)));
+			this->tableLayoutPanel21->Size = System::Drawing::Size(37, 27);
+			this->tableLayoutPanel21->TabIndex = 13;
+			// 
+			// label51
+			// 
+			this->label51->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->label51->AutoSize = true;
+			this->label51->Location = System::Drawing::Point(7, 14);
+			this->label51->Name = L"label51";
+			this->label51->Size = System::Drawing::Size(23, 12);
+			this->label51->TabIndex = 9;
+			this->label51->Text = L"mm";
+			// 
+			// label52
+			// 
+			this->label52->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->label52->AutoSize = true;
+			this->label52->Location = System::Drawing::Point(7, 0);
+			this->label52->Name = L"label52";
+			this->label52->Size = System::Drawing::Size(23, 12);
+			this->label52->TabIndex = 8;
+			this->label52->Text = L"mm";
+			// 
+			// tableLayoutPanel22
+			// 
+			this->tableLayoutPanel22->ColumnCount = 1;
+			this->tableLayoutPanel22->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				100)));
+			this->tableLayoutPanel22->Controls->Add(this->label53, 0, 1);
+			this->tableLayoutPanel22->Controls->Add(this->label54, 0, 0);
+			this->tableLayoutPanel22->Location = System::Drawing::Point(99, 37);
+			this->tableLayoutPanel22->Name = L"tableLayoutPanel22";
+			this->tableLayoutPanel22->RowCount = 2;
+			this->tableLayoutPanel22->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel22->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
+			this->tableLayoutPanel22->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute,
+				20)));
+			this->tableLayoutPanel22->Size = System::Drawing::Size(16, 27);
+			this->tableLayoutPanel22->TabIndex = 14;
+			// 
+			// label53
+			// 
+			this->label53->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->label53->AutoSize = true;
+			this->label53->Location = System::Drawing::Point(3, 14);
+			this->label53->Name = L"label53";
+			this->label53->Size = System::Drawing::Size(10, 12);
+			this->label53->TabIndex = 9;
+			this->label53->Text = L"y";
+			// 
+			// label54
+			// 
+			this->label54->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->label54->AutoSize = true;
+			this->label54->Location = System::Drawing::Point(3, 0);
+			this->label54->Name = L"label54";
+			this->label54->Size = System::Drawing::Size(10, 12);
+			this->label54->TabIndex = 8;
+			this->label54->Text = L"x";
+			// 
+			// label55
+			// 
+			this->label55->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->label55->AutoSize = true;
+			this->label55->Location = System::Drawing::Point(5, 44);
+			this->label55->Name = L"label55";
+			this->label55->Size = System::Drawing::Size(85, 12);
+			this->label55->TabIndex = 15;
+			this->label55->Text = L"Vessel Position";
+			// 
+			// label56
+			// 
+			this->label56->AutoSize = true;
+			this->label56->Location = System::Drawing::Point(6, 214);
+			this->label56->Name = L"label56";
+			this->label56->Size = System::Drawing::Size(100, 12);
+			this->label56->TabIndex = 21;
+			this->label56->Text = L"Offset angle [deg.]";
+			this->label56->Click += gcnew System::EventHandler(this, &MainForm::label32_Click);
+			// 
+			// offset_angle_left
+			// 
+			this->offset_angle_left->Location = System::Drawing::Point(193, 211);
+			this->offset_angle_left->Name = L"offset_angle_left";
+			this->offset_angle_left->Size = System::Drawing::Size(76, 19);
+			this->offset_angle_left->TabIndex = 30;
+			this->offset_angle_left->Text = L"0";
+			this->offset_angle_left->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// offset_angle_right
+			// 
+			this->offset_angle_right->Location = System::Drawing::Point(193, 236);
+			this->offset_angle_right->Name = L"offset_angle_right";
+			this->offset_angle_right->Size = System::Drawing::Size(76, 19);
+			this->offset_angle_right->TabIndex = 31;
+			this->offset_angle_right->Text = L"0";
+			this->offset_angle_right->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			// 
+			// label57
+			// 
+			this->label57->AutoSize = true;
+			this->label57->Location = System::Drawing::Point(130, 214);
+			this->label57->Name = L"label57";
+			this->label57->Size = System::Drawing::Size(52, 12);
+			this->label57->TabIndex = 32;
+			this->label57->Text = L"theta left";
+			// 
+			// label58
+			// 
+			this->label58->AutoSize = true;
+			this->label58->Location = System::Drawing::Point(130, 239);
+			this->label58->Name = L"label58";
+			this->label58->Size = System::Drawing::Size(58, 12);
+			this->label58->TabIndex = 33;
+			this->label58->Text = L"theta right";
 			// 
 			// groupBox6
 			// 
+			this->groupBox6->Controls->Add(this->label75);
+			this->groupBox6->Controls->Add(this->output_dir);
+			this->groupBox6->Controls->Add(this->output_dir_browse);
+			this->groupBox6->Controls->Add(this->label74);
 			this->groupBox6->Controls->Add(this->dir_box);
 			this->groupBox6->Controls->Add(this->label58);
 			this->groupBox6->Controls->Add(this->dir_browse);
 			this->groupBox6->Controls->Add(this->label42);
 			this->groupBox6->Controls->Add(this->label20);
 			this->groupBox6->Controls->Add(this->label57);
+			this->groupBox6->Controls->Add(this->label1);
 			this->groupBox6->Controls->Add(this->f_distanceBetweenTargets);
 			this->groupBox6->Controls->Add(this->label43);
 			this->groupBox6->Controls->Add(this->label21);
@@ -2130,31 +2121,64 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->groupBox6->Controls->Add(this->shift_pos_x);
 			this->groupBox6->Controls->Add(this->label33);
 			this->groupBox6->Controls->Add(this->label39);
-			this->groupBox6->Location = System::Drawing::Point(12, 30);
+			this->groupBox6->Location = System::Drawing::Point(12, 12);
 			this->groupBox6->Name = L"groupBox6";
-			this->groupBox6->Size = System::Drawing::Size(277, 218);
+			this->groupBox6->Size = System::Drawing::Size(277, 266);
 			this->groupBox6->TabIndex = 34;
 			this->groupBox6->TabStop = false;
 			this->groupBox6->Text = L"Parameters";
+			// 
+			// label74
+			// 
+			this->label74->AutoSize = true;
+			this->label74->Location = System::Drawing::Point(9, 39);
+			this->label74->Name = L"label74";
+			this->label74->Size = System::Drawing::Size(30, 12);
+			this->label74->TabIndex = 34;
+			this->label74->Text = L"Input";
+			// 
+			// label75
+			// 
+			this->label75->AutoSize = true;
+			this->label75->Location = System::Drawing::Point(9, 64);
+			this->label75->Name = L"label75";
+			this->label75->Size = System::Drawing::Size(39, 12);
+			this->label75->TabIndex = 37;
+			this->label75->Text = L"Output";
+			// 
+			// output_dir
+			// 
+			this->output_dir->Location = System::Drawing::Point(51, 61);
+			this->output_dir->Name = L"output_dir";
+			this->output_dir->Size = System::Drawing::Size(161, 19);
+			this->output_dir->TabIndex = 35;
+			this->output_dir->Text = L"C:\\share";
+			// 
+			// output_dir_browse
+			// 
+			this->output_dir_browse->Location = System::Drawing::Point(215, 60);
+			this->output_dir_browse->Name = L"output_dir_browse";
+			this->output_dir_browse->Size = System::Drawing::Size(54, 20);
+			this->output_dir_browse->TabIndex = 36;
+			this->output_dir_browse->Text = L"browse";
+			this->output_dir_browse->UseVisualStyleBackColor = true;
+			this->output_dir_browse->Click += gcnew System::EventHandler(this, &MainForm::output_dir_browse_Click);
 			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(299, 657);
+			this->ClientSize = System::Drawing::Size(299, 686);
 			this->Controls->Add(this->groupBox6);
 			this->Controls->Add(this->groupBox3);
 			this->Controls->Add(this->groupBox4);
 			this->Controls->Add(this->stop_button);
 			this->Controls->Add(this->save_button);
 			this->Controls->Add(this->statusStrip1);
-			this->Controls->Add(this->menuStrip1);
 			this->Controls->Add(this->label22);
 			this->Controls->Add(this->savefilename_box);
 			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->groupBox1);
-			this->Controls->Add(this->label1);
-			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"MainForm";
 			this->Text = L"Mesurement Result";
 			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &MainForm::MainForm_FormClosing);
@@ -2183,8 +2207,6 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel10->PerformLayout();
 			this->statusStrip1->ResumeLayout(false);
 			this->statusStrip1->PerformLayout();
-			this->menuStrip1->ResumeLayout(false);
-			this->menuStrip1->PerformLayout();
 			this->tableLayoutPanel11->ResumeLayout(false);
 			this->tableLayoutPanel11->PerformLayout();
 			this->tableLayoutPanel12->ResumeLayout(false);
@@ -2199,19 +2221,6 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel16->PerformLayout();
 			this->groupBox4->ResumeLayout(false);
 			this->groupBox4->PerformLayout();
-			this->groupBox3->ResumeLayout(false);
-			this->tableLayoutPanel17->ResumeLayout(false);
-			this->tableLayoutPanel17->PerformLayout();
-			this->tableLayoutPanel18->ResumeLayout(false);
-			this->tableLayoutPanel18->PerformLayout();
-			this->tableLayoutPanel19->ResumeLayout(false);
-			this->tableLayoutPanel19->PerformLayout();
-			this->tableLayoutPanel20->ResumeLayout(false);
-			this->tableLayoutPanel20->PerformLayout();
-			this->tableLayoutPanel21->ResumeLayout(false);
-			this->tableLayoutPanel21->PerformLayout();
-			this->tableLayoutPanel22->ResumeLayout(false);
-			this->tableLayoutPanel22->PerformLayout();
 			this->groupBox5->ResumeLayout(false);
 			this->tableLayoutPanel23->ResumeLayout(false);
 			this->tableLayoutPanel23->PerformLayout();
@@ -2225,6 +2234,19 @@ private: System::Windows::Forms::GroupBox^  groupBox6;
 			this->tableLayoutPanel27->PerformLayout();
 			this->tableLayoutPanel28->ResumeLayout(false);
 			this->tableLayoutPanel28->PerformLayout();
+			this->groupBox3->ResumeLayout(false);
+			this->tableLayoutPanel17->ResumeLayout(false);
+			this->tableLayoutPanel17->PerformLayout();
+			this->tableLayoutPanel18->ResumeLayout(false);
+			this->tableLayoutPanel18->PerformLayout();
+			this->tableLayoutPanel19->ResumeLayout(false);
+			this->tableLayoutPanel19->PerformLayout();
+			this->tableLayoutPanel20->ResumeLayout(false);
+			this->tableLayoutPanel20->PerformLayout();
+			this->tableLayoutPanel21->ResumeLayout(false);
+			this->tableLayoutPanel21->PerformLayout();
+			this->tableLayoutPanel22->ResumeLayout(false);
+			this->tableLayoutPanel22->PerformLayout();
 			this->groupBox6->ResumeLayout(false);
 			this->groupBox6->PerformLayout();
 			this->ResumeLayout(false);
@@ -2315,6 +2337,7 @@ private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e
 				 sw->WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", this->stamp - this->start, dist_L, pan_L, dist_R, pan_R, ca, cx, cy, ba, bx, by);
 			 }
 			 this->outTimeFile(this->stamp - this->start);
+			 this->outputToController(this->output_dir->Text);
 }
 private: System::Void folderBrowserDialog1_HelpRequest(System::Object^  sender, System::EventArgs^  e) {
 }
@@ -2401,14 +2424,15 @@ private: System::Void readConfigFile(System::String ^filename){
 			 while (sr->Peek() > -1){
 				 i++;
 				 if (i == 1){ this->dir_box->Text = sr->ReadLine(); }
-				 else if (i == 2){ this->f_distanceBetweenTargets->Text = sr->ReadLine(); }
-				 else if (i == 3){ this->f_distanceBetweenSystems->Text = sr->ReadLine(); }
-				 else if (i == 4){ this->inst_pos_x->Text = sr->ReadLine(); }
-				 else if (i == 5){ this->inst_pos_y->Text = sr->ReadLine(); }
-				 else if (i == 6){ this->shift_pos_x->Text = sr->ReadLine(); }
-				 else if (i == 7){ this->shift_pos_y->Text = sr->ReadLine(); }
-				 else if (i == 8){ this->offset_angle_left->Text = sr->ReadLine(); }
-				 else if (i == 9){ this->offset_angle_right->Text = sr->ReadLine(); }
+				 else if (i == 2){ this->output_dir->Text = sr->ReadLine(); }
+				 else if (i == 3){ this->f_distanceBetweenTargets->Text = sr->ReadLine(); }
+				 else if (i == 4){ this->f_distanceBetweenSystems->Text = sr->ReadLine(); }
+				 else if (i == 5){ this->inst_pos_x->Text = sr->ReadLine(); }
+				 else if (i == 6){ this->inst_pos_y->Text = sr->ReadLine(); }
+				 else if (i == 7){ this->shift_pos_x->Text = sr->ReadLine(); }
+				 else if (i == 8){ this->shift_pos_y->Text = sr->ReadLine(); }
+				 else if (i == 9){ this->offset_angle_left->Text = sr->ReadLine(); }
+				 else if (i == 10){ this->offset_angle_right->Text = sr->ReadLine(); }
 			 }
 			 sr->Close();
 }
@@ -2422,6 +2446,7 @@ private: System::Void saveConfigFile(System::String ^filename){
 				 return;
 			 }
 			 sw->WriteLine(this->dir_box->Text);
+			 sw->WriteLine(this->output_dir->Text);
 			 sw->WriteLine(this->f_distanceBetweenTargets->Text);
 			 sw->WriteLine(this->f_distanceBetweenSystems->Text);
 			 sw->WriteLine(this->inst_pos_x->Text);
@@ -2438,6 +2463,22 @@ private: System::Void MainForm_FormClosing(System::Object^  sender, System::Wind
 private: System::Void label32_Click(System::Object^  sender, System::EventArgs^  e) {
 }
 private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void outputToController(System::String ^filename){
+			 std::string filestring = this->ToStdString(filename);
+			 filestring += "\\Measure.dat";
+			 std::ofstream out(filestring);
+			 if (out.fail()) return;
+			 out << this->ToStdString(this->vessel_pos_x->Text) << std::endl;
+			 out << this->ToStdString(this->vessel_pos_y->Text) << std::endl;
+			 out << this->ToStdString(this->vessel_angle_rad->Text) << std::endl;
+}
+
+private: System::Void output_dir_browse_Click(System::Object^  sender, System::EventArgs^  e) {
+			 if (folderBrowserDialog1->ShowDialog() == Windows::Forms::DialogResult::OK)
+			 {
+				 this->output_dir->Text = folderBrowserDialog1->SelectedPath;
+			 }
 }
 };
 }
