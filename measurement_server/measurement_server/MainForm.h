@@ -3,6 +3,7 @@
 #include <time.h>
 #include <iostream>
 #include <string>
+#define CONFIG_FILENAME "server.cfg"
 
 #pragma once
 
@@ -25,6 +26,7 @@ namespace measurement_server {
 		MainForm(void)
 		{
 			InitializeComponent();
+			this->readConfigFile(CONFIG_FILENAME);
 			//
 			//TODO: ここにコンストラクター コードを追加します
 			//
@@ -358,7 +360,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				58.7156F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				55)));
+				56)));
 			this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel4, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->label4, 0, 1);
 			this->tableLayoutPanel1->Controls->Add(this->label2, 0, 0);
@@ -380,7 +382,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel4->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel4->Controls->Add(this->label19, 0, 0);
-			this->tableLayoutPanel4->Location = System::Drawing::Point(211, 3);
+			this->tableLayoutPanel4->Location = System::Drawing::Point(210, 3);
 			this->tableLayoutPanel4->Name = L"tableLayoutPanel4";
 			this->tableLayoutPanel4->RowCount = 1;
 			this->tableLayoutPanel4->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -412,7 +414,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			// 
 			this->label2->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(18, 3);
+			this->label2->Location = System::Drawing::Point(17, 3);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(50, 12);
 			this->label2->TabIndex = 0;
@@ -433,7 +435,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel2->Controls->Add(this->label6, 0, 0);
 			this->tableLayoutPanel2->Controls->Add(this->label8, 0, 2);
 			this->tableLayoutPanel2->Controls->Add(this->label9, 0, 3);
-			this->tableLayoutPanel2->Location = System::Drawing::Point(89, 22);
+			this->tableLayoutPanel2->Location = System::Drawing::Point(88, 22);
 			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
 			this->tableLayoutPanel2->RowCount = 4;
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -537,7 +539,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel5->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel5->Controls->Add(this->a_dist, 0, 0);
-			this->tableLayoutPanel5->Location = System::Drawing::Point(89, 3);
+			this->tableLayoutPanel5->Location = System::Drawing::Point(88, 3);
 			this->tableLayoutPanel5->Name = L"tableLayoutPanel5";
 			this->tableLayoutPanel5->RowCount = 1;
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -564,7 +566,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel3->Controls->Add(this->label11, 0, 0);
 			this->tableLayoutPanel3->Controls->Add(this->label12, 0, 2);
 			this->tableLayoutPanel3->Controls->Add(this->label13, 0, 3);
-			this->tableLayoutPanel3->Location = System::Drawing::Point(211, 22);
+			this->tableLayoutPanel3->Location = System::Drawing::Point(210, 22);
 			this->tableLayoutPanel3->Name = L"tableLayoutPanel3";
 			this->tableLayoutPanel3->RowCount = 4;
 			this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -632,7 +634,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				59.63303F)));
 			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				55)));
+				56)));
 			this->tableLayoutPanel6->Controls->Add(this->tableLayoutPanel7, 2, 0);
 			this->tableLayoutPanel6->Controls->Add(this->tableLayoutPanel8, 2, 1);
 			this->tableLayoutPanel6->Controls->Add(this->label17, 0, 1);
@@ -653,7 +655,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel7->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel7->Controls->Add(this->label3, 0, 0);
-			this->tableLayoutPanel7->Location = System::Drawing::Point(211, 3);
+			this->tableLayoutPanel7->Location = System::Drawing::Point(210, 3);
 			this->tableLayoutPanel7->Name = L"tableLayoutPanel7";
 			this->tableLayoutPanel7->RowCount = 1;
 			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -679,7 +681,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel8->Controls->Add(this->label14, 0, 0);
 			this->tableLayoutPanel8->Controls->Add(this->label15, 0, 2);
 			this->tableLayoutPanel8->Controls->Add(this->label16, 0, 3);
-			this->tableLayoutPanel8->Location = System::Drawing::Point(211, 22);
+			this->tableLayoutPanel8->Location = System::Drawing::Point(210, 22);
 			this->tableLayoutPanel8->Name = L"tableLayoutPanel8";
 			this->tableLayoutPanel8->RowCount = 4;
 			this->tableLayoutPanel8->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -743,7 +745,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			// 
 			this->label18->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label18->AutoSize = true;
-			this->label18->Location = System::Drawing::Point(17, 3);
+			this->label18->Location = System::Drawing::Point(16, 3);
 			this->label18->Name = L"label18";
 			this->label18->Size = System::Drawing::Size(50, 12);
 			this->label18->TabIndex = 0;
@@ -764,7 +766,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel9->Controls->Add(this->label25, 0, 0);
 			this->tableLayoutPanel9->Controls->Add(this->label26, 0, 2);
 			this->tableLayoutPanel9->Controls->Add(this->label27, 0, 3);
-			this->tableLayoutPanel9->Location = System::Drawing::Point(87, 22);
+			this->tableLayoutPanel9->Location = System::Drawing::Point(86, 22);
 			this->tableLayoutPanel9->Name = L"tableLayoutPanel9";
 			this->tableLayoutPanel9->RowCount = 4;
 			this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -864,7 +866,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->tableLayoutPanel10->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel10->Controls->Add(this->b_dist, 0, 0);
-			this->tableLayoutPanel10->Location = System::Drawing::Point(87, 3);
+			this->tableLayoutPanel10->Location = System::Drawing::Point(86, 3);
 			this->tableLayoutPanel10->Name = L"tableLayoutPanel10";
 			this->tableLayoutPanel10->RowCount = 1;
 			this->tableLayoutPanel10->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
@@ -1536,6 +1538,7 @@ private: System::Windows::Forms::GroupBox^  groupBox4;
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"MainForm";
 			this->Text = L"Mesurement Result";
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &MainForm::MainForm_FormClosing);
 			this->Load += gcnew System::EventHandler(this, &MainForm::MainForm_Load);
 			this->groupBox1->ResumeLayout(false);
 			this->tableLayoutPanel1->ResumeLayout(false);
@@ -1750,6 +1753,40 @@ private: System::Void set_stay_button_Click(System::Object^  sender, System::Eve
 			 this->fiducial_distance_R = this->distance_R;
 			 this->fiducial_pan_angle_R = this->pan_angle_R;
 			 this->Flag_UseFiducialPoint = true;
+}
+private: System::Void readConfigFile(System::String ^filename){
+			 StreamReader ^sr;
+			 try{
+				 sr = gcnew StreamReader(filename);
+			 }
+			 catch (FileNotFoundException ^ex){
+				 return;
+			 }
+			 int i = 0;
+			 while (sr->Peek() > -1){
+				 i++;
+				 if (i == 1){ this->dir_box->Text = sr->ReadLine(); }
+				 else if (i == 2){ this->f_distanceBetweenTargets->Text = sr->ReadLine(); }
+				 else if (i == 3){ this->f_distanceBetweenSystems->Text = sr->ReadLine(); }
+			 }
+			 sr->Close();
+}
+private: System::Void saveConfigFile(System::String ^filename){
+			 StreamWriter ^sw;
+			 try{
+				 sw = gcnew StreamWriter(filename);
+			 }
+			 catch (FileNotFoundException ^ex)
+			 {
+				 return;
+			 }
+			 sw->WriteLine(this->dir_box->Text);
+			 sw->WriteLine(this->f_distanceBetweenTargets->Text);
+			 sw->WriteLine(this->f_distanceBetweenSystems->Text);
+			 sw->Close();
+}
+private: System::Void MainForm_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
+			 saveConfigFile(CONFIG_FILENAME);
 }
 };
 }
