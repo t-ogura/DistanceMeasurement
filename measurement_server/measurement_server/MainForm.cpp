@@ -787,14 +787,25 @@ System::Void MainForm::vessel_pose_view3(double &vessel_angle, double &vessel_po
 
 	// origin point (center of coordinate system for positioning)
 	cv::Point2d originPoint;
-	originPoint.x = 0.0;
-	originPoint.y = -1000.0;
+	try{
+		originPoint.x = Convert::ToDouble(this->shift_pos_x->Text);
+		originPoint.y = Convert::ToDouble(this->shift_pos_y->Text);
+	}
+	catch (FormatException ^ex){
+		originPoint.x = 0;
+		originPoint.y = 0;
+	}
 
 	// installed position (displacement between center of systems and center of vessel)
 	cv::Point2d installedPos;
-	installedPos.x = 0.0;
-	installedPos.y = -200.0;
-
+	try{
+		installedPos.x = Convert::ToDouble(this->inst_pos_x->Text);
+		installedPos.y = Convert::ToDouble(this->inst_pos_y->Text);
+	}
+	catch (FormatException ^ex){
+		installedPos.x = 0;
+		installedPos.y = 0;
+	}
 
 	// system position
 	systemPos_L.x = -distanceBetweenSystemsHalf;
