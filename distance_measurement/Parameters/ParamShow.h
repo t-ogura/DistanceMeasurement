@@ -804,7 +804,7 @@ private:
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				31.31313F)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				30)));
+				31)));
 			this->tableLayoutPanel1->Controls->Add(this->xl, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->yl, 2, 0);
 			this->tableLayoutPanel1->Controls->Add(this->coodinatel, 0, 1);
@@ -828,7 +828,7 @@ private:
 			this->xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->xl->AutoSize = true;
-			this->xl->Location = System::Drawing::Point(72, 0);
+			this->xl->Location = System::Drawing::Point(71, 0);
 			this->xl->Name = L"xl";
 			this->xl->Size = System::Drawing::Size(25, 12);
 			this->xl->TabIndex = 0;
@@ -840,9 +840,9 @@ private:
 			this->yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->yl->AutoSize = true;
-			this->yl->Location = System::Drawing::Point(103, 0);
+			this->yl->Location = System::Drawing::Point(102, 0);
 			this->yl->Name = L"yl";
-			this->yl->Size = System::Drawing::Size(25, 12);
+			this->yl->Size = System::Drawing::Size(26, 12);
 			this->yl->TabIndex = 1;
 			this->yl->Text = L"y";
 			this->yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -854,7 +854,7 @@ private:
 			this->coodinatel->AutoSize = true;
 			this->coodinatel->Location = System::Drawing::Point(3, 19);
 			this->coodinatel->Name = L"coodinatel";
-			this->coodinatel->Size = System::Drawing::Size(63, 12);
+			this->coodinatel->Size = System::Drawing::Size(62, 12);
 			this->coodinatel->TabIndex = 2;
 			this->coodinatel->Text = L"Coordinate ";
 			this->coodinatel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -866,7 +866,7 @@ private:
 			this->databasel->AutoSize = true;
 			this->databasel->Location = System::Drawing::Point(3, 38);
 			this->databasel->Name = L"databasel";
-			this->databasel->Size = System::Drawing::Size(63, 12);
+			this->databasel->Size = System::Drawing::Size(62, 12);
 			this->databasel->TabIndex = 3;
 			this->databasel->Text = L"Database";
 			this->databasel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -877,7 +877,7 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_xl->AutoSize = true;
 			this->coor_xl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_xl->Location = System::Drawing::Point(72, 19);
+			this->coor_xl->Location = System::Drawing::Point(71, 19);
 			this->coor_xl->Name = L"coor_xl";
 			this->coor_xl->Size = System::Drawing::Size(25, 12);
 			this->coor_xl->TabIndex = 4;
@@ -890,9 +890,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_yl->AutoSize = true;
 			this->coor_yl->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_yl->Location = System::Drawing::Point(103, 19);
+			this->coor_yl->Location = System::Drawing::Point(102, 19);
 			this->coor_yl->Name = L"coor_yl";
-			this->coor_yl->Size = System::Drawing::Size(25, 12);
+			this->coor_yl->Size = System::Drawing::Size(26, 12);
 			this->coor_yl->TabIndex = 5;
 			this->coor_yl->Text = L"000";
 			this->coor_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -902,7 +902,7 @@ private:
 			this->db_xl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_xl->AutoSize = true;
-			this->db_xl->Location = System::Drawing::Point(72, 38);
+			this->db_xl->Location = System::Drawing::Point(71, 38);
 			this->db_xl->Name = L"db_xl";
 			this->db_xl->Size = System::Drawing::Size(25, 12);
 			this->db_xl->TabIndex = 6;
@@ -914,9 +914,9 @@ private:
 			this->db_yl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_yl->AutoSize = true;
-			this->db_yl->Location = System::Drawing::Point(103, 38);
+			this->db_yl->Location = System::Drawing::Point(102, 38);
 			this->db_yl->Name = L"db_yl";
-			this->db_yl->Size = System::Drawing::Size(25, 12);
+			this->db_yl->Size = System::Drawing::Size(26, 12);
 			this->db_yl->TabIndex = 7;
 			this->db_yl->Text = L"4";
 			this->db_yl->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2229,7 +2229,7 @@ private:
 			this->tableLayoutPanel10->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				28.71287F)));
 			this->tableLayoutPanel10->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				30)));
+				31)));
 			this->tableLayoutPanel10->Controls->Add(this->label16, 1, 0);
 			this->tableLayoutPanel10->Controls->Add(this->label17, 2, 0);
 			this->tableLayoutPanel10->Controls->Add(this->label18, 0, 1);
@@ -2255,7 +2255,7 @@ private:
 			this->label16->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->label16->AutoSize = true;
-			this->label16->Location = System::Drawing::Point(76, 0);
+			this->label16->Location = System::Drawing::Point(75, 0);
 			this->label16->Name = L"label16";
 			this->label16->Size = System::Drawing::Size(23, 12);
 			this->label16->TabIndex = 0;
@@ -2267,9 +2267,9 @@ private:
 			this->label17->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->label17->AutoSize = true;
-			this->label17->Location = System::Drawing::Point(105, 0);
+			this->label17->Location = System::Drawing::Point(104, 0);
 			this->label17->Name = L"label17";
-			this->label17->Size = System::Drawing::Size(25, 12);
+			this->label17->Size = System::Drawing::Size(26, 12);
 			this->label17->TabIndex = 1;
 			this->label17->Text = L"y";
 			this->label17->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2281,7 +2281,7 @@ private:
 			this->label18->AutoSize = true;
 			this->label18->Location = System::Drawing::Point(3, 19);
 			this->label18->Name = L"label18";
-			this->label18->Size = System::Drawing::Size(67, 12);
+			this->label18->Size = System::Drawing::Size(66, 12);
 			this->label18->TabIndex = 2;
 			this->label18->Text = L"Coordinate";
 			this->label18->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2293,7 +2293,7 @@ private:
 			this->label19->AutoSize = true;
 			this->label19->Location = System::Drawing::Point(3, 38);
 			this->label19->Name = L"label19";
-			this->label19->Size = System::Drawing::Size(67, 12);
+			this->label19->Size = System::Drawing::Size(66, 12);
 			this->label19->TabIndex = 3;
 			this->label19->Text = L"Database";
 			this->label19->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2304,7 +2304,7 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_xc->AutoSize = true;
 			this->coor_xc->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_xc->Location = System::Drawing::Point(76, 19);
+			this->coor_xc->Location = System::Drawing::Point(75, 19);
 			this->coor_xc->Name = L"coor_xc";
 			this->coor_xc->Size = System::Drawing::Size(23, 12);
 			this->coor_xc->TabIndex = 4;
@@ -2317,9 +2317,9 @@ private:
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->coor_yc->AutoSize = true;
 			this->coor_yc->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->coor_yc->Location = System::Drawing::Point(105, 19);
+			this->coor_yc->Location = System::Drawing::Point(104, 19);
 			this->coor_yc->Name = L"coor_yc";
-			this->coor_yc->Size = System::Drawing::Size(25, 12);
+			this->coor_yc->Size = System::Drawing::Size(26, 12);
 			this->coor_yc->TabIndex = 5;
 			this->coor_yc->Text = L"000";
 			this->coor_yc->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2329,7 +2329,7 @@ private:
 			this->db_xc->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_xc->AutoSize = true;
-			this->db_xc->Location = System::Drawing::Point(76, 38);
+			this->db_xc->Location = System::Drawing::Point(75, 38);
 			this->db_xc->Name = L"db_xc";
 			this->db_xc->Size = System::Drawing::Size(23, 12);
 			this->db_xc->TabIndex = 6;
@@ -2341,9 +2341,9 @@ private:
 			this->db_yc->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->db_yc->AutoSize = true;
-			this->db_yc->Location = System::Drawing::Point(105, 38);
+			this->db_yc->Location = System::Drawing::Point(104, 38);
 			this->db_yc->Name = L"db_yc";
-			this->db_yc->Size = System::Drawing::Size(25, 12);
+			this->db_yc->Size = System::Drawing::Size(26, 12);
 			this->db_yc->TabIndex = 7;
 			this->db_yc->Text = L"4";
 			this->db_yc->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -2531,6 +2531,7 @@ private:
 			this->Name = L"ParamShow";
 			this->SizeGripStyle = System::Windows::Forms::SizeGripStyle::Hide;
 			this->Text = L"ParamShow";
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &ParamShow::ParamShow_FormClosing);
 			this->Load += gcnew System::EventHandler(this, &ParamShow::ParamShow_Load);
 			this->leftcamera->ResumeLayout(false);
 			this->leftcamera->PerformLayout();
@@ -3100,6 +3101,12 @@ private: System::Void Quit_Click(System::Object^  sender, System::EventArgs^  e)
 }
 public: System::Void kalmanInit();
 public: double panKF(double platform, double ditected);
+private: System::Void ParamShow_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
+			 this->saveConfigFile("main.cfg\\Defalt.cfg");
+			 std::ofstream ofs(QUIT_FILENAME);
+			 ofs << "quit" << std::endl;
+			 ofs.close();
+}
 };
 }
 
