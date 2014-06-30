@@ -847,15 +847,27 @@ System::Void MainForm::vessel_pose_view3(double &vessel_angle, double &vessel_po
 		systemPos_L -= midpointOftarget;
 		systemPos_R -= midpointOftarget;
 
-		targetPos_L_predicted.x = targetPos_L_predicted.x*cos(-targetRotation) - targetPos_L_predicted.y*sin(-targetRotation);
-		targetPos_L_predicted.y = targetPos_L_predicted.x*sin(-targetRotation) + targetPos_L_predicted.y*cos(-targetRotation);
-		targetPos_R_predicted.x = targetPos_R_predicted.x*cos(-targetRotation) - targetPos_R_predicted.y*sin(-targetRotation);
-		targetPos_R_predicted.y = targetPos_R_predicted.x*sin(-targetRotation) + targetPos_R_predicted.y*cos(-targetRotation);
+		double temp_x, temp_y;
+		temp_x = targetPos_L_predicted.x*cos(-targetRotation) - targetPos_L_predicted.y*sin(-targetRotation);
+		temp_y = targetPos_L_predicted.x*sin(-targetRotation) + targetPos_L_predicted.y*cos(-targetRotation);
+		targetPos_L_predicted.x = temp_x;
+		targetPos_L_predicted.y = temp_y;
+		temp_x = targetPos_R_predicted.x*cos(-targetRotation) - targetPos_R_predicted.y*sin(-targetRotation);
+		temp_y = targetPos_R_predicted.x*sin(-targetRotation) + targetPos_R_predicted.y*cos(-targetRotation);
+		targetPos_R_predicted.x = temp_x;
+		targetPos_R_predicted.y = temp_y;
 
-		systemPos_L.x = systemPos_L.x*cos(-targetRotation) - systemPos_L.y*sin(-targetRotation);
-		systemPos_L.y = systemPos_L.x*sin(-targetRotation) + systemPos_L.y*cos(-targetRotation);
-		systemPos_R.x = systemPos_R.x*cos(-targetRotation) - systemPos_R.y*sin(-targetRotation);
-		systemPos_R.y = systemPos_R.x*sin(-targetRotation) + systemPos_R.y*cos(-targetRotation);
+		temp_x = systemPos_L.x*cos(-targetRotation) - systemPos_L.y*sin(-targetRotation);
+		temp_y = systemPos_L.x*sin(-targetRotation) + systemPos_L.y*cos(-targetRotation);
+		systemPos_L.x = temp_x;
+		systemPos_L.y = temp_y;
+		temp_x = systemPos_R.x*cos(-targetRotation) - systemPos_R.y*sin(-targetRotation);
+		temp_y = systemPos_R.x*sin(-targetRotation) + systemPos_R.y*cos(-targetRotation);
+		systemPos_R.x = temp_x;
+		systemPos_R.y = temp_y;
+
+		std::cout << targetPos_L_predicted.x << " " << targetPos_L_predicted.y << " ";
+		std::cout << targetPos_L_predicted.x*sin(-targetRotation) << " " << targetPos_L_predicted.y*cos(-targetRotation) << std::endl;
 
 		midpointOftarget = (targetPos_L_predicted + targetPos_R_predicted)*0.5;
 		midpointOfSystem = (systemPos_L + systemPos_R)*0.5;
