@@ -890,11 +890,11 @@ System::Void MainForm::vessel_pose_view3(double &vessel_angle, double &vessel_po
 		this->vessel_y->Text = String::Format("{0:#0.00}", vessel_pos_y);
 
 		// 
-		double x_min = std::min(std::min(std::min(targetPos_L_predicted.x, targetPos_R_predicted.x), systemPos_L.x), systemPos_R.x);
-		double x_max = std::max(std::max(std::max(targetPos_L_predicted.x, targetPos_R_predicted.x), systemPos_L.x), systemPos_R.x);
-		double y_max = std::max(std::max(std::max(targetPos_L_predicted.y, targetPos_R_predicted.y), systemPos_L.y), systemPos_R.y);
-		double y_min = std::min(std::min(std::min(targetPos_L_predicted.y, targetPos_R_predicted.y), systemPos_L.y), systemPos_R.y);
-		double x_size = x_max - x_min;
+		double x_min = std::min(std::min(std::min(std::min(targetPos_L_predicted.x, targetPos_R_predicted.x), systemPos_L.x), systemPos_R.x), vesselPos.x);
+		double x_max = std::max(std::max(std::max(std::max(targetPos_L_predicted.x, targetPos_R_predicted.x), systemPos_L.x), systemPos_R.x), vesselPos.x);
+		double y_max = std::max(std::max(std::max(std::max(targetPos_L_predicted.y, targetPos_R_predicted.y), systemPos_L.y), systemPos_R.y), vesselPos.y);
+		double y_min = std::min(std::min(std::min(std::min(targetPos_L_predicted.y, targetPos_R_predicted.y), systemPos_L.y), systemPos_R.y), vesselPos.y);
+		double x_size = std::max(fabs(x_max - WIN_SIZE / 2), fabs(WIN_SIZE - x_min)) * 2;
 		double y_size = y_max - y_min;
 		double scale = (WIN_SIZE - WIN_MARGIN * 2) / std::max(x_size, y_size);
 
