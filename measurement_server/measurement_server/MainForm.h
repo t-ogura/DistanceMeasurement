@@ -2508,11 +2508,12 @@ private: System::Void textBox1_TextChanged(System::Object^  sender, System::Even
 private: System::Void outputToController(System::String ^filename){
 			 std::string filestring = this->ToStdString(filename);
 			 filestring += "\\Measure.dat";
+
 			 std::ofstream out(filestring);
 			 if (out.fail()) return;
-			 out << this->ToStdString(this->vessel_pos_x->Text) << std::endl;
-			 out << this->ToStdString(this->vessel_pos_y->Text) << std::endl;
-			 out << this->ToStdString(this->vessel_angle_rad->Text) << std::endl;
+			 out << this->ToStdString(this->vessel_x->Text) << std::endl;
+			 out << this->ToStdString(this->vessel_y->Text) << std::endl;
+			 out << this->ToStdString(this->vessel_deg->Text) << std::endl;
 			 out.close();
 }
 
