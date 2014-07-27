@@ -21,7 +21,7 @@ public:
 	int doSave(Measurement *m);
 
 private:
-	int setSave(std::string folder_name, std::string file_name, int frame_num, bool csv_log);
+	int setSave(std::string folder_name, std::string file_name, int frame_num, bool csv_log, Measurement *m);
 	int control_platform(Measurement *m, std::string direction, double step_deg);
 	int control_platform(Measurement *m, std::string direction, double pan, double tilt);
 
@@ -111,7 +111,7 @@ int FormConnection::input(Measurement *m, std::string filename){
 		if (i == 28){ _save_folder_name = str; }
 		if (i == 29){ std::stringstream ss; ss << str; ss >> _save_frame_num; }
 		if (i == 30){ if (str == "T") save_csv_flag = true; else save_csv_flag = false; }
-		if (i == 31){ if (str == "T") { setSave(_save_folder_name, _save_file_name, _save_frame_num, save_csv_flag); this->save_ack = true; } }
+		if (i == 31){ if (str == "T") { setSave(_save_folder_name, _save_file_name, _save_frame_num, save_csv_flag, m); this->save_ack = true; } }
 	}
 
 	in.close();
@@ -307,7 +307,7 @@ int FormConnection::center_output(Measurement *m, std::string filename){
 	/* -- */return 0;
 }
 
-int FormConnection::setSave(std::string folder_name, std::string file_name, int frame_num, bool csv_log){
+int FormConnection::setSave(std::string folder_name, std::string file_name, int frame_num, bool csv_log, Measurement *m){
 	using namespace std::tr2::sys;
 
 	std::string folder_path = SAVE_FILE_DIR;
@@ -316,12 +316,14 @@ int FormConnection::setSave(std::string folder_name, std::string file_name, int 
 	this->save_folder_name = folder_name;
 	this->save_file_name = file_name;
 	
-	this->save_file_path = SAVE_FILE_DIR;
-	this->save_file_path += folder_path;
+	//this->save_file_path = SAVE_FILE_DIR;
+	this->save_file_path = folder_path;
 	this->save_file_path += "\\";
 	this->save_file_path += file_name;
 	this->save_frame_num = frame_num;
 	this->save_csv_log = csv_log;
+
+	//std::cout << save_file_path << std::endl;
 
 	save.close();
 	std::string str = this->save_file_path + ".txt";
@@ -331,16 +333,24 @@ int FormConnection::setSave(std::string folder_name, std::string file_name, int 
 		str = this->save_file_path + ".csv";
 		log.open(str);
 	}
+	str = this->save_file_path + "_L.bmp";
+	cv::imwrite(str, m->camera_L->colorImage);
+	str = this->save_file_path + "_R.bmp";
+	cv::imwrite(str, m->camera_R->colorImage);
+	m->mtx.lock();
+	str = this->save_file_path + "_C.bmp";
+	cv::imwrite(str, m->camera_C->colorImage);
+	m->mtx.unlock();
 	return 0;
 }
 
 int FormConnection::doSave(Measurement *m){
 	if (save_frame_num <= 0){
-		this->save_state = "•Û‘¶Š®—¹";
+		this->save_state = "";
 		return 0;
 	}
 	save_frame_num--;
-	this->save_state = "•Û‘¶’†";
+	this->save_state = "Saving";
 	save << m->distance.kf << std::endl;
 
 	if (this->save_csv_log){

@@ -21,6 +21,7 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 		this->camera_C->setCameraExposure(ip.CENTER_CAMERA_EXPOSURE);
 	}
 
+	this->platform_comnumber = ip.COM_PORT_NUMBER;
 
 	this->VCC_Th = VCC_Threshold;
 
@@ -88,6 +89,7 @@ int Measurement::readInitFile(std::string filename, initParams *ini){
 		else if (token1 == "LEFT_CAMERA_ID") ss >> ini->LEFT_CAMERA_ID;
 		else if (token1 == "RIGHT_CAMERA_ID") ss >> ini->RIGHT_CAMERA_ID;
 		else if (token1 == "CENTER_CAMERA_ID") ss >> ini->CENTER_CAMERA_ID;
+		else if (token1 == "COM_PORT_NUMBER") ini->COM_PORT_NUMBER = "\\\\.\\" + token2;
 	}
 }
 
@@ -180,7 +182,7 @@ void Measurement::tracking(char* com, int baudrate){
 				//std::cout << this->vcc_C->matchingParameters[8] << std::endl;
 				if (mC < this->trackingThreshold){
 					ptu.turn(this->angle_C.pan*0.4, this->angle_C.tilt*0.4);
-					std::cout << "pan[" << RAD2DEG(this->angle_C.pan) << "]\ttilt[" << RAD2DEG(this->angle_C.tilt) << "]" << std::endl;
+					//std::cout << "pan[" << RAD2DEG(this->angle_C.pan) << "]\ttilt[" << RAD2DEG(this->angle_C.tilt) << "]" << std::endl;
 				}
 				else{ ptu.turn(0, 0); }
 			}
@@ -263,7 +265,7 @@ void Measurement::measure(){
 	if (angle_L.pan + angle_R.pan < 0) this->distance.theta *= -1;
 	cv::Mat prediction = this->KF->predict();
 	double predictDist = prediction.at<float>(0);
-	if (fabs(this->non_offset.mid - prev_average_distance)>200){ (*this->KF_Measurement)(0) = prev_dist_kf;}
+	if (fabs(this->non_offset.mid - prev_average_distance)>500){ (*this->KF_Measurement)(0) = prev_dist_kf;}
 	else if (this->vcc_L->matchingParameters[8] > 180 && this->vcc_R->matchingParameters[8] > 180){ (*this->KF_Measurement)(0) = prev_dist_kf; }
 	else (*this->KF_Measurement)(0) = this->distance.mid;
 	cv::Mat estimated = this->KF->correct((*this->KF_Measurement));
