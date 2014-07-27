@@ -65,7 +65,7 @@ FormConnection::FormConnection(){
 	save.open(str);
 	str += "-LOG";
 	log.open(str);
-	save_state = "•Û‘¶‰Â”\‚Å‚·";
+	save_state = "";
 }
 
 FormConnection::~FormConnection(){}
@@ -262,8 +262,14 @@ int FormConnection::output(Measurement *m, std::string filename){
 	/* -- */db_all_ack_r = false;
 	/* -- *///“d“®‰_‘ä
 	/* 21 */out << m->trackingState << std::endl;
-	/* 22 */out << m->trackingAngle.pan << std::endl;
-	/* 23 */out << m->trackingAngle.tilt << std::endl;
+	/* 22 */if (m->centerCameraFlag){
+	/* -- */	m->mtx.lock(); out << m->angle_C.pan << std::endl; m->mtx.unlock();
+	/* -- */}
+	/* -- */else out << m->trackingAngle.pan << std::endl;
+	/* 23 */if (m->centerCameraFlag){
+	/* -- */	m->mtx.lock(); out << m->angle_C.tilt << std::endl; m->mtx.unlock();
+	/* -- */}
+	/* -- */else out << m->trackingAngle.tilt << std::endl;
 	/* 24 */out << m->platformState.pan << std::endl;
 	/* 25 */out << m->platformState.tilt << std::endl;
 	/* 26 */if (plat_home_ack) out << "T" << std::endl; else out << "F" << std::endl;

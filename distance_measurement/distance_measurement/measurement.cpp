@@ -180,7 +180,7 @@ void Measurement::tracking(char* com, int baudrate){
 				//std::cout << this->vcc_C->matchingParameters[8] << std::endl;
 				if (mC < this->trackingThreshold){
 					ptu.turn(this->angle_C.pan*0.4, this->angle_C.tilt*0.4);
-					//std::cout << "pan[" << RAD2DEG(this->angle_C.pan) << "]\ttilt[" << RAD2DEG(this->angle_C.tilt) << "]" << std::endl;
+					std::cout << "pan[" << RAD2DEG(this->angle_C.pan) << "]\ttilt[" << RAD2DEG(this->angle_C.tilt) << "]" << std::endl;
 				}
 				else{ ptu.turn(0, 0); }
 			}
