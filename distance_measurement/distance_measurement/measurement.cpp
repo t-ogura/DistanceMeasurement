@@ -240,7 +240,7 @@ void Measurement::measure(){
 	this->non_offset.mid = sqrt(pow(this->non_offset.original, 2)*(pow(tan(angle_L.pan), 2) + pow(tan(angle_R.pan), 2) + 2) / 2 - pow((double)this->baselineLength, 2) / 4);
 	this->non_offset.theta = acos(this->non_offset.original / this->non_offset.mid);
 
-	if (this->vcc_L->matchingParameters[8] < 180 && this->vcc_R->matchingParameters[8] < 180){
+	if (this->vcc_L->matchingParameters[8] < this->vcc_L->databaseSearchThreshold && this->vcc_R->matchingParameters[8] < this->vcc_R->databaseSearchThreshold){
 		if (prev_distances.size() < 5) prev_distances.push_back(this->distance.original);
 		else{
 			for (int i = 1; i < prev_distances.size(); i++){
@@ -266,7 +266,7 @@ void Measurement::measure(){
 	cv::Mat prediction = this->KF->predict();
 	double predictDist = prediction.at<float>(0);
 	if (fabs(this->non_offset.mid - prev_average_distance)>500){ (*this->KF_Measurement)(0) = prev_dist_kf;}
-	else if (this->vcc_L->matchingParameters[8] > 180 && this->vcc_R->matchingParameters[8] > 180){ (*this->KF_Measurement)(0) = prev_dist_kf; }
+	else if (this->vcc_L->matchingParameters[8] > this->vcc_L->databaseSearchThreshold && this->vcc_R->matchingParameters[8] > this->vcc_R->databaseSearchThreshold){ (*this->KF_Measurement)(0) = prev_dist_kf; }
 	else (*this->KF_Measurement)(0) = this->distance.mid;
 	cv::Mat estimated = this->KF->correct((*this->KF_Measurement));
 	this->distance.kf = estimated.at<float>(0);
