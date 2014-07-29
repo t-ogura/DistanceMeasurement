@@ -57,8 +57,8 @@ System::Void ParamShow::kalmanInit(){
 	KF_Angle->transitionMatrix = *(cv::Mat_<float>(2, 2) << 1, 0, 0, 1);
 
 	cv::setIdentity(KF_Angle->measurementMatrix);
-	cv::setIdentity(KF_Angle->processNoiseCov, cv::Scalar::all(1e-4));
-	cv::setIdentity(KF_Angle->measurementNoiseCov, cv::Scalar::all(1e-1));
+	cv::setIdentity(KF_Angle->processNoiseCov, cv::Scalar::all(this->kf_pro_cov));
+	cv::setIdentity(KF_Angle->measurementNoiseCov, cv::Scalar::all(this->kf_mea_cov));
 	cv::setIdentity(KF_Angle->errorCovPost, cv::Scalar::all(.1));
 
 	KF_Angle->statePre.at<float>(0) = 0;
