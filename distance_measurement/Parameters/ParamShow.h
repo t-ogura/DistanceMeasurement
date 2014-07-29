@@ -3086,10 +3086,22 @@ private: int readInitFile(std::string filename){
 				 else if (token1 == "AUTOMATICALLY_TRANSMIT"){
 					 this->server_check->Checked = true;
 				 }
-				 
+				 else if (token1 == "ANGLE_KALMANFILTER__PROCESS_NOISE_COV"){
+					 double d;
+					 ss >> d;
+					 this->kf_pro_cov = d;
+				 }
+				 else if (token1 == "ANGLE_KALMANFILTER__MESUREMENT_NOISE_COV"){
+					 double d;
+					 ss >> d;
+					 this->kf_mea_cov = d;
+				 }
+
 			 }
 			 return 0;
-		 }
+}
+		 private: double kf_pro_cov = 1e-4;
+		 private: double kf_mea_cov = 1e-1;
 private: System::Void tabPage1_Click(System::Object^  sender, System::EventArgs^  e) {
 }
 private: System::Void Quit_Click(System::Object^  sender, System::EventArgs^  e) {
