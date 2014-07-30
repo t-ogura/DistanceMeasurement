@@ -2928,7 +2928,7 @@ private: System::Void readConfigFile(String ^filename){
 				 if (i == 28){ this->true_value->Text = sreader->ReadLine(); }
 				 if (i == 29){ if (sreader->ReadLine() == "T") this->calib_check->Checked = true; else this->calib_check->Checked = false; }
 				 if (i == 30){ if (sreader->ReadLine() == "T") this->csv_check->Checked = true; else this->csv_check->Checked = false; }
-				 if (i == 31){ if (sreader->ReadLine() == "T") this->server_check->Checked = true; else this->server_check->Checked = false; }
+				 if (i == 31){ if (sreader->ReadLine() == "T") this->server_check->Checked = false; else this->server_check->Checked = false; }
 				 if (i == 32){ if (sreader->ReadLine() == "A") this->a_radio->Checked = true; else this->b_radio->Checked = true; }
 				 if (i == 33){ this->server_dir_box->Text = sreader->ReadLine(); }
 
