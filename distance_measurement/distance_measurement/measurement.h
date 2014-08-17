@@ -28,6 +28,7 @@ public:
 		int RIGHT_CAMERA_ID = 1;
 		int CENTER_CAMERA_ID = 2;
 		std::string COM_PORT_NUMBER = "\\\\.\\COM5";
+		std::string LEFT_OR_RIGHT = "LEFT";
 	};
 
 	std::string platform_comnumber;
@@ -46,6 +47,8 @@ public:
 	int VCC_Th;
 	bool centerCameraFlag;
 	double centerCameraFocalLength;
+
+	std::string LEFT_OR_RIGHT;
 
 	Camera *camera_L;
 	Camera *camera_R;

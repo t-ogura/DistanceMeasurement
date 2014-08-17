@@ -2,6 +2,8 @@
 #include "global.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <Windows.h>
+#include <filesystem>
 
 //#define SCALE 1000
 
@@ -987,4 +989,181 @@ void MainForm::outTimeFile(long time){
 	std::ofstream ofs("C:\\Users\\Admin\\Desktop\\PKNU_data\\time.dat");
 	ofs << time << std::endl;
 	return;
+}
+
+
+//SWP_NOSIZE = 1	//サイズを変更しない
+//SWP_NOMOVE = 2	//位置を変更しない
+//SWP_NOZORDER = 4	//Zオーダーを変更しない
+//SWP_NOREDRAW = 8	//変更に伴う再描画をしない
+//SWP_NOACTIVATE = $10	//ウィンドウをアクティブにしない
+//SWP_FRAMECHANGED = $20	//SetWindowLong関数を使用後に変更を適用
+//SWP_SHOWWINDOW = $40	//ウィンドウを表示する
+//SWP_HIDEWINDOW = $80	//ウィンドウを隠す
+//SWP_NOCOPYBITS = $100	//クライアント領域の内容全体を破棄
+//SWP_NOOWNERZORDER = $200	//オーナーウィンドウの Z オーダーを変更しない
+//SWP_NOSENDCHANGING = $400	//WM_WINDOWPOSCHANGINGメッセージを送らない
+//SWP_DEFERERASE = $2000	//WM_SYNCPAINTメッセージを送らない
+//SWP_ASYNCWINDOWPOS = $4000	//非同期処理（？）
+//SWP_DRAWFRAME = SWP_FRAMECHANGED
+//SWP_NOREPOSITION = SWP_NOOWNERZORDER
+
+
+#define MY_BUFSIZE 1024
+
+struct windowInf
+{
+	HWND hWnd;
+	char WindowName[MY_BUFSIZE];
+};
+
+BOOL CALLBACK EnumWndProc(HWND hWnd, LPARAM lParam)
+{
+	char buff[MY_BUFSIZE] = { "" };
+	GetWindowText(hWnd, buff, MY_BUFSIZE);
+	if (strcmp(buff, ((windowInf*)lParam)->WindowName) == 0)
+	{
+		((windowInf*)lParam)->hWnd = hWnd;
+	}
+	return true;
+}
+
+struct windowMove
+{
+	std::string winName;
+	int x;
+	int y;
+};
+
+
+System::Void MainForm::moveWindow(){
+
+	std::vector<windowMove> wms;
+
+	{
+		windowMove wm;
+		wm.winName = "LEFT:LEFT-CAMERA";
+		wm.x = 0;
+		wm.y = 528;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "LEFT:RIGHT-CAMERA";
+		wm.x = 320;
+		wm.y = 528;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "LEFT:CENTER-CAMERA";
+		wm.x = 160;
+		wm.y = 288;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "RIGHT:LEFT-CAMERA";
+		wm.x = 726;
+		wm.y = 528;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "RIGHT:RIGHT-CAMERA";
+		wm.x = 1046;
+		wm.y = 528;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "RIGHT:CENTER-CAMERA";
+		wm.x = 886;
+		wm.y = 288;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "LEFT:ParamShow";
+		wm.x = 0;
+		wm.y = 0;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "RIGHT:ParamShow";
+		wm.x = 1055;
+		wm.y = 0;
+		wms.push_back(wm);
+	}
+
+
+	{
+		windowMove wm;
+		wm.winName = "Mesurement Result";
+		wm.x = 384;
+		wm.y = 0;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "Absolute";
+		wm.x = 533;
+		wm.y = 380;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "管理者: C:\\Windows\\system32\\cmd.exe";
+		wm.x = 0;
+		wm.y = 0;
+		wms.push_back(wm);
+	}
+
+
+
+
+	for (int i = 0; i < wms.size(); i++){
+		windowInf wi;
+		wi.hWnd = NULL;
+		strcpy_s(wi.WindowName,wms[i].winName.length()+1, wms[i].winName.c_str());
+		EnumWindows(EnumWndProc, (LPARAM)&wi);
+
+		if (wi.hWnd != NULL)
+		{
+			std::wcout << wi.WindowName << "のウィンドウハンドルを取得しました." << std::endl;
+			SetWindowPos(wi.hWnd, (HWND)-2, wms[i].x, wms[i].y, 100, 100, SWP_NOSIZE | SWP_SHOWWINDOW);
+			//result = PostMessage(wi.hWnd, WM_CLOSE, 0, 0);
+		}
+		else
+		{
+			std::wcout << wi.WindowName << "と一致するウィンドウが見つかりませんでした." << std::endl;
+
+		}
+	}
+}
+
+void MainForm::openExe(std::string exename){
+	std::cout << "ShellExecute" << std::endl;
+
+	std::tr2::sys::path path = exename;
+
+	std::string bat = std::tr2::sys::complete(path).string().c_str();
+	std::cout << bat << std::endl;
+
+	ShellExecute(NULL, NULL, (LPCSTR)bat.c_str(), NULL, NULL, SW_SHOW);
+
+}
+
+void MainForm::sleep(int ms){
+	Sleep(ms);
 }

@@ -1,0 +1,2 @@
+cd ..\..\..\LEFT
+.\Parameters.exe

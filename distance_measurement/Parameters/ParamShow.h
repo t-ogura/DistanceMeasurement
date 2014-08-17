@@ -3084,6 +3084,9 @@ private: int readInitFile(std::string filename){
 					 ss >> d;
 					 this->kf_mea_cov = d;
 				 }
+				 else if (token1 == "LEFT_OR_RIGHT"){
+					 this->Text = this->ToSystemString(token2) + ":" + this->Text;
+				 }
 
 			 }
 			 return 0;

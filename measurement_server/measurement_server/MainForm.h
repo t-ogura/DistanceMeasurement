@@ -28,6 +28,11 @@ namespace measurement_server {
 		{
 			InitializeComponent();
 			this->readConfigFile(CONFIG_FILENAME);
+			this->openExe("bat\\left_param.bat");
+			this->openExe("bat\\right_param.bat");
+			this->openExe("bat\\left_measure.bat");
+			this->openExe("bat\\right_measure.bat");
+			sleep(5000);
 			//
 			//TODO: ここにコンストラクター コードを追加します
 			//
@@ -2281,6 +2286,7 @@ private: System::Windows::Forms::Label^  label76;
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
+
 		}
 #pragma endregion
 	private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
@@ -2358,7 +2364,15 @@ private: double fiducial_pan_angle_R;
 private: double fiducial_distance_L;
 private: double fiducial_distance_R;
 private: clock_t start, stamp;
+private: int count = 0;
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+			 if (count == 0){
+				 this->moveWindow();
+			 }
+			 else if (count >= INT_MAX / 4){
+				 count /= 100;
+			 }
+			 count++;
 			 String ^dist_L, ^dist_R, ^pan_L, ^pan_R;
 			 double ca, cx, cy, ba=0, bx=0, by=0;
 			 this->readData("L", dist_L, pan_L);
@@ -2525,5 +2539,8 @@ private: System::Void output_dir_browse_Click(System::Object^  sender, System::E
 }
 private: System::Void label76_Click(System::Object^  sender, System::EventArgs^  e) {
 }
+private: System::Void moveWindow();
+private: void openExe(std::string exename);
+private: void sleep(int ms);
 };
 }

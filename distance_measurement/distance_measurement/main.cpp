@@ -78,10 +78,15 @@ int gnuplot(){
 
 int main(){
 	Measurement measurement(MAIN_PIXEL_SIZE, MAIN_FOCAL_LENGTH, MAIN_BASELINE_LENGTH, 12, USE_CENTER_CAMERA, MAIN_CENTER_CAMERA_FOCAL_LENGTH);
-	View view_L("LEFT", 320, 400);
-	View view_R("RIGHT", 670, 400);
+	std::string windowname = measurement.LEFT_OR_RIGHT + ":LEFT-CAMERA";
+	View view_L(windowname, 320, 400);
+	windowname = measurement.LEFT_OR_RIGHT + ":RIGHT-CAMERA";
+	View view_R(windowname, 670, 400);
 	View *view_C;
-	if (USE_CENTER_CAMERA) view_C = new View("CENTER", 515, 100);
+	if (USE_CENTER_CAMERA){
+		windowname = measurement.LEFT_OR_RIGHT + ":CENTER-CAMERA";
+		view_C = new View(windowname, 515, 100);
+	}
 	FormConnection connect; 
 	char *cstr = new char[measurement.platform_comnumber.length() + 1];
 	strcpy(cstr, measurement.platform_comnumber.c_str());

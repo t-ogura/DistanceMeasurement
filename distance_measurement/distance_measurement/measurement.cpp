@@ -5,6 +5,8 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	initParams ip;
 	readInitFile(INIT_FILE_PATH, &ip);
 
+	this->LEFT_OR_RIGHT = ip.LEFT_OR_RIGHT;
+
 	this->pixelSize = pSize;
 	this->focalLength = fLength;
 	this->baselineLength = bLength;
@@ -90,7 +92,9 @@ int Measurement::readInitFile(std::string filename, initParams *ini){
 		else if (token1 == "RIGHT_CAMERA_ID") ss >> ini->RIGHT_CAMERA_ID;
 		else if (token1 == "CENTER_CAMERA_ID") ss >> ini->CENTER_CAMERA_ID;
 		else if (token1 == "COM_PORT_NUMBER") ini->COM_PORT_NUMBER = "\\\\.\\" + token2;
+		else if (token1 == "LEFT_OR_RIGHT") ini->LEFT_OR_RIGHT = token2;
 	}
+	return 0;
 }
 
 void Measurement::kalmanInitialize(double processNoisCov, double measurementNoiseCov){
