@@ -70,7 +70,7 @@ double ParamShow::panKF(double platform, double ditected){
 	int correlation = Convert::ToInt32(this->corr_c->Text);
 	int tracking_th = Convert::ToInt32(this->plat_th_box->Text);
 
-	if (correlation<tracking_th - 20){
+	if (correlation < tracking_th - 20){
 		if (prev_angles.size() < 5) prev_angles.push_back(angle);
 		else{
 			for (int i = 1; i < prev_angles.size(); i++){
@@ -94,5 +94,10 @@ double ParamShow::panKF(double platform, double ditected){
 	else (*KF_Angle_Measurement)(0) = angle;
 	cv::Mat estimated = KF_Angle->correct((*KF_Angle_Measurement));
 	angleKF = estimated.at<float>(0);
+	if (estimated.at<float>(1) != 0){
+		this->kalmanInit();
+		std::cout << "catch error" << std::endl;
+	}
+	//std::cout << KF_Angle->statePre << std::endl;
 	return angleKF;
 }

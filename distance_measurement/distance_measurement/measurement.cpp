@@ -5,6 +5,7 @@ Measurement::Measurement(double pSize, double fLength, double bLength,int VCC_Th
 	initParams ip;
 	readInitFile(INIT_FILE_PATH, &ip);
 
+	this->GNUPLOT = ip.GNUPLOT;
 	this->LEFT_OR_RIGHT = ip.LEFT_OR_RIGHT;
 
 	this->pixelSize = pSize;
@@ -93,6 +94,7 @@ int Measurement::readInitFile(std::string filename, initParams *ini){
 		else if (token1 == "CENTER_CAMERA_ID") ss >> ini->CENTER_CAMERA_ID;
 		else if (token1 == "COM_PORT_NUMBER") ini->COM_PORT_NUMBER = "\\\\.\\" + token2;
 		else if (token1 == "LEFT_OR_RIGHT") ini->LEFT_OR_RIGHT = token2;
+		else if (token1 == "GNUPLOT") ini->GNUPLOT = token2;
 	}
 	return 0;
 }
@@ -274,6 +276,12 @@ void Measurement::measure(){
 	else (*this->KF_Measurement)(0) = this->distance.mid;
 	cv::Mat estimated = this->KF->correct((*this->KF_Measurement));
 	this->distance.kf = estimated.at<float>(0);
+	if (estimated.at<float>(1) != 0){
+		initParams ip;
+		readInitFile(INIT_FILE_PATH, &ip);
+		this->kalmanInitialize(ip.MEASUREMENT_KALMANFILTER_PROCESS_NOISE_COV, ip.MEASUREMENT_KALMANFILTER_MEASUREMENT_NOISE_COV);
+		std::cout << "catch error" << std::endl;
+	}
 	PanTilt pt;
 	pt.pan = this->distance.theta;
 	pt.tilt = (angle_L.tilt + angle_R.tilt) / 2.0;

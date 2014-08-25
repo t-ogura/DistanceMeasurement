@@ -1033,6 +1033,7 @@ struct windowMove
 	std::string winName;
 	int x;
 	int y;
+	int nCmdShow;
 };
 
 
@@ -1042,65 +1043,73 @@ System::Void MainForm::moveWindow(){
 
 	{
 		windowMove wm;
-		wm.winName = "LEFT:LEFT-CAMERA";
-		wm.x = 0;
-		wm.y = 528;
-		wms.push_back(wm);
-	}
-
-	{
-		windowMove wm;
-		wm.winName = "LEFT:RIGHT-CAMERA";
-		wm.x = 320;
-		wm.y = 528;
-		wms.push_back(wm);
-	}
-
-	{
-		windowMove wm;
-		wm.winName = "LEFT:CENTER-CAMERA";
-		wm.x = 160;
-		wm.y = 288;
-		wms.push_back(wm);
-	}
-
-	{
-		windowMove wm;
-		wm.winName = "RIGHT:LEFT-CAMERA";
-		wm.x = 726;
-		wm.y = 528;
-		wms.push_back(wm);
-	}
-
-	{
-		windowMove wm;
-		wm.winName = "RIGHT:RIGHT-CAMERA";
-		wm.x = 1046;
-		wm.y = 528;
-		wms.push_back(wm);
-	}
-
-	{
-		windowMove wm;
-		wm.winName = "RIGHT:CENTER-CAMERA";
-		wm.x = 886;
-		wm.y = 288;
-		wms.push_back(wm);
-	}
-
-	{
-		windowMove wm;
 		wm.winName = "LEFT:ParamShow";
 		wm.x = 0;
 		wm.y = 0;
+		wm.nCmdShow = SW_SHOWNA;
 		wms.push_back(wm);
 	}
 
 	{
 		windowMove wm;
 		wm.winName = "RIGHT:ParamShow";
-		wm.x = 1055;
+		wm.x = 1045;
 		wm.y = 0;
+		wm.nCmdShow = SW_SHOWNA;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "LEFT:LEFT-CAMERA";
+		wm.x = 0;
+		wm.y = 528;
+		wm.nCmdShow = SW_SHOW;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "LEFT:RIGHT-CAMERA";
+		wm.x = 325;
+		wm.y = 528;
+		wm.nCmdShow = SW_SHOW;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "LEFT:CENTER-CAMERA";
+		wm.x = 0;
+		wm.y = 263;
+		wm.nCmdShow = SW_SHOW;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "RIGHT:LEFT-CAMERA";
+		wm.x = 711;
+		wm.y = 528;
+		wm.nCmdShow = SW_SHOW;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "RIGHT:RIGHT-CAMERA";
+		wm.x = 1036;
+		wm.y = 528;
+		wm.nCmdShow = SW_SHOW;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "RIGHT:CENTER-CAMERA";
+		wm.x = 1036;
+		wm.y = 263;
+		wm.nCmdShow = SW_SHOW;
 		wms.push_back(wm);
 	}
 
@@ -1110,23 +1119,35 @@ System::Void MainForm::moveWindow(){
 		wm.winName = "Mesurement Result";
 		wm.x = 384;
 		wm.y = 0;
+		wm.nCmdShow = SW_SHOW;
 		wms.push_back(wm);
 	}
 
 	{
 		windowMove wm;
 		wm.winName = "Absolute";
-		wm.x = 533;
-		wm.y = 380;
+		wm.x = 400;
+		wm.y = 160;
+		wm.nCmdShow = SW_SHOW;
 		wms.push_back(wm);
 	}
 
 	{
 		windowMove wm;
-		wm.winName = "管理者: C:\\Windows\\system32\\cmd.exe";
-		wm.x = 0;
-		wm.y = 0;
-		wms.push_back(wm);
+		wm.winName = "Gnuplot graph";
+		wm.x = 400;
+		wm.y = 160;
+		wm.nCmdShow = SW_HIDE;
+		//wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "Gnuplot graph 1";
+		wm.x = 400;
+		wm.y = 160;
+		wm.nCmdShow = SW_HIDE;
+		//wms.push_back(wm);
 	}
 
 
@@ -1142,7 +1163,48 @@ System::Void MainForm::moveWindow(){
 		{
 			std::wcout << wi.WindowName << "のウィンドウハンドルを取得しました." << std::endl;
 			SetWindowPos(wi.hWnd, (HWND)-2, wms[i].x, wms[i].y, 100, 100, SWP_NOSIZE | SWP_SHOWWINDOW);
+			ShowWindow(wi.hWnd, wms[i].nCmdShow);
 			//result = PostMessage(wi.hWnd, WM_CLOSE, 0, 0);
+		}
+		else
+		{
+			std::wcout << wi.WindowName << "と一致するウィンドウが見つかりませんでした." << std::endl;
+
+		}
+	}
+}
+
+void MainForm::removeWindow(){
+
+	std::vector<windowMove> wms;
+
+	{
+		windowMove wm;
+		wm.winName = "LEFT:ParamShow";
+		wm.x = 0;
+		wm.y = 0;
+		wm.nCmdShow = SW_SHOWNA;
+		wms.push_back(wm);
+	}
+
+	{
+		windowMove wm;
+		wm.winName = "RIGHT:ParamShow";
+		wm.x = 1045;
+		wm.y = 0;
+		wm.nCmdShow = SW_SHOWNA;
+		wms.push_back(wm);
+	}
+	
+	for (int i = 0; i < wms.size(); i++){
+		windowInf wi;
+		wi.hWnd = NULL;
+		strcpy_s(wi.WindowName, wms[i].winName.length() + 1, wms[i].winName.c_str());
+		EnumWindows(EnumWndProc, (LPARAM)&wi);
+
+		if (wi.hWnd != NULL)
+		{
+			PostMessage(wi.hWnd, WM_CLOSE, 0, 0);
 		}
 		else
 		{

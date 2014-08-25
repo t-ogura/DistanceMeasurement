@@ -34,7 +34,7 @@ std::list<double> origin_list;
 std::list<double> dist_list;
 std::list<double> kf_list;
 
-int gnuplot(){
+int gnuplot(int id){
 	FILE *gnu;
 
 	if ((gnu = _popen(GNUPLOT_PATH.c_str(), "w")) == NULL) {
@@ -43,6 +43,12 @@ int gnuplot(){
 	}
 	//fprintf(gnu, "set size square\n");		// figureÇê≥ï˚å`Ç…
 	fprintf(gnu, "unset key\n");		// ñ}ó·Çï\é¶ÇµÇ»Ç¢
+	if (id == 0){
+		fprintf(gnu, "set terminal windows 0\n");
+	}
+	else{
+		fprintf(gnu, "set terminal windows 1\n");
+	}
 	std::ofstream plot("plot.dat");
 	int prev_frame = 0;
 
@@ -87,14 +93,21 @@ int main(){
 		windowname = measurement.LEFT_OR_RIGHT + ":CENTER-CAMERA";
 		view_C = new View(windowname, 515, 100);
 	}
-	FormConnection connect; 
+	FormConnection connect;
 	char *cstr = new char[measurement.platform_comnumber.length() + 1];
 	strcpy(cstr, measurement.platform_comnumber.c_str());
 	std::cout << "com port [" << cstr << "]" << std::endl;
 	measurement.threadTracking(cstr, 9600);
 
-	std::thread gnu_thread(gnuplot);
-
+	std::thread *gnu_thread;
+	if (measurement.GNUPLOT == "SHOW"){
+		if (measurement.LEFT_OR_RIGHT == "LEFT"){
+			gnu_thread = new std::thread(gnuplot, 0);
+		}
+		else{
+			gnu_thread = new std::thread(gnuplot, 1);
+		}
+	}
 	while (1){
 		const auto start = std::chrono::system_clock::now();
 		mtx.lock();
@@ -150,8 +163,10 @@ int main(){
 		std::getline(ifs, line);
 		if (line == "quit") break;
 	}
-	gnuLoop = false;
-	gnu_thread.join();
+	if (measurement.GNUPLOT == "SHOW"){
+		gnuLoop = false;
+		gnu_thread->join();
+	}
 	measurement.trackingLoopFlag = false;
 	measurement.threadTrackingJoin();
 	delete[] cstr;

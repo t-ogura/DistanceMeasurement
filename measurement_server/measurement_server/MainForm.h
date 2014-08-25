@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <Windows.h>
 #define CONFIG_FILENAME "server.cfg"
 
 #pragma once
@@ -2366,7 +2367,19 @@ private: double fiducial_distance_R;
 private: clock_t start, stamp;
 private: int count = 0;
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
-			 if (count == 0){
+			 SYSTEMTIME stTime;
+			 /*
+				WORD wYear;
+				WORD wMonth;
+				WORD wDayOfWeek;
+				WORD wDay;
+				WORD wHour;
+				WORD wMinute;
+				WORD wSecond;
+				WORD wMilliseconds;
+			 */
+			 GetLocalTime(&stTime);
+			 if (count == 5){
 				 this->moveWindow();
 			 }
 			 else if (count >= INT_MAX / 4){
@@ -2382,7 +2395,27 @@ private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e
 			 this->vessel_pose_view3(ca, cx, cy);
 			 this->stamp = clock();
 			 if (this->save_flag){
-				 sw->WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}", this->stamp - this->start, dist_L, pan_L, dist_R, pan_R, ca, cx, cy, ba, bx, by);
+				 sw->WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18}",
+					 this->stamp - this->start,
+					 dist_L,
+					 pan_L,
+					 dist_R,
+					 pan_R,
+					 ca,
+					 cx, 
+					 cy,
+					 ba,
+					 bx,
+					 by,
+					 stTime.wYear,
+					 stTime.wMonth,
+					 stTime.wDayOfWeek,
+					 stTime.wDay,
+					 stTime.wHour,
+					 stTime.wMinute,
+					 stTime.wSecond,
+					 stTime.wMilliseconds
+					 );
 			 }
 			 //this->outTimeFile(this->stamp - this->start);
 			 this->outputToController(this->output_dir->Text);
@@ -2513,6 +2546,7 @@ private: System::Void saveConfigFile(System::String ^filename){
 			 sw->Close();
 }
 private: System::Void MainForm_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
+			 this->removeWindow();
 			 saveConfigFile(CONFIG_FILENAME);
 }
 private: System::Void label32_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -2540,6 +2574,7 @@ private: System::Void output_dir_browse_Click(System::Object^  sender, System::E
 private: System::Void label76_Click(System::Object^  sender, System::EventArgs^  e) {
 }
 private: System::Void moveWindow();
+private: void removeWindow();
 private: void openExe(std::string exename);
 private: void sleep(int ms);
 };
