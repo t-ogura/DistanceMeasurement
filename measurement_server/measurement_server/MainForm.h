@@ -2306,7 +2306,7 @@ private: System::Void label6_Click(System::Object^  sender, System::EventArgs^  
 }
 private: System::Void label19_Click(System::Object^  sender, System::EventArgs^  e) {
 }
-private: System::Void readData(String ^ab,String ^%distance,String ^%pan_angle){
+private: System::Void readData(String ^ab, String ^%distance, String ^%pan_angle){
 			 String ^dir = this->dir_box->Text;
 			 String ^file = dir + "\\" + ab;
 			 StreamReader ^sr;
@@ -2356,6 +2356,33 @@ private: System::Void readData(String ^ab,String ^%distance,String ^%pan_angle){
 			 }
 			 sr->Close();
 }
+private: System::Void readGiro(String ^xyz, String ^%x, String ^%y, String ^%z){
+			 String ^dir = this->dir_box->Text;
+			 String ^file = dir + "\\" + xyz;
+			 StreamReader ^sr;
+			 try{
+				 FileStream ^fs = gcnew FileStream(file, FileMode::Open, FileAccess::Read, FileShare::ReadWrite);
+				 sr = gcnew StreamReader(fs);
+			 }
+			 catch (FileNotFoundException ^ex)
+			 {
+				 std::cout << "FileNotFoundException" << std::endl;
+				 return;
+			 }
+			 catch (DirectoryNotFoundException ^ex)
+			 {
+				 std::cout << "FileNotFoundException" << std::endl;
+				 return;
+			 }
+			 x = sr->ReadLine();
+			 if (!x) return;
+			 y = sr->ReadLine();
+			 if (!y) return;
+			 z = sr->ReadLine();
+			 if (!z) return;
+
+			 sr->Close();
+}
 private: double pan_angle_L;
 private: double pan_angle_R;
 private: double distance_L;
@@ -2390,31 +2417,36 @@ private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e
 			 double ca, cx, cy, ba=0, bx=0, by=0;
 			 this->readData("L", dist_L, pan_L);
 			 this->readData("R", dist_R, pan_R);
+			 String ^x, ^y, ^z;
+			 this->readGiro("gyro-xyz", x, y, z);
 			 //this->vessel_pose_view(ca, cx, cy, ba, bx, by);
 			 //this->vessel_pose_view2(ca, cx, cy);
 			 this->vessel_pose_view3(ca, cx, cy);
 			 this->stamp = clock();
 			 if (this->save_flag){
-				 sw->WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18}",
-					 this->stamp - this->start,
-					 dist_L,
-					 pan_L,
-					 dist_R,
-					 pan_R,
-					 ca,
-					 cx, 
-					 cy,
-					 ba,
-					 bx,
-					 by,
-					 stTime.wYear,
-					 stTime.wMonth,
-					 stTime.wDayOfWeek,
-					 stTime.wDay,
-					 stTime.wHour,
-					 stTime.wMinute,
-					 stTime.wSecond,
-					 stTime.wMilliseconds
+				 sw->WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21}",
+					 /*00*/this->stamp - this->start,
+					 /*01*/dist_L,
+					 /*02*/pan_L,
+					 /*03*/dist_R,
+					 /*04*/pan_R,
+					 /*05*/ca,
+					 /*06*/cx,
+					 /*07*/cy,
+					 /*08*/ba,
+					 /*19*/bx,
+					 /*10*/by,
+					 /*11*/x,
+					 /*12*/y,
+					 /*13*/z,
+					 /*14*/stTime.wYear,
+					 /*15*/stTime.wMonth,
+					 /*16*/stTime.wDayOfWeek,
+					 /*17*/stTime.wDay,
+					 /*18*/stTime.wHour,
+					 /*19*/stTime.wMinute,
+					 /*20*/stTime.wSecond,
+					 /*21*/stTime.wMilliseconds
 					 );
 			 }
 			 //this->outTimeFile(this->stamp - this->start);
